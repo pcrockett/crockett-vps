@@ -9,5 +9,5 @@ is_installed nginx || install_nginx
 test_checkpoint "nginx-conf" || place_file "etc/nginx/nginx.conf"
 set_checkpoint "nginx-conf"
 
-systemctl status nginx || systemctl start nginx
-systemctl enable nginx
+systemctl is-active nginx || systemctl start nginx
+systemctl is-enabled nginx || systemctl enable nginx
