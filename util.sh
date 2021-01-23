@@ -11,10 +11,12 @@ function panic() {
     >&2 echo "Fatal: ${*}"
     exit 1
 }
+export panic
 
 function is_installed() {
     command -v "${1}" >/dev/null 2>&1
 }
+export is_installed
 
 function is_set() {
     # Use this like so:
@@ -25,3 +27,9 @@ function is_set() {
 
     test ! -z "${1}"
 }
+export is_set
+
+function is_root() {
+    test "$(id -u)" -eq 0
+}
+export is_root

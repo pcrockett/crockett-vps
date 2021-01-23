@@ -13,8 +13,6 @@ readonly SCRIPT_NAME=$(basename "${0}")
 # shellcheck source=util.sh
 . "${UTIL_SCRIPT}"
 
-test "$(id -u)" -ne 0 || panic "This script was not designed to be run as root."
-
 function show_usage() {
     printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}" >&2
     printf "  -h, --help\t\tShow this help message then exit\n" >&2
@@ -54,7 +52,7 @@ for dep in "${DEPENDENCIES[@]}"; do
     is_installed "${dep}" || panic "Missing '${dep}'"
 done
 
-readarray -d '' setup_scripts < <(find "${SETUP_DIR}" -maxdepth 1 -mindepth 1 -type f -name "*.sh" -print0)
+readarray -d '' setup_scripts < <(find "${SETUP_DIR}" -maxdepth 1 -mindepth 1 -type f -name "*.sh" -print0 | sort --zero-terminated)
 for setup_script in "${setup_scripts[@]}"
 do
     # shellcheck source=/dev/null
