@@ -7,6 +7,9 @@ set -Eeuo pipefail
 readonly REPO_ROOT=$(dirname "$(readlink -f "${0}")")
 export REPO_ROOT
 
+readonly CHECKPOINTS_DIR="${REPO_ROOT}/.checkpoints"
+test -d "${CHECKPOINTS_DIR}" || mkdir "${CHECKPOINTS_DIR}" > /dev/null
+
 function panic() {
     >&2 echo "Fatal: ${*}"
     exit 1
@@ -33,3 +36,15 @@ function is_root() {
     test "$(id -u)" -eq 0
 }
 export is_root
+
+function test_checkpoint() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Checkpoint name"
+    test ! -f "${CHECKPOINTS_DIR}/${1}"
+}
+export test_checkpoint
+
+function set_checkpoint() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Checkpoint name"
+    touch "${CHECKPOINTS_DIR}/${1}"
+}
+export set_checkpoint
