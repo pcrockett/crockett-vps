@@ -14,6 +14,8 @@ readonly SCRIPT_NAME=$(basename "${0}")
 # shellcheck source=util.sh
 . "${UTIL_SCRIPT}"
 
+is_root || panic "Must run this script as root."
+
 function show_usage() {
     printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}" >&2
     printf "  -h, --help\t\tShow this help message then exit\n" >&2
