@@ -4,9 +4,10 @@ set -Eeuo pipefail
 
 [[ "${BASH_VERSINFO[0]}" -lt 5 ]] && echo "Bash >= 5 required" && exit 1
 
-readonly DEPENDENCIES=(sudo)
+readonly DEPENDENCIES=(sudo nano)
 readonly SCRIPT_DIR=$(dirname "$(readlink -f "${0}")")
 readonly UTIL_SCRIPT="${SCRIPT_DIR}/util.sh"
+readonly VARS_SCRIPT="${SCRIPT_DIR}/vars.sh"
 readonly SETUP_DIR="${SCRIPT_DIR}/setup.d"
 readonly SCRIPT_NAME=$(basename "${0}")
 
@@ -51,6 +52,15 @@ fi
 for dep in "${DEPENDENCIES[@]}"; do
     is_installed "${dep}" || panic "Missing '${dep}'"
 done
+
+if [ ! -f "${VARS_SCRIPT}" ]; then
+    example_vars="${SCRIPT_DIR}/vars.example.sh"
+    cp "${example_vars}" "${VARS_SCRIPT}"
+    nano "${VARS_SCRIPT}"
+fi
+
+# shellcheck source=vars.sh
+. "${VARS_SCRIPT}"
 
 readarray -d '' setup_scripts < <(find "${SETUP_DIR}" -maxdepth 1 -mindepth 1 -type f -name "*.sh" -print0 | sort --zero-terminated)
 for setup_script in "${setup_scripts[@]}"
