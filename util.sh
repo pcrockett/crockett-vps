@@ -48,3 +48,13 @@ function set_checkpoint() {
     touch "${CHECKPOINTS_DIR}/${1}"
 }
 export set_checkpoint
+
+function place_file() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: File path"
+
+    src_path="${REPO_ROOT}/rootfs/${1}"
+    dest_path="/${1}"
+
+    cp "${src_path}" "${dest_path}"
+}
+export place_file

@@ -1,3 +1,21 @@
 #!/usr/bin/env bash
 
-echo "TODO: Implement server-ssh-settings"
+test_checkpoint "server-ssh-settings" || return 0
+
+echo "Settings up SSH server settings..."
+
+# Remove all default host keys and regenerate from scratch
+rm /etc/ssh/ssh_host_*key*
+ssh-keygen -t rsa -b 4096 -f "/etc/ssh/ssh_host_rsa_key" -N "" < /dev/null
+ssh-keygen -t ed25519 -f "/etc/ssh/ssh_host_ed25519_key" -N "" < /dev/null
+
+groupadd ssh-user
+usermod --apend --groups ssh-user "${UNPRIVILEGED_USER}"
+usermod --apend --groups ssh-user root
+
+place_file "etc/ssh/sshd_config"
+
+# Restart SSH server without killing the current connection
+kill -SIGHUP "$(pgrep -f "sshd -D")"
+
+set_checkpoint "server-ssh-settings"
