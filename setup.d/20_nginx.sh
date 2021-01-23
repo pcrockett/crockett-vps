@@ -1,3 +1,10 @@
 #!/usr/bin/env bash
 
-echo "TODO: Implement nginx"
+function install_nginx() {
+    yes | pacman --sync nginx
+}
+
+is_installed nginx || install_nginx
+
+test_checkpoint "nginx-conf" || place_file "etc/nginx/nginx.conf"
+set_checkpoint "nginx-conf"
