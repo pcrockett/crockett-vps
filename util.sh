@@ -24,6 +24,24 @@ function is_installed() {
 }
 export is_installed
 
+function install_package() {
+
+    test "${#}" -ge 1 || panic "Expecting at least 1 argument: Package name(s)"
+
+    # pacman has some weird exit codes. However we know two things:
+    #
+    # * pacman returns 0 or any number of other exit codes for "success"
+    # * pacman returns 1 for "error"
+    #
+
+    if yes | pacman --sync --refresh --sysupgrade "${@}"; then
+        true
+    else
+        test "${?}" -ne 1
+    fi
+}
+export install_package
+
 function is_set() {
     # Use this like so:
     #
@@ -91,20 +109,3 @@ function place_template() {
     . "${template_src}" > "${dest_path}"
 }
 export place_template
-
-function install_package() {
-
-    test "${#}" -ge 1 || panic "Expecting at least 1 argument: Package name(s)"
-
-    # pacman has some weird exit codes. However we know two things:
-    #
-    # * pacman returns 0 or any number of other exit codes for "success"
-    # * pacman returns 1 for "error"
-    #
-
-    if yes | pacman --sync --refresh --sysupgrade "${@}"; then
-        true
-    else
-        test "${?}" -ne 1
-    fi
-}
