@@ -11,3 +11,9 @@ set_checkpoint "nginx-conf"
 
 systemctl is-active nginx || systemctl start nginx > /dev/null
 systemctl is-enabled nginx || systemctl enable nginx > /dev/null
+
+function install_certbot() {
+    yes | pacman --sync certbot
+}
+
+is_installed certbot || install_certbot
