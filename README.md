@@ -8,7 +8,9 @@ curl --proto '=https' \
     --silent \
     --show-error \
     --fail \
-    https://raw.githubusercontent.com/pcrockett/de.crockett.network/main/quick-start.sh | bash
+    https://raw.githubusercontent.com/pcrockett/de.crockett.network/main/quick-start.sh > quick-start.sh
+chmod u+x ./quick-start.sh
+./quick-start.sh
 ```
 
 ... or if you want to do things manually:
