@@ -6,8 +6,10 @@ function install_nginx() {
 
 is_installed nginx || install_nginx
 
-test_checkpoint "nginx-conf" || place_template "etc/nginx/nginx.conf"
-set_checkpoint "nginx-conf"
+if is_unset_checkpoint "nginx-conf"; then
+    place_template "etc/nginx/nginx.conf"
+    set_checkpoint "nginx-conf"
+fi
 
 systemctl is-active nginx || systemctl start nginx > /dev/null 2>&1
 systemctl is-enabled nginx || systemctl enable nginx > /dev/null 2>&1

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-test_checkpoint "server-ssh-settings" || return 0
+is_unset_checkpoint "server-ssh-settings" || return 0
 
 echo "Setting up SSH server settings..."
 

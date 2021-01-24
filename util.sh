@@ -37,11 +37,11 @@ function is_root() {
 }
 export is_root
 
-function test_checkpoint() {
+function is_unset_checkpoint() {
     test "${#}" -eq 1 || panic "Expecting 1 argument: Checkpoint name"
     test ! -f "${CHECKPOINTS_DIR}/${1}"
 }
-export test_checkpoint
+export is_unset_checkpoint
 
 function set_checkpoint() {
     test "${#}" -eq 1 || panic "Expecting 1 argument: Checkpoint name"
