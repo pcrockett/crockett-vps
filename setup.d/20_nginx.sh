@@ -8,8 +8,8 @@ is_installed nginx || install_nginx
 
 if is_unset_checkpoint "nginx-conf"; then
     place_template "etc/nginx/nginx.conf"
-    set_checkpoint "nginx-conf"
     unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
+    set_checkpoint "nginx-conf"
 fi
 
 systemctl is-active nginx > /dev/null || systemctl start nginx > /dev/null
@@ -33,6 +33,6 @@ if [ ! -f "/etc/letsencrypt/live/${DOMAIN_PRIMARY}/privkey.pem" ]; then
 fi
 
 if is_unset_checkpoint "nginx-reload"; then
-    nginx -s reload > /dev/null
+    nginx -s reload
     set_checkpoint "nginx-reload"
 fi
