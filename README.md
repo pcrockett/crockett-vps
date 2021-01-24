@@ -1,12 +1,22 @@
 ## de.crockett.network
 
-This repo contains scripts to automatically provision a brand-new Arch server.
+This repo contains scripts to automatically provision a brand-new Arch server. You can run the following to set everything up in one command (assuming you're logged in as root):
 
 ```bash
-pacman --sync git
-git clone https://github.com/pcrockett/de.crockett.network.git
-cd de.crockett.network
-cp vars.example.sh vars.sh
-nano vars.sh # Edit according to your liking
-./run.sh
+curl --proto '=https' \
+    --tlsv1.2 \
+    --silent \
+    --show-error \
+    --fail \
+    https://raw.githubusercontent.com/pcrockett/de.crockett.network/main/quick-start.sh | bash
 ```
+
+... or if you want to do things manually:
+
+1. Install git
+2. Clone this repo
+3. Execute `run.sh`
+
+As of 2021-01-24, this repo will set up HTTPS-enabled Nginx with an A+ rating according to the [Qualys SSL Labs test][1].
+
+[1]: https://www.ssllabs.com/ssltest/
