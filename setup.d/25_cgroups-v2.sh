@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-test ! -f /sys/fs/cgroup/cgroup.controllers || return 0
+# We don't need to run this script if v2 cgroups are already enabled.
+test ! -f /sys/fs/cgroup/unified/cgroup.controllers || return 0
 
 # If the cgroup.controllers file doesn't exit, then we're using cgroups v1. Let's change that.
 if is_unset_checkpoint "v2-cgroups-enabled"; then
