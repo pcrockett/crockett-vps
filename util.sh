@@ -49,6 +49,14 @@ function set_checkpoint() {
 }
 export set_checkpoint
 
+function unset_checkpoint() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Checkpoint name"
+    checkpoint_path="${CHECKPOINTS_DIR}/${1}"
+    if [ -f "${checkpoint_path}" ]; then
+        rm "${checkpoint_path}"
+    fi
+}
+
 function place_file() {
     test "${#}" -eq 1 || panic "Expecting 1 argument: File path"
 
