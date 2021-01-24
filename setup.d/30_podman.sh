@@ -14,13 +14,8 @@ function file_contains() {
 
 }
 
-if file_contains "${UNPRIVILEGED_USER}" "/etc/subuid"; then
-    place_template "etc/subuid"
-fi
-
-if file_contains "${UNPRIVILEGED_USER}" "/etc/subgid"; then
-    place_template "etc/subgid"
-fi
+file_contains "${UNPRIVILEGED_USER}" "/etc/subuid" || place_template "etc/subuid"
+file_contains "${UNPRIVILEGED_USER}" "/etc/subgid" || place_template "etc/subgid"
 
 function install_podman() {
     yes | pacman --sync crun podman
