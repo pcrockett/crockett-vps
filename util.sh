@@ -7,6 +7,9 @@ set -Eeuo pipefail
 readonly REPO_ROOT=$(dirname "$(readlink -f "${0}")")
 export REPO_ROOT
 
+readonly CHECKPOINT_NGINX_CONF="nginx-conf"
+export CHECKPOINT_NGINX_CONF
+
 readonly CHECKPOINTS_DIR="${REPO_ROOT}/.checkpoints"
 test -d "${CHECKPOINTS_DIR}" || mkdir "${CHECKPOINTS_DIR}" > /dev/null
 

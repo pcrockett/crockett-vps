@@ -6,10 +6,10 @@ function install_nginx() {
 
 is_installed nginx || install_nginx
 
-if is_unset_checkpoint "nginx-conf"; then
+if is_unset_checkpoint "${CHECKPOINT_NGINX_CONF}"; then
     place_template "etc/nginx/nginx.conf"
     unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
-    set_checkpoint "nginx-conf"
+    set_checkpoint "${CHECKPOINT_NGINX_CONF}"
 fi
 
 systemctl is-active nginx > /dev/null || systemctl start nginx > /dev/null

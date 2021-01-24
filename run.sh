@@ -18,6 +18,7 @@ is_root || panic "Must run this script as root."
 
 function show_usage() {
     printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}" >&2
+    printf "  -n, --update-nginx\tUpdate Nginx configuration\n" >&2
     printf "  -h, --help\t\tShow this help message then exit\n" >&2
 }
 
@@ -32,6 +33,9 @@ function parse_commandline() {
         local consume=1
 
         case "${1}" in
+            -n|--update-nginx)
+                ARG_UPDATE_NGINX="true"
+            ;;
             -h|-\?|--help)
                 ARG_HELP="true"
             ;;
@@ -49,6 +53,10 @@ parse_commandline "${@}"
 
 if is_set "${ARG_HELP+x}"; then
     show_usage_and_exit
+fi
+
+if is_set "${ARG_UPDATE_NGINX+x}"; then
+    unset_checkpoint "${CHECKPOINT_NGINX_CONF}"
 fi
 
 for dep in "${DEPENDENCIES[@]}"; do
