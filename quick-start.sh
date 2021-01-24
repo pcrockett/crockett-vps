@@ -19,11 +19,24 @@ function is_installed() {
     command -v "${1}" >/dev/null 2>&1
 }
 
-function install_git() {
-    yes | pacman --sync git
+function install_package() {
+
+    test "${#}" -ge 1 || panic "Expecting at least 1 argument: Package name(s)"
+
+    # pacman has some weird exit codes. However we know two things:
+    #
+    # * pacman returns 0 or any number of other exit codes for "success"
+    # * pacman returns 1 for "error"
+    #
+
+    if yes | pacman --sync "${@}"; then
+        true
+    else
+        test "${?}" -ne 1
+    fi
 }
 
-is_installed git || install_git
+is_installed git || install_package git
 
 checkout_dir="/root/de.crockett.network"
 

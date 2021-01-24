@@ -1,6 +1,6 @@
 ## de.crockett.network
 
-This repo contains scripts to automatically provision a brand-new Arch server. You can run the following to set everything up in one command (assuming you're logged in as root):
+This repo contains scripts to automatically provision a brand-new Arch server. You can run the following to set everything up in one step (assuming you're logged in as root):
 
 ```bash
 curl --proto '=https' \

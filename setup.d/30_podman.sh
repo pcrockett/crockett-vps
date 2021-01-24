@@ -16,9 +16,4 @@ function file_contains() {
 
 file_contains "${UNPRIVILEGED_USER}" "/etc/subuid" || place_template "etc/subuid"
 file_contains "${UNPRIVILEGED_USER}" "/etc/subgid" || place_template "etc/subgid"
-
-function install_podman() {
-    yes | pacman --sync crun podman
-}
-
-is_installed podman || install_podman
+is_installed podman || install_package crun podman
