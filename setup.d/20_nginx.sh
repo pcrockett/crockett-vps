@@ -6,11 +6,7 @@ function install_nginx() {
 
 is_installed nginx || install_nginx
 
-function place_nginx_conf() {
-    DOMAIN_PRIMARY="${DOMAIN_PRIMARY}" place_template "etc/nginx/nginx.conf"
-}
-
-test_checkpoint "nginx-conf" || place_nginx_conf
+test_checkpoint "nginx-conf" || place_template "etc/nginx/nginx.conf"
 set_checkpoint "nginx-conf"
 
 systemctl is-active nginx || systemctl start nginx > /dev/null 2>&1
@@ -28,6 +24,7 @@ if [ ! -f "/etc/letsencrypt/live/${DOMAIN_PRIMARY}/privkey.pem" ]; then
         --email "${ADMIN_EMAIL}" \
         --rsa-key-size 4096 \
         --agree-tos \
-        --no-eff-email \
-        --hsts
+        --no-eff-email
 fi
+
+nginx -s reload

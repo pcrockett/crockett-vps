@@ -56,41 +56,21 @@ http {
         }
     }
 
+    server {
+        listen 443 ssl http2;
+        listen [::]:443 ssl http2; # Listen on IPv6
+        server_name ${DOMAIN_PRIMARY};
 
-    # another virtual host using mix of IP-, name-, and port-based configuration
-    #
-    #server {
-    #    listen       8000;
-    #    listen       somename:8080;
-    #    server_name  somename  alias  another.alias;
+        ssl_certificate /etc/letsencrypt/live/${DOMAIN_PRIMARY}/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/${DOMAIN_PRIMARY}/privkey.pem; # managed by Certbot
+        include /etc/letsencrypt/options-ssl-nginx.conf;
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
-    #    location / {
-    #        root   html;
-    #        index  index.html index.htm;
-    #    }
-    #}
-
-
-    # HTTPS server
-    #
-    #server {
-    #    listen       443 ssl;
-    #    server_name  localhost;
-
-    #    ssl_certificate      cert.pem;
-    #    ssl_certificate_key  cert.key;
-
-    #    ssl_session_cache    shared:SSL:1m;
-    #    ssl_session_timeout  5m;
-
-    #    ssl_ciphers  HIGH:!aNULL:!MD5;
-    #    ssl_prefer_server_ciphers  on;
-
-    #    location / {
-    #        root   html;
-    #        index  index.html index.htm;
-    #    }
-    #}
+        location / {
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+        }
+    }
 
 }
 
