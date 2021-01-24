@@ -12,8 +12,8 @@ if is_unset_checkpoint "nginx-conf"; then
     unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
 fi
 
-systemctl is-active nginx || systemctl start nginx > /dev/null 2>&1
-systemctl is-enabled nginx || systemctl enable nginx > /dev/null 2>&1
+systemctl is-active nginx > /dev/null || systemctl start nginx > /dev/null
+systemctl is-enabled nginx > /dev/null || systemctl enable nginx > /dev/null
 
 function install_certbot() {
     yes | pacman --sync certbot certbot-nginx
@@ -33,6 +33,6 @@ if [ ! -f "/etc/letsencrypt/live/${DOMAIN_PRIMARY}/privkey.pem" ]; then
 fi
 
 if is_unset_checkpoint "nginx-reload"; then
-    nginx -s reload
+    nginx -s reload > /dev/null
     set_checkpoint "nginx-reload"
 fi

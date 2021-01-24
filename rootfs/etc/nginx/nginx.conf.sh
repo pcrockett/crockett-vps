@@ -16,8 +16,9 @@ events {
 }
 
 http {
-    include       mime.types;
-    default_type  application/octet-stream;
+    types_hash_bucket_size 128; # The following mime.types has so many entries, we need to include our hash bucket size. https://nginx.org/en/docs/hash.html
+    include mime.types;
+    default_type application/octet-stream;
 
     #log_format  main  '\$remote_addr - \$remote_user [\$time_local] "\$request" '
     #                  '\$status \$body_bytes_sent "\$http_referer" '
