@@ -55,6 +55,28 @@ function place_file() {
     src_path="${REPO_ROOT}/rootfs/${1}"
     dest_path="/${1}"
 
+    if [ -f "${dest_path}" ]; then
+        old_path="${dest_path}.old"
+        mv "${dest_path}" "${old_path}"
+    fi
+
     cp "${src_path}" "${dest_path}"
 }
 export place_file
+
+function place_template() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Template path"
+
+    template_src="${REPO_ROOT}/rootfs/${1}.sh"
+    test -x "${template_src}" || panic "${template_src} is not executable."
+
+    dest_path="/${1}"
+    if [ -f "${dest_path}" ]; then
+        old_path="${dest_path}.old"
+        mv "${dest_path}" "${old_path}"
+    fi
+
+    # shellcheck source=/dev/null
+    . "${template_src}" > "${dest_path}"
+}
+export place_template

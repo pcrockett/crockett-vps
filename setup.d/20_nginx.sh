@@ -6,7 +6,11 @@ function install_nginx() {
 
 is_installed nginx || install_nginx
 
-test_checkpoint "nginx-conf" || place_file "etc/nginx/nginx.conf"
+function place_nginx_conf() {
+    DOMAIN_PRIMARY="${DOMAIN_PRIMARY}" place_template "etc/nginx/nginx.conf"
+}
+
+test_checkpoint "nginx-conf" || place_nginx_conf
 set_checkpoint "nginx-conf"
 
 systemctl is-active nginx || systemctl start nginx > /dev/null 2>&1
@@ -18,10 +22,12 @@ function install_certbot() {
 
 is_installed certbot || install_certbot
 
-# TODO: Check if we need this first
-certbot --nginx \
-    --domain "${DOMAIN_PRIMARY}" \
-    --email "${ADMIN_EMAIL}" \
-    --rsa-key-size 4096 \
-    --agree-tos \
-    --hsts
+if [ ! -f "/etc/letsencrypt/live/${DOMAIN_PRIMARY}/privkey.pem" ]; then
+    certbot --nginx \
+        --domain "${DOMAIN_PRIMARY}" \
+        --email "${ADMIN_EMAIL}" \
+        --rsa-key-size 4096 \
+        --agree-tos \
+        --no-eff-email \
+        --hsts
+fi

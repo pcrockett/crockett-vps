@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+cat << EOF
+
 #user html;
 worker_processes  1;
 
@@ -7,19 +11,17 @@ worker_processes  1;
 
 #pid        logs/nginx.pid;
 
-
 events {
     worker_connections  1024;
 }
-
 
 http {
     include       mime.types;
     default_type  application/octet-stream;
 
-    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-    #                  '$status $body_bytes_sent "$http_referer" '
-    #                  '"$http_user_agent" "$http_x_forwarded_for"';
+    #log_format  main  '\$remote_addr - \$remote_user [\$time_local] "\$request" '
+    #                  '\$status \$body_bytes_sent "\$http_referer" '
+    #                  '"\$http_user_agent" "\$http_x_forwarded_for"';
 
     #access_log  logs/access.log  main;
 
@@ -32,8 +34,8 @@ http {
     #gzip  on;
 
     server {
-        listen       80;
-        server_name  localhost;
+        listen 80 default_server;
+        server_name ${DOMAIN_PRIMARY};
 
         #charset koi8-r;
 
@@ -91,3 +93,5 @@ http {
     #}
 
 }
+
+EOF
