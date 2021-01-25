@@ -12,10 +12,7 @@ container_data_dir="/etc/dendrite" # The path where Dendrite data is stored insi
 volume_name="dendrite-data"
 volume="${volume_name}:${container_data_dir}"
 
-if run_unprivileged podman container exists "${container_name}"; then
-    run_unprivileged podman container start "${container_name}"
-else
-
+if is_unset_checkpoint "dendrite-keys"; then
     # First run. Generate keys and save them in the dendrite-data volume.
     run_unprivileged podman container run \
         --entrypoint /usr/bin/generate-keys \
@@ -25,13 +22,22 @@ else
         "--tls-cert=${container_data_dir}/server.crt" \
         "--tls-key=${container_data_dir}/server.key"
 
-    is_installed jq || install_package jq
+    set_checkpoint "dendrite-keys"
+fi
 
-    volume_raw_data=$(run_unprivileged podman volume inspect "${volume_name}")
-    host_volume_dir=$(echo "${volume_raw_data}" | jq -r .[0].Mountpoint)
+is_installed jq || install_package jq
+volume_raw_data=$(run_unprivileged podman volume inspect "${volume_name}")
+host_volume_dir=$(echo "${volume_raw_data}" | jq -r .[0].Mountpoint)
+
+if [ ! -f "${host_volume_dir}/dendrite.yaml" ]; then
     place_template "tmp/dendrite.yaml"
     mv /tmp/dendrite.yaml "${host_volume_dir}"
     chown "${UNPRIVILEGED_USER}:${UNPRIVILEGED_USER}" "${host_volume_dir}/dendrite.yaml"
+fi
+
+if run_unprivileged podman container exists "${container_name}"; then
+    run_unprivileged podman container start "${container_name}"
+else
 
     # Now create the actual container where Dendrite will run
     run_unprivileged podman container create \
