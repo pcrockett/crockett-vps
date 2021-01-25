@@ -29,17 +29,16 @@ function get_tls_cert() {
 
 if need_tls_cert "${DOMAIN_PRIMARY}"; then
     get_tls_cert "${DOMAIN_PRIMARY}"
-    place_template "etc/nginx/nginx.conf" # Re-generate the nginx config with Certbot settings
     unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
 fi
 
 if need_tls_cert "${DOMAIN_MATRIX}"; then
     get_tls_cert "${DOMAIN_MATRIX}"
-    place_template "etc/nginx/nginx.conf" # Re-generate the nginx config with Certbot settings
     unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
 fi
 
 if is_unset_checkpoint "nginx-reload"; then
+    place_template "etc/nginx/nginx.conf" # Re-generate the nginx config now that we know Certbot is in place.
     nginx -s reload
     set_checkpoint "nginx-reload"
 fi
