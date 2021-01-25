@@ -256,7 +256,7 @@ media_api:
 
   # The maximum allowed file size (in bytes) for media uploads to this homeserver
   # (0 = unlimited).
-  max_file_size_bytes: 10485760
+  max_file_size_bytes: 52428800
 
   # Whether to dynamically generate thumbnails if needed.
   dynamic_thumbnails: false

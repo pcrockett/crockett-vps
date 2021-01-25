@@ -12,14 +12,29 @@ fi
 systemctl is-active nginx > /dev/null || systemctl start nginx > /dev/null
 systemctl is-enabled nginx > /dev/null || systemctl enable nginx > /dev/null
 
-if [ ! -f "/etc/letsencrypt/live/${DOMAIN_PRIMARY}/privkey.pem" ]; then
+function need_tls_cert() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Domain name"
+    test ! -f "/etc/letsencrypt/live/${1}/privkey.pem"
+}
+
+function get_tls_cert() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Domain name"
     certbot --nginx \
-        --domain "${DOMAIN_PRIMARY}" \
+        --domain "${1}" \
         --email "${ADMIN_EMAIL}" \
         --rsa-key-size 4096 \
         --agree-tos \
         --no-eff-email
+}
 
+if need_tls_cert "${DOMAIN_PRIMARY}"; then
+    get_tls_cert "${DOMAIN_PRIMARY}"
+    place_template "etc/nginx/nginx.conf" # Re-generate the nginx config with Certbot settings
+    unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
+fi
+
+if need_tls_cert "${DOMAIN_MATRIX}"; then
+    get_tls_cert "${DOMAIN_MATRIX}"
     place_template "etc/nginx/nginx.conf" # Re-generate the nginx config with Certbot settings
     unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
 fi

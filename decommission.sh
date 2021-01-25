@@ -70,3 +70,6 @@ function revoke_cert() {
 
 test ! -f "/etc/letsencrypt/live/${DOMAIN_PRIMARY}/privkey.pem" \
     || revoke_cert "${DOMAIN_PRIMARY}"
+
+test ! -f "/etc/letsencrypt/live/${DOMAIN_MATRIX}/privkey.pem" \
+    || revoke_cert "${DOMAIN_MATRIX}"
