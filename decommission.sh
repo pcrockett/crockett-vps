@@ -65,7 +65,6 @@ function revoke_cert() {
     test "${#}" -eq 1 || panic "Expecting 1 argument: Certificate name"
     local cert_name="${1}"
     certbot revoke --cert-name "${cert_name}" --reason cessationofoperation
-    certbot delete --cert-name "${cert_name}"
 }
 
 test ! -f "/etc/letsencrypt/live/${DOMAIN_PRIMARY}/privkey.pem" \
