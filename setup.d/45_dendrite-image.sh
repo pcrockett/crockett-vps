@@ -43,7 +43,6 @@ else
     run_unprivileged podman container create \
         --name "${container_name}" \
         --publish 8008:8008 \
-        --publish 8448:8448 \
         --volume "${volume}" \
         "${image_name}"
 
