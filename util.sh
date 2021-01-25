@@ -121,3 +121,9 @@ function warn_when_finished() {
     echo "${1}" >> "${WARNING_FILE}"
 }
 export warn_when_finished
+
+function run_unprivileged() {
+    test "${#}" -lt 1 || panic "Expecting at least 1 argument: Command to run"
+    sudo --login --user "${UNPRIVILEGED_USER}" "${@}"
+}
+export run_unprivileged
