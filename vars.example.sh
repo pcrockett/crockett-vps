@@ -14,3 +14,6 @@ export ADMIN_EMAIL
 
 readonly DOMAIN_PRIMARY="de.crockett.network"
 export DOMAIN_PRIMARY
+
+readonly DOMAIN_MATRIX="matrix.crockett.network"
+export DOMAIN_MATRIX
