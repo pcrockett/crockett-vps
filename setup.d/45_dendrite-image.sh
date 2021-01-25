@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 
-# TODO: Build a Dendrite image and run it.
+# TODO: Upgrade from SQLite to Postgres.
 #
 #     https://github.com/matrix-org/dendrite/tree/master/build/docker
 #
-# The following is a work in progress.
 
 image_name="docker.io/matrixdotorg/dendrite-monolith:latest"
 container_name="dendrite"
-container_data_dir="/etc/dendrite" # The path where Dendrite data is stored inside the container
+container_data_dir="/etc/dendrite" # The path where Dendrite data is stored INSIDE the container
 volume_name="dendrite-data"
 volume="${volume_name}:${container_data_dir}"
 
 if is_unset_checkpoint "dendrite-keys"; then
+
     # First run. Generate keys and save them in the dendrite-data volume.
     run_unprivileged podman container run \
         --entrypoint /usr/bin/generate-keys \
@@ -36,7 +36,7 @@ if [ ! -f "${host_volume_dir}/dendrite.yaml" ]; then
 fi
 
 if run_unprivileged podman container exists "${container_name}"; then
-    run_unprivileged podman container start "${container_name}"
+    run_unprivileged podman container start "${container_name}" > /dev/null
 else
 
     # Now create the actual container where Dendrite will run
@@ -47,5 +47,5 @@ else
         --volume "${volume}" \
         "${image_name}"
 
-    run_unprivileged podman container start "${container_name}"
+    run_unprivileged podman container start "${container_name}" > /dev/null
 fi
