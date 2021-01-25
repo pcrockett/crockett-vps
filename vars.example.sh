@@ -17,3 +17,6 @@ export DOMAIN_PRIMARY
 
 readonly DOMAIN_MATRIX="matrix.crockett.network"
 export DOMAIN_MATRIX
+
+readonly MATRIX_SERVER_NAME="${DOMAIN_MATRIX}"
+export MATRIX_SERVER_NAME

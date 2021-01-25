@@ -45,7 +45,7 @@ version: 1
 # Global Matrix configuration. This configuration applies to all components.
 global:
   # The domain name of this homeserver.
-  server_name: ${DOMAIN_MATRIX}
+  server_name: ${MATRIX_SERVER_NAME}
 
   # The path to the signing private key file, used to sign requests and events.
   # Note that this is NOT the same private key as used for TLS! To generate a
