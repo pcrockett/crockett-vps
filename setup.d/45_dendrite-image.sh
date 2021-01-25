@@ -14,11 +14,10 @@
 image_name="docker.io/matrixdotorg/dendrite-monolith:latest"
 container_name="dendrite"
 
-run_unprivileged podman pull "${image_name}"
-
 run_unprivileged podman container exists "${container_name}" \
-    || run_unprivileged podman container create "${image_name}" \
+    || run_unprivileged podman container create \
         --name "${container_name}" \
         --publish 8008:8008 \
         --publish 8448:8448 \
-        --volume "dendrite-data:/etc/dendrite"
+        --volume "dendrite-data:/etc/dendrite" \
+        "${image_name}"
