@@ -16,4 +16,18 @@ function file_contains() {
 
 file_contains "${UNPRIVILEGED_USER}" "/etc/subuid" || place_template "etc/subuid"
 file_contains "${UNPRIVILEGED_USER}" "/etc/subgid" || place_template "etc/subgid"
-is_installed podman || install_package crun podman
+
+function install_podman() {
+
+    install_package crun podman
+
+    read -r -p "Podman was installed. You won't be able to start any containers without a reboot. Reboot now? (y/N): " decision
+
+    if [ "${decision}" == "y" ] || [ "${decision}" == "Y" ]; then
+        systemctl reboot
+    else
+        false # Cause the script to stop
+    fi
+}
+
+is_installed podman || install_podman
