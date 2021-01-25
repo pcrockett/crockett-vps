@@ -18,6 +18,7 @@ place_file "etc/ssh/sshd_config"
 # Restart SSH server without killing the current connection
 kill -SIGHUP "$(pgrep -f "sshd -D")"
 
-warn_when_finished "NEW SSH SETTINGS IN PLACE. Before disconnecting your current session, make sure you can set up a new session."
+echo "NEW SSH SETTINGS IN PLACE. Before disconnecting your current session, make sure you can set up a new session."
+read -r -p "Press enter to continue configuration... "
 
 set_checkpoint "server-ssh-settings"
