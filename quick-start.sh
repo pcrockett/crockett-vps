@@ -48,6 +48,11 @@ else
     pushd "${checkout_dir}" > /dev/null
 fi
 
+# We don't need to do another system update. Manually set the checkpoint now to
+# signal it's been taken care of.
+mkdir ".checkpoints" > /dev/null
+touch ".checkpoints/initial-upgrade"
+
 ./run.sh
 
 popd > /dev/null

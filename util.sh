@@ -77,6 +77,7 @@ function unset_checkpoint() {
         rm "${checkpoint_path}"
     fi
 }
+export unset_checkpoint
 
 function place_file() {
     test "${#}" -eq 1 || panic "Expecting 1 argument: File path"
