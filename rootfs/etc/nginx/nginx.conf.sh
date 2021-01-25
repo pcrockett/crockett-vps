@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+if [ -f /etc/letsencrypt/options-ssl-nginx.conf ]; then
+    # Certbot HAS been initialized. Generate the final config.
+
 cat << EOF
 
 #user html;
@@ -76,3 +79,43 @@ http {
 }
 
 EOF
+
+else
+    # Certbot has NOT been initialized yet. Just do a basic config file.
+
+cat << EOF
+
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    types_hash_bucket_size 128; # The following mime.types has so many entries, we need to include our hash bucket size. https://nginx.org/en/docs/hash.html
+    include mime.types;
+    default_type application/octet-stream;
+
+    sendfile        on;
+    keepalive_timeout  65;
+
+    server {
+        listen 80 default_server;
+        server_name ${DOMAIN_PRIMARY};
+
+        location / {
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+        }
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+    }
+
+}
+
+EOF
+
+fi

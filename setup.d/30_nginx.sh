@@ -20,6 +20,7 @@ if [ ! -f "/etc/letsencrypt/live/${DOMAIN_PRIMARY}/privkey.pem" ]; then
         --agree-tos \
         --no-eff-email
 
+    place_template "etc/nginx/nginx.conf" # Re-generate the nginx config with Certbot settings
     unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
 fi
 
