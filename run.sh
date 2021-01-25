@@ -4,7 +4,7 @@ set -Eeuo pipefail
 
 [[ "${BASH_VERSINFO[0]}" -lt 5 ]] && echo "Bash >= 5 required" && exit 1
 
-readonly DEPENDENCIES=(sudo nano)
+readonly DEPENDENCIES=(sudo nano uniq)
 readonly SCRIPT_DIR=$(dirname "$(readlink -f "${0}")")
 readonly UTIL_SCRIPT="${SCRIPT_DIR}/util.sh"
 readonly VARS_SCRIPT="${SCRIPT_DIR}/vars.sh"

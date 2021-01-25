@@ -7,6 +7,9 @@ set -Eeuo pipefail
 readonly REPO_ROOT=$(dirname "$(readlink -f "${0}")")
 export REPO_ROOT
 
+readonly WARNING_FILE="${REPO_ROOT}/.pending-warnings"
+export WARNING_FILE
+
 readonly CHECKPOINT_NGINX_CONF="nginx-conf"
 export CHECKPOINT_NGINX_CONF
 
@@ -33,6 +36,8 @@ function install_package() {
     # * pacman returns 0 or any number of other exit codes for "success"
     # * pacman returns 1 for "error"
     #
+
+    warn_when_finished "Software was updated or installed. A reboot may be required."
 
     if yes | pacman --sync --refresh --sysupgrade "${@}"; then
         true
@@ -110,3 +115,9 @@ function place_template() {
     . "${template_src}" > "${dest_path}"
 }
 export place_template
+
+function warn_when_finished() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Warning message"
+    echo "${1}" >> "${WARNING_FILE}"
+}
+export warn_when_finished
