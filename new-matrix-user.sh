@@ -83,6 +83,7 @@ is_set "${ARG_USERNAME+x}" || panic "--username needs to be specified"
 
 function get_password() {
     read -s -r -p "Enter ${ARG_USERNAME}'s password: " ARG_PASSWORD
+    echo ""
 }
 
 is_set "${ARG_PASSWORD+x}" || get_password
