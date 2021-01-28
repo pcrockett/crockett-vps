@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-image_name="vectorim/element-web:latest"
+image_name="docker.io/vectorim/element-web:latest"
 container_name="element"
 container_data_dir="/app" # The path where Element data is stored INSIDE the container
 volume_name="element-data"
