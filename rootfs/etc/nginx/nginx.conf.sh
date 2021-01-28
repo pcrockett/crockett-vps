@@ -61,6 +61,12 @@ http {
     }
 
     server {
+        listen 80 default_server;
+        server_name ${DOMAIN_PRIMARY} ${DOMAIN_MATRIX} ${DOMAIN_ELEMENT};
+        return 301 https://\$host\$request_uri;
+    }
+
+    server {
         listen 443 ssl http2;
         listen [::]:443 ssl http2; # Listen on IPv6
         server_name ${DOMAIN_PRIMARY};
