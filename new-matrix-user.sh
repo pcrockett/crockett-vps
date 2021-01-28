@@ -19,7 +19,7 @@ function show_usage() {
     printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}\n" >&2
     printf "  -u, --username\tThe username\n" >&2
     printf "  -p, --password\tThe password\n" >&2
-    printf "  -a, --admin\t\Admin user\n" >&2
+    printf "  -a, --admin\t\tAdmin user\n" >&2
     printf "  -h, --help\t\tShow this help message then exit\n" >&2
 }
 
@@ -102,4 +102,6 @@ run_unprivileged podman exec --interactive --tty synapse \
     register_new_matrix_user http://localhost:8008 \
     --user "${ARG_USERNAME}" \
     --password "${ARG_PASSWORD}" \
-    "${admin_param}"
+    "${admin_param}" \
+    --config /data/homeserver.yaml
+
