@@ -61,7 +61,7 @@ http {
     }
 
     server {
-        listen 80 default_server;
+        listen 80;
         server_name ${DOMAIN_PRIMARY} ${DOMAIN_MATRIX} ${DOMAIN_ELEMENT};
         return 301 https://\$host\$request_uri;
     }
