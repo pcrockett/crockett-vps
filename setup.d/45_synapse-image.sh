@@ -29,7 +29,7 @@ if is_unset_checkpoint "${CHECKPOINT_MATRIX_CONF}"; then
     fi
 
     mv /tmp/homeserver.yaml "${host_volume_dir}"
-    chown "${UNPRIVILEGED_USER}:${UNPRIVILEGED_USER}" "${host_volume_dir}"
+    chown "${UNPRIVILEGED_USER}:${UNPRIVILEGED_USER}" "${host_volume_dir}/homeserver.yaml"
 
     set_checkpoint "${CHECKPOINT_MATRIX_CONF}"
 fi
