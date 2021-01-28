@@ -2,22 +2,13 @@
 
 image_name="docker.io/vectorim/element-web:latest"
 container_name="element"
-container_data_dir="/app" # The path where Element data is stored INSIDE the container
-volume_name="element-data"
-volume="${volume_name}:${container_data_dir}"
+container_config_file="/app/config.json" # The path where Element data is stored INSIDE the container
+host_config_file="/home/${UNPRIVILEGED_USER}/element.json"
 
-if is_unset_checkpoint "element-volume"; then
-    run_unprivileged podman volume create "${volume_name}"
-    set_checkpoint "element-volume"
-fi
-
-volume_raw_data=$(run_unprivileged podman volume inspect "${volume_name}")
-host_volume_dir=$(echo "${volume_raw_data}" | jq -r .[0].Mountpoint)
-
-if [ ! -f "${host_volume_dir}/element.json" ]; then
+if [ ! -f "${host_config_file}" ]; then
     place_template "tmp/element.json"
-    mv /tmp/element.json "${host_volume_dir}/config.json"
-    chown "${UNPRIVILEGED_USER}:${UNPRIVILEGED_USER}" "${host_volume_dir}/config.json"
+    mv /tmp/element.json "${host_config_file}"
+    chown "${UNPRIVILEGED_USER}:${UNPRIVILEGED_USER}" "${host_config_file}"
 fi
 
 if run_unprivileged podman container exists "${container_name}"; then
@@ -28,7 +19,7 @@ else
     run_unprivileged podman container create \
         --name "${container_name}" \
         --publish 8080:80 \
-        --volume "${volume}" \
+        --volume "${host_config_file}:${container_config_file}" \
         "${image_name}"
 
     run_unprivileged podman container start "${container_name}" > /dev/null
