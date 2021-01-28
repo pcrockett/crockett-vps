@@ -26,3 +26,21 @@ export DOMAIN_ELEMENT
 
 readonly DOMAIN_JITSI="meet.crockett.network"
 export DOMAIN_JITSI
+
+readonly SMTP_SERVER="smtp.fastmail.com"
+export SMTP_SERVER
+
+readonly SMTP_PORT="587"
+export SMTP_PORT
+
+readonly SMTP_USER="YOUR USERNAME HERE"
+export SMTP_USER
+
+readonly SMTP_PASSWORD="YOUR PASSWORD HERE"
+export SMTP_PASSWORD
+
+readonly SMTP_TLS="true"
+export SMTP_TLS
+
+readonly SMTP_FROM_ADDRESS="matrix@crockett.network"
+export SMTP_FROM_ADDRESS

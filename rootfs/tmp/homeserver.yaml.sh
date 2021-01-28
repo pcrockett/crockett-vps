@@ -2112,24 +2112,24 @@ ui_auth:
 email:
   # The hostname of the outgoing SMTP server to use. Defaults to 'localhost'.
   #
-  #smtp_host: mail.server
+  smtp_host: "${SMTP_SERVER}"
 
   # The port on the mail server for outgoing SMTP. Defaults to 25.
   #
-  #smtp_port: 587
+  smtp_port: ${SMTP_PORT}
 
   # Username/password for authentication to the SMTP server. By default, no
   # authentication is attempted.
   #
-  #smtp_user: "exampleusername"
-  #smtp_pass: "examplepassword"
+  smtp_user: "${SMTP_USER}"
+  smtp_pass: "${SMTP_PASSWORD}"
 
   # Uncomment the following to require TLS transport security for SMTP.
   # By default, Synapse will connect over plain text, and will then switch to
   # TLS via STARTTLS *if the SMTP server supports it*. If this option is set,
   # Synapse will refuse to connect unless the server supports STARTTLS.
   #
-  #require_transport_security: true
+  require_transport_security: ${SMTP_TLS}
 
   # notif_from defines the "From" address to use when sending emails.
   # It must be set if email sending is enabled.
@@ -2141,7 +2141,7 @@ email:
   # Note that the placeholder must be written '%(app)s', including the
   # trailing 's'.
   #
-  #notif_from: "Your Friendly %(app)s homeserver <noreply@example.com>"
+  notif_from: "Matrix Homeserver <${SMTP_FROM_ADDRESS}>"
 
   # app_name defines the default value for '%(app)s' in notif_from and email
   # subjects. It defaults to 'Matrix'.
@@ -2151,7 +2151,7 @@ email:
   # Uncomment the following to enable sending emails for messages that the user
   # has missed. Disabled by default.
   #
-  #enable_notifs: true
+  enable_notifs: true
 
   # Uncomment the following to disable automatic subscription to email
   # notifications for new users. Enabled by default.
@@ -2175,7 +2175,7 @@ email:
   # to the identity server as the org.matrix.web_client_location key. Defaults
   # to unset, giving no guidance to the identity server.
   #
-  #invite_client_location: https://app.element.io
+  invite_client_location: https://${DOMAIN_ELEMENT}/
 
   # Directory in which Synapse will try to find the template files below.
   # If not set, or the files named below are not found within the template
