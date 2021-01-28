@@ -154,7 +154,7 @@ client_api:
 
   # If set, allows registration by anyone who knows the shared secret, regardless of
   # whether registration is otherwise disabled.
-  registration_shared_secret: "${MATRIX_REGISTRATION_SHARED_SECRET}"
+  registration_shared_secret: ""
 
   # Whether to require reCAPTCHA for registration.
   enable_registration_captcha: false
