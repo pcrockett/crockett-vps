@@ -27,7 +27,7 @@ else
     # Now create the actual container where Dendrite will run
     run_unprivileged podman container create \
         --name "${container_name}" \
-        --publish 80:8080 \
+        --publish 8080:80 \
         --volume "${volume}" \
         "${image_name}"
 
