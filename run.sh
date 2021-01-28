@@ -19,7 +19,7 @@ is_root || panic "Must run this script as root."
 function show_usage() {
     printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}" >&2
     printf "  -n, --update-nginx\tUpdate Nginx configuration\n" >&2
-    printf "  -d, --update-dendrite\tUpdate Dendrite configuration\n" >&2
+    printf "  -m, --update-matrix\tUpdate Matrix configuration\n" >&2
     printf "  -h, --help\t\tShow this help message then exit\n" >&2
 }
 
@@ -37,8 +37,8 @@ function parse_commandline() {
             -n|--update-nginx)
                 ARG_UPDATE_NGINX="true"
             ;;
-            -d|--update-dendrite)
-                ARG_UPDATE_DENDRITE="true"
+            -m|--update-matrix)
+                ARG_UPDATE_MATRIX="true"
             ;;
             -h|-\?|--help)
                 ARG_HELP="true"
@@ -63,8 +63,8 @@ if is_set "${ARG_UPDATE_NGINX+x}"; then
     unset_checkpoint "${CHECKPOINT_NGINX_CONF}"
 fi
 
-if is_set "${ARG_UPDATE_DENDRITE+x}"; then
-    unset_checkpoint "${CHECKPOINT_DENDRITE_CONF}"
+if is_set "${ARG_UPDATE_MATRIX+x}"; then
+    unset_checkpoint "${CHECKPOINT_MATRIX_CONF}"
 fi
 
 for dep in "${DEPENDENCIES[@]}"; do
