@@ -18,24 +18,21 @@ if is_unset_checkpoint "synapse-generate"; then
 fi
 
 is_installed jq || install_package jq
+volume_raw_data=$(run_unprivileged podman volume inspect "${volume_name}")
+host_volume_dir=$(echo "${volume_raw_data}" | jq -r .[0].Mountpoint)
 
-# TODO:
-#
-# volume_raw_data=$(run_unprivileged podman volume inspect "${volume_name}")
-# host_volume_dir=$(echo "${volume_raw_data}" | jq -r .[0].Mountpoint)
+if is_unset_checkpoint "${CHECKPOINT_MATRIX_CONF}"; then
+    place_template "tmp/homeserver.yaml"
 
-# if is_unset_checkpoint "${CHECKPOINT_MATRIX_CONF}"; then
-#     place_template "tmp/dendrite.yaml"
+    if run_unprivileged podman container exists "${container_name}"; then
+        run_unprivileged podman container stop "${container_name}"
+    fi
 
-#     if run_unprivileged podman container exists "${container_name}"; then
-#         run_unprivileged podman container stop "${container_name}"
-#     fi
+    mv /tmp/homeserver.yaml "${host_volume_dir}"
+    chown "${UNPRIVILEGED_USER}:${UNPRIVILEGED_USER}" "${host_volume_dir}"
 
-#     mv /tmp/dendrite.yaml "${host_volume_dir}"
-#     chown "${UNPRIVILEGED_USER}:${UNPRIVILEGED_USER}" "${host_volume_dir}/dendrite.yaml"
-
-#     set_checkpoint "${CHECKPOINT_MATRIX_CONF}"
-# fi
+    set_checkpoint "${CHECKPOINT_MATRIX_CONF}"
+fi
 
 if run_unprivileged podman container exists "${container_name}"; then
     run_unprivileged podman container start "${container_name}" > /dev/null
