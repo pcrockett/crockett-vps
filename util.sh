@@ -13,6 +13,9 @@ export WARNING_FILE
 readonly CHECKPOINT_NGINX_CONF="nginx-conf"
 export CHECKPOINT_NGINX_CONF
 
+readonly CHECKPOINT_DENDRITE_CONF="dendrite-conf"
+export CHECKPOINT_DENDRITE_CONF
+
 readonly CHECKPOINTS_DIR="${REPO_ROOT}/.checkpoints"
 test -d "${CHECKPOINTS_DIR}" || mkdir "${CHECKPOINTS_DIR}" > /dev/null
 

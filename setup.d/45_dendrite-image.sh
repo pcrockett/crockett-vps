@@ -31,12 +31,13 @@ host_volume_dir=$(echo "${volume_raw_data}" | jq -r .[0].Mountpoint)
 
 if is_unset_checkpoint "${CHECKPOINT_DENDRITE_CONF}"; then
     place_template "tmp/dendrite.yaml"
-    mv /tmp/dendrite.yaml "${host_volume_dir}"
-    chown "${UNPRIVILEGED_USER}:${UNPRIVILEGED_USER}" "${host_volume_dir}/dendrite.yaml"
 
     if run_unprivileged podman container exists "${container_name}"; then
         run_unprivileged podman container stop "${container_name}"
     fi
+
+    mv /tmp/dendrite.yaml "${host_volume_dir}"
+    chown "${UNPRIVILEGED_USER}:${UNPRIVILEGED_USER}" "${host_volume_dir}/dendrite.yaml"
 
     set_checkpoint "${CHECKPOINT_DENDRITE_CONF}"
 fi
