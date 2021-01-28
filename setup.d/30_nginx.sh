@@ -37,6 +37,11 @@ if need_tls_cert "${DOMAIN_MATRIX}"; then
     unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
 fi
 
+if need_tls_cert "${DOMAIN_ELEMENT}"; then
+    get_tls_cert "${DOMAIN_ELEMENT}"
+    unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
+fi
+
 if is_unset_checkpoint "nginx-reload"; then
     place_template "etc/nginx/nginx.conf" # Re-generate the nginx config now that we know Certbot is in place.
     nginx -s reload

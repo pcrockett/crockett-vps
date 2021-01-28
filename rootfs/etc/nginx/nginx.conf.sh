@@ -99,6 +99,25 @@ http {
         }
     }
 
+    server {
+        listen 443 ssl http2;
+        listen [::]:443 ssl http2; # Listen on IPv6
+        server_name ${DOMAIN_ELEMENT};
+
+        ssl_certificate /etc/letsencrypt/live/${DOMAIN_ELEMENT}/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/${DOMAIN_ELEMENT}/privkey.pem; # managed by Certbot
+        include /etc/letsencrypt/options-ssl-nginx.conf;
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+        location / {
+            proxy_pass http://localhost:8080;
+            proxy_set_header X-Forwarded-For \$remote_addr;
+            # Nginx by default only allows file uploads up to 1M in size
+            # Increase client_max_body_size to match max_upload_size defined in homeserver.yaml
+            client_max_body_size 50M;
+        }
+    }
+
 }
 
 EOF
