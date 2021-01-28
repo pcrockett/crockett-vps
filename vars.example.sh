@@ -21,6 +21,10 @@ export DOMAIN_MATRIX
 readonly MATRIX_SERVER_NAME="${DOMAIN_MATRIX}"
 export MATRIX_SERVER_NAME
 
+# Restrict Matrix account creation to those who know a special shared secret
+readonly MATRIX_REGISTRATION_SHARED_SECRET=""
+export MATRIX_REGISTRATION_SHARED_SECRET
+
 readonly DOMAIN_ELEMENT="im.crockett.network"
 export DOMAIN_ELEMENT
 
