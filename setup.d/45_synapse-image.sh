@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-image_name="docker.io/matrixdotorg/matrixdotorg/synapse:latest"
+image_name="docker.io/matrixdotorg/synapse:latest"
 container_name="synapse"
 container_data_dir="/data"
 volume_name="synapse-data"
