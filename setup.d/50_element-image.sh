@@ -7,7 +7,7 @@ volume_name="element-data"
 volume="${volume_name}:${container_data_dir}"
 
 if is_unset_checkpoint "element-volume"; then
-    podman volume create "${volume_name}"
+    run_unprivileged podman volume create "${volume_name}"
     set_checkpoint "element-volume"
 fi
 
