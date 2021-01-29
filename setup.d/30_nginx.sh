@@ -19,7 +19,8 @@ function need_tls_cert() {
 
 function get_tls_cert() {
     test "${#}" -eq 1 || panic "Expecting 1 argument: Domain name"
-    certbot --nginx \
+    certbot certonly --webroot \
+        --webroot-path /usr/share/nginx/html \
         --domain "${1}" \
         --email "${ADMIN_EMAIL}" \
         --rsa-key-size 4096 \
