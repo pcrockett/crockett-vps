@@ -21,7 +21,7 @@ export DOMAIN_MATRIX
 readonly MATRIX_SERVER_NAME="${DOMAIN_MATRIX}"
 export MATRIX_SERVER_NAME
 
-readonly DOMAIN_ELEMENT="im.crockett.network"
+readonly DOMAIN_ELEMENT="chat.crockett.network"
 export DOMAIN_ELEMENT
 
 readonly DOMAIN_JITSI="meet.crockett.network"
