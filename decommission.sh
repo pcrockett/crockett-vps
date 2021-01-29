@@ -72,3 +72,9 @@ test ! -f "/etc/letsencrypt/live/${DOMAIN_PRIMARY}/privkey.pem" \
 
 test ! -f "/etc/letsencrypt/live/${DOMAIN_MATRIX}/privkey.pem" \
     || revoke_cert "${DOMAIN_MATRIX}"
+
+test ! -f "/etc/letsencrypt/live/${DOMAIN_ELEMENT}/privkey.pem" \
+    || revoke_cert "${DOMAIN_ELEMENT}"
+
+test ! -f "/etc/letsencrypt/live/${DOMAIN_SOCIAL_PUBLIC}/privkey.pem" \
+    || revoke_cert "${DOMAIN_SOCIAL_PUBLIC}"
