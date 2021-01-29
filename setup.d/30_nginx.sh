@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 is_installed nginx || install_package nginx
-is_installed certbot || install_package certbot certbot-nginx
+is_installed certbot || install_package certbot
 
 if is_unset_checkpoint "${CHECKPOINT_NGINX_CONF}"; then
     place_template "etc/nginx/nginx.conf"
