@@ -27,6 +27,12 @@ export DOMAIN_ELEMENT
 readonly DOMAIN_JITSI="meet.crockett.network"
 export DOMAIN_JITSI
 
+readonly DOMAIN_SOCIAL_PUBLIC="crockett.network"
+export DOMAIN_SOCIAL_PUBLIC
+
+readonly DOMAIN_SOCIAL_LOCAL="social.crockett.network"
+export DOMAIN_SOCIAL_LOCAL
+
 readonly SMTP_SERVER="smtp.fastmail.com"
 export SMTP_SERVER
 

@@ -69,6 +69,22 @@ http {
     server {
         listen 443 ssl http2;
         listen [::]:443 ssl http2; # Listen on IPv6
+        server_name ${DOMAIN_SOCIAL_PUBLIC};
+
+        ssl_certificate /etc/letsencrypt/live/${DOMAIN_SOCIAL_PUBLIC}/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/${DOMAIN_SOCIAL_PUBLIC}/privkey.pem; # managed by Certbot
+        include /etc/letsencrypt/options-ssl-nginx.conf;
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+        location / {
+            proxy_pass https://${DOMAIN_SOCIAL_LOCAL}; # Managed by Masto.host (as of 2021-01-29)
+            proxy_set_header X-Real-IP \$remote_addr;
+        }
+    }
+
+    server {
+        listen 443 ssl http2;
+        listen [::]:443 ssl http2; # Listen on IPv6
         server_name ${DOMAIN_PRIMARY};
 
         ssl_certificate /etc/letsencrypt/live/${DOMAIN_PRIMARY}/fullchain.pem; # managed by Certbot
