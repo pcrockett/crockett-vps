@@ -76,13 +76,8 @@ http {
         include /etc/letsencrypt/options-ssl-nginx.conf;
         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
-        location /.well-known/host-meta {
-           return 301 https://${DOMAIN_SOCIAL_LOCAL}\$request_uri; # Managed by Masto.host (as of 2021-01-29)
-        }
-
         location / {
-            proxy_pass https://${DOMAIN_SOCIAL_LOCAL}; # Managed by Masto.host (as of 2021-01-29)
-            proxy_set_header X-Real-IP \$remote_addr;
+            return 301 https://${DOMAIN_SOCIAL_LOCAL}\$request_uri; # Managed by Masto.host (as of 2021-01-29)
         }
     }
 
