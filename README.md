@@ -1,6 +1,6 @@
 ## de.crockett.network
 
-This repo contains scripts to automatically provision a brand-new Arch server.
+This repo contains scripts to automatically provision my own personal cloud service on an Arch VPS. It's one part documentation for myself, one part experimentation, one part learning project, and one part fun.
 
 ### Install
 
@@ -25,17 +25,19 @@ chmod u+x ./quick-start.sh
 
 ### Features
 
-As of 2021-01-28, this repo will set up:
+As of 2021-01-30, this repo will set up:
 
 * HTTPS-enabled Nginx reverse proxy with an A+ rating according to the [Qualys SSL Labs test][1].
 * Synapse (Matrix homeserver)
 * Element (web-based Matrix client)
+* A TURN server (for VoIP calls in Matrix)
 
-It uses Podman instead of Docker to run unprivileged containers.
+It uses Podman instead of Docker to run unprivileged containers running as different users.
 
 ### TODO:
 
 * [ ] Jitsi
+* [ ] WireGuard VPN
 * [ ] Auto updates
 
 [1]: https://www.ssllabs.com/ssltest/
