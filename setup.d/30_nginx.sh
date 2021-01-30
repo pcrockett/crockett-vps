@@ -48,6 +48,13 @@ if need_tls_cert "${DOMAIN_SOCIAL_PUBLIC}"; then
     unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
 fi
 
+letsencrypt_ssl_options="/etc/letsencrypt/options-ssl-nginx.conf"
+if [ ! -f "${letsencrypt_ssl_options}" ]; then
+    ssl_options_url="https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf"
+    curl "${ssl_options_url}" > "${letsencrypt_ssl_options}"
+    unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
+fi
+
 if is_unset_checkpoint "nginx-reload"; then
     place_template "etc/nginx/nginx.conf" # Re-generate the nginx config now that we know Certbot is in place.
     nginx -s reload
