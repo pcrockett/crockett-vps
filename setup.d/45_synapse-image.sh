@@ -10,7 +10,7 @@ if is_unset_checkpoint "synapse-generate"; then
 
     run_unprivileged podman container run \
         --volume "${volume}" \
-        --env SYNAPSE_SERVER_NAME="${MATRIX_SERVER_NAME}" \
+        --env SYNAPSE_SERVER_NAME="${DOMAIN_MATRIX}" \
         --env SYNAPSE_REPORT_STATS=no \
         "${image_name}" generate
 
