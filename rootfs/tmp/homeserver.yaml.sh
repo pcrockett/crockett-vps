@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+value_exists "${VAL_TURN_SECRET}" || set_value "${VAL_TURN_SECRET}" "$(head --bytes 64 /dev/urandom | base64 --wrap 0)"
+TEMPL_TURN_SECRET=$(get_value "${VAL_TURN_SECRET}")
+
 cat << EOF
 ## Server ##
 
@@ -1060,11 +1063,11 @@ url_preview_accept_language:
 
 # The public URIs of the TURN server to give to clients
 #
-#turn_uris: []
+turn_uris: [ "turn:${DOMAIN_TURN}?transport=udp", "turn:${DOMAIN_TURN}?transport=tcp" ]
 
 # The shared secret used to compute passwords for the TURN server
 #
-#turn_shared_secret: "YOUR_SHARED_SECRET"
+turn_shared_secret: "${TEMPL_TURN_SECRET}"
 
 # The Username and password if the TURN server needs them and
 # does not use a token
@@ -1074,7 +1077,7 @@ url_preview_accept_language:
 
 # How long generated TURN credentials last
 #
-#turn_user_lifetime: 1h
+turn_user_lifetime: 86400000
 
 # Whether guests should be allowed to use the TURN server.
 # This defaults to True, otherwise VoIP will be unreliable for guests.
@@ -1082,7 +1085,7 @@ url_preview_accept_language:
 # connect to arbitrary endpoints without having first signed up for a
 # valid account (e.g. by passing a CAPTCHA).
 #
-#turn_allow_guests: true
+turn_allow_guests: false
 
 
 ## Registration ##

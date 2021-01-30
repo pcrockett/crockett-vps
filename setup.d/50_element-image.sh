@@ -20,7 +20,7 @@ else
         --name "${container_name}" \
         --publish 8080:80 \
         --volume "${host_config_file}:${container_config_file}" \
-        "${image_name}"
+        "${image_name}" > /dev/null
 
     run_unprivileged podman container start "${container_name}" > /dev/null
 fi

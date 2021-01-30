@@ -25,7 +25,7 @@ if is_unset_checkpoint "${CHECKPOINT_MATRIX_CONF}"; then
     place_template "tmp/homeserver.yaml"
 
     if run_unprivileged podman container exists "${container_name}"; then
-        run_unprivileged podman container stop "${container_name}"
+        run_unprivileged podman container stop "${container_name}" > /dev/null
     fi
 
     mv /tmp/homeserver.yaml "${host_volume_dir}"
@@ -43,7 +43,7 @@ else
         --name "${container_name}" \
         --publish 8008:8008 \
         --volume "${volume}" \
-        "${image_name}"
+        "${image_name}" > /dev/null
 
     run_unprivileged podman container start "${container_name}" > /dev/null
 fi

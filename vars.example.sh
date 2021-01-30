@@ -33,6 +33,9 @@ export DOMAIN_SOCIAL_PUBLIC
 readonly DOMAIN_SOCIAL_LOCAL="social.crockett.network"
 export DOMAIN_SOCIAL_LOCAL
 
+readonly DOMAIN_TURN="turn.crockett.network"
+export DOMAIN_TURN
+
 readonly SMTP_SERVER="smtp.fastmail.com"
 export SMTP_SERVER
 
@@ -50,3 +53,9 @@ export SMTP_TLS
 
 readonly SMTP_FROM_ADDRESS="matrix@crockett.network"
 export SMTP_FROM_ADDRESS
+
+readonly TURN_MIN_PORT=49160
+export TURN_MIN_PORT
+
+readonly TURN_MAX_PORT=49200
+export TURN_MAX_PORT
