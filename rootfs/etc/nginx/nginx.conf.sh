@@ -69,10 +69,10 @@ http {
     server {
         listen 443 ssl http2;
         listen [::]:443 ssl http2; # Listen on IPv6
-        server_name ${DOMAIN_SOCIAL_PUBLIC};
+        server_name ${DOMAIN_PRIMARY};
 
-        ssl_certificate /etc/letsencrypt/live/${DOMAIN_SOCIAL_PUBLIC}/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/${DOMAIN_SOCIAL_PUBLIC}/privkey.pem; # managed by Certbot
+        ssl_certificate /etc/letsencrypt/live/${DOMAIN_PRIMARY}/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/${DOMAIN_PRIMARY}/privkey.pem; # managed by Certbot
         include /etc/letsencrypt/options-ssl-nginx.conf;
         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
@@ -85,22 +85,6 @@ http {
 
         location / {
             return 301 https://${DOMAIN_SOCIAL_LOCAL}\$request_uri; # Managed by Masto.host (as of 2021-01-29)
-        }
-    }
-
-    server {
-        listen 443 ssl http2;
-        listen [::]:443 ssl http2; # Listen on IPv6
-        server_name ${DOMAIN_PRIMARY};
-
-        ssl_certificate /etc/letsencrypt/live/${DOMAIN_PRIMARY}/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/${DOMAIN_PRIMARY}/privkey.pem; # managed by Certbot
-        include /etc/letsencrypt/options-ssl-nginx.conf;
-        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
-
-        location / {
-            root   /usr/share/nginx/html;
-            index  index.html index.htm;
         }
     }
 

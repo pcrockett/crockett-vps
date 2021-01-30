@@ -9,28 +9,25 @@ export UNPRIVILEGED_SSH_KEY
 readonly ADMIN_EMAIL="admin@philcrockett.com"
 export ADMIN_EMAIL
 
-readonly DOMAIN_PRIMARY="de.crockett.network"
+readonly DOMAIN_PRIMARY="crockett.network"
 export DOMAIN_PRIMARY
 
-readonly DOMAIN_MATRIX="matrix.crockett.network"
+readonly DOMAIN_MATRIX="matrix.${DOMAIN_PRIMARY}"
 export DOMAIN_MATRIX
 
-readonly MATRIX_SERVER_NAME="${DOMAIN_MATRIX}"
+readonly MATRIX_SERVER_NAME="${DOMAIN_PRIMARY}"
 export MATRIX_SERVER_NAME
 
-readonly DOMAIN_ELEMENT="chat.crockett.network"
+readonly DOMAIN_ELEMENT="chat.${DOMAIN_PRIMARY}"
 export DOMAIN_ELEMENT
 
-readonly DOMAIN_JITSI="meet.crockett.network"
+readonly DOMAIN_JITSI="meet.${DOMAIN_PRIMARY}"
 export DOMAIN_JITSI
 
-readonly DOMAIN_SOCIAL_PUBLIC="crockett.network"
-export DOMAIN_SOCIAL_PUBLIC
-
-readonly DOMAIN_SOCIAL_LOCAL="social.crockett.network"
+readonly DOMAIN_SOCIAL_LOCAL="social.${DOMAIN_PRIMARY}"
 export DOMAIN_SOCIAL_LOCAL
 
-readonly DOMAIN_TURN="turn.crockett.network"
+readonly DOMAIN_TURN="turn.${DOMAIN_PRIMARY}"
 export DOMAIN_TURN
 
 readonly SMTP_SERVER="smtp.fastmail.com"
@@ -48,7 +45,7 @@ export SMTP_PASSWORD
 readonly SMTP_TLS="true"
 export SMTP_TLS
 
-readonly SMTP_FROM_ADDRESS="matrix@crockett.network"
+readonly SMTP_FROM_ADDRESS="matrix@${DOMAIN_PRIMARY}"
 export SMTP_FROM_ADDRESS
 
 readonly TURN_MIN_PORT=49160

@@ -28,11 +28,6 @@ function get_tls_cert() {
         --no-eff-email
 }
 
-if need_tls_cert "${DOMAIN_PRIMARY}"; then
-    get_tls_cert "${DOMAIN_PRIMARY}"
-    unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
-fi
-
 if need_tls_cert "${DOMAIN_MATRIX}"; then
     get_tls_cert "${DOMAIN_MATRIX}"
     unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
@@ -43,8 +38,8 @@ if need_tls_cert "${DOMAIN_ELEMENT}"; then
     unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
 fi
 
-if need_tls_cert "${DOMAIN_SOCIAL_PUBLIC}"; then
-    get_tls_cert "${DOMAIN_SOCIAL_PUBLIC}"
+if need_tls_cert "${DOMAIN_PRIMARY}"; then
+    get_tls_cert "${DOMAIN_PRIMARY}"
     unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
 fi
 

@@ -67,14 +67,11 @@ function revoke_cert() {
     yes | certbot revoke --cert-name "${cert_name}" --reason cessationofoperation
 }
 
-test ! -f "/etc/letsencrypt/live/${DOMAIN_PRIMARY}/privkey.pem" \
-    || revoke_cert "${DOMAIN_PRIMARY}"
-
 test ! -f "/etc/letsencrypt/live/${DOMAIN_MATRIX}/privkey.pem" \
     || revoke_cert "${DOMAIN_MATRIX}"
 
 test ! -f "/etc/letsencrypt/live/${DOMAIN_ELEMENT}/privkey.pem" \
     || revoke_cert "${DOMAIN_ELEMENT}"
 
-test ! -f "/etc/letsencrypt/live/${DOMAIN_SOCIAL_PUBLIC}/privkey.pem" \
-    || revoke_cert "${DOMAIN_SOCIAL_PUBLIC}"
+test ! -f "/etc/letsencrypt/live/${DOMAIN_PRIMARY}/privkey.pem" \
+    || revoke_cert "${DOMAIN_PRIMARY}"
