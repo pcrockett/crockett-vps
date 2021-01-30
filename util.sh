@@ -98,6 +98,9 @@ function place_file() {
         mv "${dest_path}" "${old_path}"
     fi
 
+    parent_dir=$(dirname "${dest_path}")
+    test -d "${parent_dir}" || mkdir --parent "${parent_dir}" > /dev/null
+
     cp "${src_path}" "${dest_path}"
 }
 export place_file
@@ -113,6 +116,9 @@ function place_template() {
         old_path="${dest_path}.old"
         mv "${dest_path}" "${old_path}"
     fi
+
+    parent_dir=$(dirname "${dest_path}")
+    test -d "${parent_dir}" || mkdir --parent "${parent_dir}" > /dev/null
 
     # shellcheck source=/dev/null
     . "${template_src}" > "${dest_path}"
