@@ -173,3 +173,9 @@ function run_unprivileged() {
     sudo --login --user "${UNPRIVILEGED_USER}" "${@}"
 }
 export run_unprivileged
+
+function random_secret() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Number of bytes of randomness"
+    head --bytes "${1}" /dev/urandom | base64 --wrap 0
+}
+export random_secret

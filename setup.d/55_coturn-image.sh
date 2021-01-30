@@ -6,7 +6,7 @@ container_name="coturn"
 value_exists "external-ip" || set_value "external-ip" "$(curl -4 https://icanhazip.com/)"
 external_ip="$(get_value "external-ip")"
 
-value_exists "${VAL_TURN_SECRET}" || set_value "${VAL_TURN_SECRET}" "$(head --bytes 64 /dev/urandom | base64 --wrap 0)"
+value_exists "${VAL_TURN_SECRET}" || set_value "${VAL_TURN_SECRET}" "$(random_secret 64)"
 turn_secret=$(get_value "${VAL_TURN_SECRET}")
 
 if run_unprivileged podman container exists "${container_name}"; then

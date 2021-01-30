@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-value_exists "${VAL_TURN_SECRET}" || set_value "${VAL_TURN_SECRET}" "$(head --bytes 64 /dev/urandom | base64 --wrap 0)"
+value_exists "${VAL_TURN_SECRET}" || set_value "${VAL_TURN_SECRET}" "$(random_secret 64)"
 TEMPL_TURN_SECRET=$(get_value "${VAL_TURN_SECRET}")
 
 cat << EOF
