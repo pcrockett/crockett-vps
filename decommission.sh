@@ -67,7 +67,8 @@ function revoke_cert() {
     certbot revoke \
         --cert-name "${cert_name}" \
         --reason cessationofoperation \
-        --non-interactive
+        --non-interactive \
+        --delete-after-revoke
 }
 
 certs_to_revoke=(
