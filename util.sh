@@ -179,3 +179,16 @@ function random_secret() {
     head --bytes "${1}" /dev/urandom | base64 --wrap 0
 }
 export random_secret
+
+function create_user() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Username"
+    local username="${1}"
+    useradd --create-home --shell /usr/bin/bash "${username}"
+
+    # It doesn't matter what the password is for the user; we'll never use it.
+    # Just set it to something strong.
+    local password;
+    password="$(random_secret 32)"
+    echo "${username}:${password}" | chpasswd
+}
+export create_user
