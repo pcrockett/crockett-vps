@@ -64,14 +64,20 @@ fi
 function revoke_cert() {
     test "${#}" -eq 1 || panic "Expecting 1 argument: Certificate name"
     local cert_name="${1}"
-    yes | certbot revoke --cert-name "${cert_name}" --reason cessationofoperation
+    certbot revoke \
+        --cert-name "${cert_name}" \
+        --reason cessationofoperation \
+        --non-interactive
 }
 
-test ! -f "/etc/letsencrypt/live/${DOMAIN_MATRIX}/privkey.pem" \
-    || revoke_cert "${DOMAIN_MATRIX}"
+certs_to_revoke=(
+    "${DOMAIN_PRIMARY}"
+    "${DOMAIN_MATRIX}"
+    "${DOMAIN_ELEMENT}"
+)
 
-test ! -f "/etc/letsencrypt/live/${DOMAIN_ELEMENT}/privkey.pem" \
-    || revoke_cert "${DOMAIN_ELEMENT}"
-
-test ! -f "/etc/letsencrypt/live/${DOMAIN_PRIMARY}/privkey.pem" \
-    || revoke_cert "${DOMAIN_PRIMARY}"
+for domain in "${certs_to_revoke[@]}"
+do
+    test ! -f "/etc/letsencrypt/live/${domain}/privkey.pem" \
+        || revoke_cert "${domain}"
+done
