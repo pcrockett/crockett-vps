@@ -38,6 +38,8 @@ It uses Podman instead of Docker to run unprivileged containers running as diffe
 
 * [ ] Jitsi
 * [ ] WireGuard VPN
+* [ ] Firewall
+* [ ] Auto start on boot
 * [ ] Auto updates
 
 [1]: https://www.ssllabs.com/ssltest/
