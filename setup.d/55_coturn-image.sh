@@ -20,7 +20,7 @@ else
     # * https://github.com/coturn/coturn/blob/master/README.turnserver
     #
 
-    podman container create \
+    run_unprivileged podman container create \
         --name "${container_name}" \
         --publish 3478:3478 \
         --publish "${TURN_MIN_PORT}-${TURN_MAX_PORT}:${TURN_MIN_PORT}-${TURN_MAX_PORT}/udp" \
