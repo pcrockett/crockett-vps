@@ -3,7 +3,7 @@
 image_name="docker.io/instrumentisto/coturn:latest"
 container_name="coturn"
 
-value_exists "external-ip" || set_value "external-ip" "$(curl https://icanhazip.com/)"
+value_exists "external-ip" || set_value "external-ip" "$(curl -4 https://icanhazip.com/)"
 external_ip="$(get_value "external-ip")"
 
 value_exists "${VAL_TURN_SECRET}" || set_value "${VAL_TURN_SECRET}" "$(head --bytes 64 /dev/urandom | base64 --wrap 0)"
