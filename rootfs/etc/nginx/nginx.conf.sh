@@ -76,8 +76,11 @@ http {
         include /etc/letsencrypt/options-ssl-nginx.conf;
         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
-        location /.well-known/matrix/ {
-            root /usr/share/nginx/html/.well-known/matrix;
+        root /usr/share/nginx/html;
+
+        location = /.well-known/matrix/server {
+            add_header Content-Type application/json;
+            try_files .well-known/matrix/server =404;
         }
 
         location / {
