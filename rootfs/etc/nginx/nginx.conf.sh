@@ -56,7 +56,7 @@ http {
         #
         error_page   500 502 503 504  /50x.html;
         location = /50x.html {
-            root   /usr/share/nginx/html;
+            root /usr/share/nginx/html;
         }
     }
 
@@ -75,6 +75,10 @@ http {
         ssl_certificate_key /etc/letsencrypt/live/${DOMAIN_SOCIAL_PUBLIC}/privkey.pem; # managed by Certbot
         include /etc/letsencrypt/options-ssl-nginx.conf;
         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+        location /.well-known/matrix/ {
+            root /usr/share/nginx/html/.well-known/matrix;
+        }
 
         location / {
             return 301 https://${DOMAIN_SOCIAL_LOCAL}\$request_uri; # Managed by Masto.host (as of 2021-01-29)

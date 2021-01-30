@@ -47,3 +47,5 @@ else
 
     run_unprivileged podman container start "${container_name}" > /dev/null
 fi
+
+place_template "usr/share/nginx/html/.well-known/matrix/server"
