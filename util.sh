@@ -16,8 +16,14 @@ export CHECKPOINT_NGINX_CONF
 readonly CHECKPOINT_MATRIX_CONF="matrix-conf"
 export CHECKPOINT_MATRIX_CONF
 
+readonly VAL_TURN_SECRET="turn-secret"
+export VAL_TURN_SECRET
+
 readonly CHECKPOINTS_DIR="${REPO_ROOT}/.checkpoints"
 test -d "${CHECKPOINTS_DIR}" || mkdir "${CHECKPOINTS_DIR}" > /dev/null
+
+readonly VALUES_DIR="${REPO_ROOT}/.values"
+test -d "${VALUES_DIR}" || mkdir "${VALUES_DIR}" > /dev/null
 
 function panic() {
     >&2 echo "Fatal: ${*}"
@@ -86,6 +92,37 @@ function unset_checkpoint() {
     fi
 }
 export unset_checkpoint
+
+function value_exists() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Value key"
+    local value_path="${VALUES_DIR}/${1}"
+    test -f "${value_path}"
+}
+export value_exists
+
+function value_not_exists() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Value key"
+    if value_exists "${1}"; then
+        false
+    else
+        true
+    fi
+}
+export value_not_exists
+
+function get_value() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Value key"
+    local value_path="${VALUES_DIR}/${1}"
+    cat "${value_path}"
+}
+export get_value
+
+function set_value() {
+    test "${#}" -eq 2 || panic "Expecting 2 arguments: Key and value"
+    local value_path="${VALUES_DIR}/${1}"
+    echo "${2}" > "${value_path}"
+}
+export set_value
 
 function place_file() {
     test "${#}" -eq 1 || panic "Expecting 1 argument: File path"
