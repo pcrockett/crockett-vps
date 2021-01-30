@@ -80,7 +80,7 @@ http {
 
         location = /.well-known/matrix/server {
             add_header Content-Type application/json;
-            try_files .well-known/matrix/server =404;
+            try_files \$uri =404;
         }
 
         location / {
