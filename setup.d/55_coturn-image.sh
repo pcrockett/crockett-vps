@@ -9,8 +9,12 @@ external_ip="$(get_value "external-ip")"
 value_exists "${VAL_TURN_SECRET}" || set_value "${VAL_TURN_SECRET}" "$(random_secret 64)"
 turn_secret=$(get_value "${VAL_TURN_SECRET}")
 
-if run_unprivileged podman container exists "${container_name}"; then
-    run_unprivileged podman container start "${container_name}" > /dev/null
+function run_as_turn() {
+    run_unprivileged turn "${@}"
+}
+
+if run_as_turn podman container exists "${container_name}"; then
+    run_as_turn podman container start "${container_name}" > /dev/null
 else
 
     # Much guidance from:
@@ -20,7 +24,7 @@ else
     # * https://github.com/coturn/coturn/blob/master/README.turnserver
     #
 
-    run_unprivileged podman container create \
+    run_as_turn podman container create \
         --name "${container_name}" \
         --publish 3478:3478 \
         --publish "${TURN_MIN_PORT}-${TURN_MAX_PORT}:${TURN_MIN_PORT}-${TURN_MAX_PORT}/udp" \
@@ -43,5 +47,5 @@ else
 
     # TODO: Add support for TLS?
 
-    run_unprivileged podman container start "${container_name}" > /dev/null
+    run_as_turn podman container start "${container_name}" > /dev/null
 fi

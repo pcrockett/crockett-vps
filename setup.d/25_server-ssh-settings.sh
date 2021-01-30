@@ -10,7 +10,6 @@ ssh-keygen -t rsa -b 4096 -f "/etc/ssh/ssh_host_rsa_key" -N "" < /dev/null
 ssh-keygen -t ed25519 -f "/etc/ssh/ssh_host_ed25519_key" -N "" < /dev/null
 
 groupadd ssh-user
-usermod --append --groups ssh-user "${UNPRIVILEGED_USER}"
 usermod --append --groups ssh-user root
 
 place_file "etc/ssh/sshd_config"

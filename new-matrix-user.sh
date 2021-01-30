@@ -98,10 +98,11 @@ else
     admin_param="--no-admin"
 fi
 
-run_unprivileged podman exec --interactive --tty synapse \
-    register_new_matrix_user http://localhost:8008 \
-    --user "${ARG_USERNAME}" \
-    --password "${ARG_PASSWORD}" \
-    "${admin_param}" \
-    --config /data/homeserver.yaml
+run_unprivileged synapse \
+    podman exec --interactive --tty synapse \
+        register_new_matrix_user http://localhost:8008 \
+        --user "${ARG_USERNAME}" \
+        --password "${ARG_PASSWORD}" \
+        "${admin_param}" \
+        --config /data/homeserver.yaml
 

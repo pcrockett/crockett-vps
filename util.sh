@@ -25,6 +25,13 @@ test -d "${CHECKPOINTS_DIR}" || mkdir "${CHECKPOINTS_DIR}" > /dev/null
 readonly VALUES_DIR="${REPO_ROOT}/.values"
 test -d "${VALUES_DIR}" || mkdir "${VALUES_DIR}" > /dev/null
 
+readonly UNPRIVILEGED_USERS=(
+    synapse
+    element
+    turn
+)
+export UNPRIVILEGED_USERS
+
 function panic() {
     >&2 echo "Fatal: ${*}"
     exit 1
@@ -113,6 +120,7 @@ export value_not_exists
 function get_value() {
     test "${#}" -eq 1 || panic "Expecting 1 argument: Value key"
     local value_path="${VALUES_DIR}/${1}"
+    test -f "${value_path}" || panic "Value \"${1}\" has not been set yet."
     cat "${value_path}"
 }
 export get_value
@@ -169,8 +177,12 @@ function warn_when_finished() {
 export warn_when_finished
 
 function run_unprivileged() {
-    test "${#}" -ge 1 || panic "Expecting at least 1 argument: Command to run"
-    sudo --login --user "${UNPRIVILEGED_USER}" "${@}"
+    test "${#}" -ge 2 || panic "Expecting at least 2 arguments: Username and command to run"
+
+    local user="${1}"
+    shift 1
+
+    sudo --login --user "${user}" "${@}"
 }
 export run_unprivileged
 
