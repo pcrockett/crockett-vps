@@ -31,4 +31,6 @@ firewall-cmd --zone=public --remove-service ssh --permanent
 
 firewall-cmd --zone public --change-interface "${NET_PRIMARY_INTERFACE}" --permanent
 
+firewall-cmd --reload
+
 set_checkpoint "firewall-config"
