@@ -114,12 +114,12 @@ PrivateKey = ${peer_private_key}
 Address = ${WG_NETWORK_PART}.${new_peer_number}/32
 DNS = ${WG_NETWORK_PART}.1
 # MTU = 1370
-# PersistentKeepalive = 25
 
 [Peer]
 PublicKey = ${server_public_key}
 Endpoint = ${external_ip}:${WG_SERVICE_PORT}
 AllowedIPs = 0.0.0.0/0, ::/0
+# PersistentKeepalive = 25
 EOF
 )
 
