@@ -1,4 +1,8 @@
-#	$OpenBSD: sshd_config,v 1.103 2018/04/09 20:41:22 tj Exp $
+#!/usr/bin/env bash
+
+cat << EOF
+
+#	\$OpenBSD: sshd_config,v 1.103 2018/04/09 20:41:22 tj Exp \$
 
 # This is the sshd server system-wide configuration file.  See
 # sshd_config(5) for more information.
@@ -10,7 +14,7 @@
 # possible, but leave them commented.  Uncommented options override the
 # default value.
 
-Port 27980
+Port ${SSH_SERVICE_PORT}
 #AddressFamily any
 #ListenAddress 0.0.0.0
 #ListenAddress ::
@@ -119,3 +123,5 @@ Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.
 MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
 Protocol 2
 AllowGroups ssh-user
+
+EOF

@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+readonly SSH_SERVICE_PORT=27980
+export SSH_SERVICE_PORT
+
 readonly ROOT_SSH_KEY="PASTE YOUR ADMIN DEVICE'S SSH PUBLIC KEY HERE"
 export ROOT_SSH_KEY
 

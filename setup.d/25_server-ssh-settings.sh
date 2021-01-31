@@ -12,12 +12,12 @@ ssh-keygen -t ed25519 -f "/etc/ssh/ssh_host_ed25519_key" -N "" < /dev/null
 groupadd ssh-user
 usermod --append --groups ssh-user root
 
-place_file "etc/ssh/sshd_config"
+place_template "etc/ssh/sshd_config"
 
 # Restart SSH server without killing the current connection
 kill -SIGHUP "$(pgrep -f "sshd -D")"
 
-echo "NEW SSH SETTINGS IN PLACE. Before disconnecting your current session, make sure you can set up a new session."
+echo "NEW SSH SETTINGS IN PLACE. Before disconnecting your current session, make sure you can set up a new session on port ${SSH_SERVICE_PORT}."
 read -r -p "Press enter to continue configuration... "
 
 set_checkpoint "server-ssh-settings"
