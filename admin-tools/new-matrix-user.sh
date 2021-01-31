@@ -6,8 +6,9 @@ set -Eeuo pipefail
 
 readonly DEPENDENCIES=()
 readonly SCRIPT_DIR=$(dirname "$(readlink -f "${0}")")
-readonly UTIL_SCRIPT="${SCRIPT_DIR}/util.sh"
-readonly VARS_SCRIPT="${SCRIPT_DIR}/vars.sh"
+readonly REPO_ROOT=$(dirname "${SCRIPT_DIR}")
+readonly UTIL_SCRIPT="${REPO_ROOT}/util.sh"
+readonly VARS_SCRIPT="${REPO_ROOT}/vars.sh"
 readonly SCRIPT_NAME=$(basename "${0}")
 
 # shellcheck source=util.sh
@@ -105,4 +106,3 @@ run_unprivileged synapse \
         --password "${ARG_PASSWORD}" \
         "${admin_param}" \
         --config /data/homeserver.yaml
-

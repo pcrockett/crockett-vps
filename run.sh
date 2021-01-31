@@ -5,10 +5,10 @@ set -Eeuo pipefail
 [[ "${BASH_VERSINFO[0]}" -lt 5 ]] && echo "Bash >= 5 required" && exit 1
 
 readonly DEPENDENCIES=(sudo nano uniq)
-readonly SCRIPT_DIR=$(dirname "$(readlink -f "${0}")")
-readonly UTIL_SCRIPT="${SCRIPT_DIR}/util.sh"
-readonly VARS_SCRIPT="${SCRIPT_DIR}/vars.sh"
-readonly SETUP_DIR="${SCRIPT_DIR}/setup.d"
+readonly REPO_ROOT=$(dirname "$(readlink -f "${0}")")
+readonly UTIL_SCRIPT="${REPO_ROOT}/util.sh"
+readonly VARS_SCRIPT="${REPO_ROOT}/vars.sh"
+readonly SETUP_DIR="${REPO_ROOT}/setup.d"
 readonly SCRIPT_NAME=$(basename "${0}")
 
 # shellcheck source=util.sh
@@ -72,7 +72,7 @@ for dep in "${DEPENDENCIES[@]}"; do
 done
 
 if [ ! -f "${VARS_SCRIPT}" ]; then
-    example_vars="${SCRIPT_DIR}/vars.example.sh"
+    example_vars="${REPO_ROOT}/vars.example.sh"
     cp "${example_vars}" "${VARS_SCRIPT}"
     nano "${VARS_SCRIPT}"
 fi
