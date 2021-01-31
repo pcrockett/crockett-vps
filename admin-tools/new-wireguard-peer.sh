@@ -112,7 +112,6 @@ new_peer_client_config=$(cat << EOF
 [Interface]
 PrivateKey = ${peer_private_key}
 Address = ${WG_NETWORK_PART}.${new_peer_number}/32
-ListenPort = 51820
 DNS = ${WG_NETWORK_PART}.1
 # MTU = 1370
 # PersistentKeepalive = 25
