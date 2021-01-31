@@ -77,14 +77,16 @@ value_exists "wg-last-peer" || set_value "wg-last-peer" "1"
 last_peer_number="$(get_value "wg-last-peer")"
 new_peer_number=$(("${last_peer_number}"+1))
 
+test "${new_peer_number}" -lt 255 || panic "Peer limit reached (254)."
+
 value_exists "wg-peer-config" || set_value "wg-peer-config" ""
-old_peer_config="$(get_value "wg-peer-config")"
+old_peer_server_config="$(get_value "wg-peer-config")"
 
 peer_private_key=$(wg genkey)
 peer_public_key=$(echo "${peer_private_key}" | wg pubkey)
 
-new_config=$(cat << EOF
-${old_peer_config}
+new_peer_server_config=$(cat << EOF
+${old_peer_server_config}
 
 [Peer]
 # ${ARG_DESCRIPTION}
@@ -94,6 +96,39 @@ AllowedIPs = ${WG_NETWORK_PART}.${new_peer_number}/32
 EOF
 )
 
-set_value "wg-peer-config" "${new_config}"
+set_value "wg-peer-config" "${new_peer_server_config}"
 set_value "wg-last-peer" "${new_peer_number}"
-echo "${new_config}"
+
+# Regenerate server config with new peer
+place_template "etc/wireguard/wg0.conf"
+
+# Now let's generate the new config for the new peer
+server_public_key="$(get_value "wg-public-key")"
+
+value_exists "external-ip" || set_value "external-ip" "$(curl -4 https://icanhazip.com/)"
+external_ip="$(get_value "external-ip")"
+
+new_peer_client_config=$(cat << EOF
+[Interface]
+PrivateKey = ${peer_private_key}
+Address = ${WG_NETWORK_PART}.${new_peer_number}/32
+ListenPort = 51820
+DNS = ${WG_NETWORK_PART}.1
+# MTU = 1370
+
+[Peer]
+PublicKey = ${server_public_key}
+Endpoint = ${external_ip}:${WG_SERVICE_PORT}
+AllowedIPs = 0.0.0.0/0, ::/0
+EOF
+)
+
+is_installed qrencode || install_package qrencode
+
+echo "${new_peer_client_config}" | qrencode --type utf8
+echo ""
+echo "${new_peer_client_config}"
+echo ""
+echo "You have two options:"
+echo "1. Use the above QR code to add a WireGuard tunnel to mobile devices."
+echo "2. Use the above text to add a WireGuard tunnel to non-mobile devices."
