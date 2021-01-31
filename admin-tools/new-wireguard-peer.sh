@@ -115,6 +115,7 @@ Address = ${WG_NETWORK_PART}.${new_peer_number}/32
 ListenPort = 51820
 DNS = ${WG_NETWORK_PART}.1
 # MTU = 1370
+# PersistentKeepalive = 25
 
 [Peer]
 PublicKey = ${server_public_key}
@@ -127,8 +128,12 @@ is_installed qrencode || install_package qrencode
 
 echo "${new_peer_client_config}" | qrencode --type utf8
 echo ""
+echo "-------------------------------------"
 echo "${new_peer_client_config}"
+echo "-------------------------------------"
 echo ""
 echo "You have two options:"
 echo "1. Use the above QR code to add a WireGuard tunnel to mobile devices."
 echo "2. Use the above text to add a WireGuard tunnel to non-mobile devices."
+
+systemctl restart wg-quick@wg0
