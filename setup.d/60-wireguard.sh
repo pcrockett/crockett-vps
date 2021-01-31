@@ -13,5 +13,8 @@ if value_not_exists "wg-private-key"; then
     set_value "wg-public-key" "${public_key}"
 
     place_template "etc/wireguard/wg0.conf"
+
+    sysctl --write net.ipv4.ip_forward=1 > /dev/null
+
     enable_and_start "wg-quick@wg0"
 fi
