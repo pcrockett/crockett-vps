@@ -26,9 +26,9 @@ add_port "3478/tcp"
 add_port "${TURN_MIN_PORT}-${TURN_MAX_PORT}/udp"
 
 # Disable unused services on public interface that come configured by default
-firewall-cmd --zone=public --remove-service dhcpv6-client
-firewall-cmd --zone=public --remove-service ssh
+firewall-cmd --zone=public --remove-service dhcpv6-client --permanent
+firewall-cmd --zone=public --remove-service ssh --permanent
 
-firewall-cmd --zone public --change-interface "${NET_PRIMARY_INTERFACE}"
+firewall-cmd --zone public --change-interface "${NET_PRIMARY_INTERFACE}" --permanent
 
 set_checkpoint "firewall-config"
