@@ -204,3 +204,13 @@ function create_user() {
     echo "${username}:${password}" | chpasswd
 }
 export create_user
+
+function enable_and_start() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Service name"
+    local service_name="${1}"
+    systemctl is-active "${service_name}" > /dev/null \
+        || systemctl start "${service_name}" > /dev/null
+    systemctl is-enabled "${service_name}" > /dev/null \
+        || systemctl enable "${service_name}" > /dev/null
+}
+export enable_and_start

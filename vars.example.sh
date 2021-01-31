@@ -53,3 +53,13 @@ export TURN_MIN_PORT
 
 readonly TURN_MAX_PORT=49200
 export TURN_MAX_PORT
+
+readonly NET_PRIMARY_INTERFACE="eth0"
+export NET_PRIMARY_INTERFACE
+
+readonly WG_SERVICE_PORT=40719
+export WG_SERVICE_PORT
+
+readonly WG_NETWORK_PART="10.17.32" # First 3 octets for WireGuard VPN network
+export WG_NETWORK_PART
+

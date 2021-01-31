@@ -1,16 +1,29 @@
 #!/usr/bin/env bash
 
+readonly CHECKPOINT_NGINX_RELOAD="nginx-reload"
+
+function nginx_reload_when_finished() {
+    unset_checkpoint "${CHECKPOINT_NGINX_RELOAD}" # Make sure we reload nginx at end of script
+}
+
+function nginx_reload_is_required() {
+    is_unset_checkpoint "${CHECKPOINT_NGINX_RELOAD}"
+}
+
+function nginx_reloaded() {
+    set_checkpoint "${CHECKPOINT_NGINX_RELOAD}"
+}
+
 is_installed nginx || install_package nginx
 is_installed certbot || install_package certbot
 
 if is_unset_checkpoint "${CHECKPOINT_NGINX_CONF}"; then
     place_template "etc/nginx/nginx.conf"
-    unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
+    nginx_reload_when_finished
     set_checkpoint "${CHECKPOINT_NGINX_CONF}"
 fi
 
-systemctl is-active nginx > /dev/null || systemctl start nginx > /dev/null
-systemctl is-enabled nginx > /dev/null || systemctl enable nginx > /dev/null
+enable_and_start nginx
 
 function need_tls_cert() {
     test "${#}" -eq 1 || panic "Expecting 1 argument: Domain name"
@@ -30,28 +43,28 @@ function get_tls_cert() {
 
 if need_tls_cert "${DOMAIN_MATRIX}"; then
     get_tls_cert "${DOMAIN_MATRIX}"
-    unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
+    nginx_reload_when_finished
 fi
 
 if need_tls_cert "${DOMAIN_ELEMENT}"; then
     get_tls_cert "${DOMAIN_ELEMENT}"
-    unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
+    nginx_reload_when_finished
 fi
 
 if need_tls_cert "${DOMAIN_PRIMARY}"; then
     get_tls_cert "${DOMAIN_PRIMARY}"
-    unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
+    nginx_reload_when_finished
 fi
 
 letsencrypt_ssl_options="/etc/letsencrypt/options-ssl-nginx.conf"
 if [ ! -f "${letsencrypt_ssl_options}" ]; then
     ssl_options_url="https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf"
     curl "${ssl_options_url}" > "${letsencrypt_ssl_options}"
-    unset_checkpoint "nginx-reload" # Make sure we reload nginx at end of script
+    nginx_reload_when_finished
 fi
 
-if is_unset_checkpoint "nginx-reload"; then
-    place_template "etc/nginx/nginx.conf" # Re-generate the nginx config now that we know Certbot is in place.
+if nginx_reload_is_required; then
+    place_template "etc/nginx/nginx.conf"
     nginx -s reload
-    set_checkpoint "nginx-reload"
+    nginx_reloaded
 fi
