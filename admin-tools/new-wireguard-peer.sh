@@ -18,9 +18,7 @@ is_root || panic "Must run this script as root."
 
 function show_usage() {
     printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}\n" >&2
-    printf "  -u, --username\tThe username\n" >&2
-    printf "  -p, --password\tThe password\n" >&2
-    printf "  -a, --admin\t\tAdmin user\n" >&2
+    printf "  -d, --description\tPeer description (for humans)\n" >&2
     printf "  -h, --help\t\tShow this help message then exit\n" >&2
 }
 
@@ -35,24 +33,13 @@ function parse_commandline() {
         local consume=1
 
         case "${1}" in
-            -u|--username)
+            -d|--description)
                 consume=2
                 if is_set "${2+x}"; then
-                    ARG_USERNAME="${2}"
+                    ARG_DESCRIPTION="${2}"
                 else
-                    panic "No username specified."
+                    panic "No description specified."
                 fi
-            ;;
-            -p|--password)
-                consume=2
-                if is_set "${2+x}"; then
-                    ARG_PASSWORD="${2}"
-                else
-                    panic "No password specified."
-                fi
-            ;;
-            -a|--admin)
-                ARG_ADMIN="true"
             ;;
             -h|-\?|--help)
                 ARG_HELP="true"
@@ -84,25 +71,29 @@ fi
 # shellcheck source=vars.sh
 . "${VARS_SCRIPT}"
 
-is_set "${ARG_USERNAME+x}" || panic "--username needs to be specified"
+is_set "${ARG_DESCRIPTION+x}" || panic "--description needs to be specified"
 
-function get_password() {
-    read -s -r -p "Enter ${ARG_USERNAME}'s password: " ARG_PASSWORD
-    echo ""
-}
+value_exists "wg-last-peer" || set_value "wg-last-peer" "1"
+last_peer_number="$(get_value "wg-last-peer")"
+new_peer_number=$(("${last_peer_number}"+1))
 
-is_set "${ARG_PASSWORD+x}" || get_password
+value_exists "wg-peer-config" || set_value "wg-peer-config" ""
+old_peer_config="$(get_value "wg-peer-config")"
 
-if is_set "${ARG_ADMIN+x}"; then
-    admin_param="--admin"
-else
-    admin_param="--no-admin"
-fi
+peer_private_key=$(wg genkey)
+peer_public_key=$(echo "${peer_private_key}" | wg pubkey)
 
-run_unprivileged synapse \
-    podman exec --interactive --tty synapse \
-        register_new_matrix_user http://localhost:8008 \
-        --user "${ARG_USERNAME}" \
-        --password "${ARG_PASSWORD}" \
-        "${admin_param}" \
-        --config /data/homeserver.yaml
+new_config=$(cat << EOF
+${old_peer_config}
+
+[Peer]
+# ${ARG_DESCRIPTION}
+PublicKey = ${peer_public_key}
+AllowedIPs = ${WG_NETWORK_PART}.${new_peer_number}/32
+
+EOF
+)
+
+set_value "wg-peer-config" "${new_config}"
+set_value "wg-last-peer" "${new_peer_number}"
+echo "${new_config}"
