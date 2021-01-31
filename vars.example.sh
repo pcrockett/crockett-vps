@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
 
+###############################################################################
+# Network config                                                              #
+###############################################################################
+
+readonly NET_PRIMARY_INTERFACE="eth0"
+export NET_PRIMARY_INTERFACE
+
+###############################################################################
+# SSH config                                                                  #
+###############################################################################
+
 readonly SSH_SERVICE_PORT=27980
 export SSH_SERVICE_PORT
 
@@ -9,8 +20,12 @@ export ROOT_SSH_KEY
 readonly UNPRIVILEGED_SSH_KEY="${ROOT_SSH_KEY}"
 export UNPRIVILEGED_SSH_KEY
 
-readonly ADMIN_EMAIL="admin@philcrockett.com"
-export ADMIN_EMAIL
+###############################################################################
+# Domain config                                                               #
+###############################################################################
+
+readonly LETSENCRYPT_ADMIN_EMAIL="admin@philcrockett.com"
+export LETSENCRYPT_ADMIN_EMAIL
 
 readonly DOMAIN_PRIMARY="crockett.network"
 export DOMAIN_PRIMARY
@@ -33,6 +48,10 @@ export DOMAIN_SOCIAL_LOCAL
 readonly DOMAIN_TURN="turn.${DOMAIN_PRIMARY}"
 export DOMAIN_TURN
 
+###############################################################################
+# Matrix SMTP config                                                          #
+###############################################################################
+
 readonly SMTP_SERVER="smtp.fastmail.com"
 export SMTP_SERVER
 
@@ -51,18 +70,22 @@ export SMTP_TLS
 readonly SMTP_FROM_ADDRESS="matrix@${DOMAIN_PRIMARY}"
 export SMTP_FROM_ADDRESS
 
+###############################################################################
+# TURN config                                                                 #
+###############################################################################
+
 readonly TURN_MIN_PORT=49160
 export TURN_MIN_PORT
 
 readonly TURN_MAX_PORT=49200
 export TURN_MAX_PORT
 
-readonly NET_PRIMARY_INTERFACE="eth0"
-export NET_PRIMARY_INTERFACE
+###############################################################################
+# WireGuard config                                                            #
+###############################################################################
 
 readonly WG_SERVICE_PORT=40719
 export WG_SERVICE_PORT
 
 readonly WG_NETWORK_PART="10.17.32" # First 3 octets for WireGuard VPN network
 export WG_NETWORK_PART
-

@@ -35,7 +35,7 @@ function get_tls_cert() {
     certbot certonly --webroot \
         --webroot-path /usr/share/nginx/html \
         --domain "${1}" \
-        --email "${ADMIN_EMAIL}" \
+        --email "${LETSENCRYPT_ADMIN_EMAIL}" \
         --rsa-key-size 4096 \
         --agree-tos \
         --no-eff-email
