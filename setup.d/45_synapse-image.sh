@@ -27,13 +27,13 @@ volume_raw_data=$(run_as_synapse podman volume inspect "${volume_name}")
 host_volume_dir=$(echo "${volume_raw_data}" | jq -r .[0].Mountpoint)
 
 if is_unset_checkpoint "${CHECKPOINT_MATRIX_CONF}"; then
-    place_template "tmp/homeserver.yaml"
+    place_template "home/synapse/homeserver.yaml"
 
     if run_as_synapse podman container exists "${container_name}"; then
         run_as_synapse podman container stop "${container_name}" > /dev/null
     fi
 
-    mv /tmp/homeserver.yaml "${host_volume_dir}"
+    mv /home/synapse/homeserver.yaml "${host_volume_dir}"
     chown "synapse:synapse" "${host_volume_dir}/homeserver.yaml"
 
     set_checkpoint "${CHECKPOINT_MATRIX_CONF}"
