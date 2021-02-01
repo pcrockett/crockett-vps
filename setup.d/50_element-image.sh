@@ -44,7 +44,7 @@ else
     run_as_element podman container create \
         --name "${container_name}" \
         --publish 8080:80 \
-        --volume "${host_config_file}:${container_config_file}" \
+        --volume "/${host_config_file}:${container_config_file}" \
         "${image_name}" > /dev/null
 
     start_container
