@@ -39,7 +39,7 @@ export MATRIX_SERVER_NAME
 readonly DOMAIN_ELEMENT="chat.${DOMAIN_PRIMARY}"
 export DOMAIN_ELEMENT
 
-readonly DOMAIN_JITSI="meet.${DOMAIN_PRIMARY}"
+readonly DOMAIN_JITSI="meet.jit.si"
 export DOMAIN_JITSI
 
 readonly DOMAIN_SOCIAL_LOCAL="social.${DOMAIN_PRIMARY}"

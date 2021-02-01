@@ -13,6 +13,9 @@ export CHECKPOINT_NGINX_CONF
 readonly CHECKPOINT_MATRIX_CONF="matrix-conf"
 export CHECKPOINT_MATRIX_CONF
 
+readonly CHECKPOINT_ELEMENT_CONF="element-conf"
+export CHECKPOINT_ELEMENT_CONF
+
 readonly VAL_TURN_SECRET="turn-secret"
 export VAL_TURN_SECRET
 

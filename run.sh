@@ -20,6 +20,7 @@ function show_usage() {
     printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}" >&2
     printf "  -n, --update-nginx\tUpdate Nginx configuration\n" >&2
     printf "  -m, --update-matrix\tUpdate Matrix configuration\n" >&2
+    printf "  -e, --update-element\tUpdate Element configuration\n" >&2
     printf "  -h, --help\t\tShow this help message then exit\n" >&2
 }
 
@@ -39,6 +40,9 @@ function parse_commandline() {
             ;;
             -m|--update-matrix)
                 ARG_UPDATE_MATRIX="true"
+            ;;
+            -e|--update-element)
+                ARG_UPDATE_ELEMENT="true"
             ;;
             -h|-\?|--help)
                 ARG_HELP="true"
@@ -65,6 +69,10 @@ fi
 
 if is_set "${ARG_UPDATE_MATRIX+x}"; then
     unset_checkpoint "${CHECKPOINT_MATRIX_CONF}"
+fi
+
+if is_set "${ARG_UPDATE_ELEMENT+x}"; then
+    unset_checkpoint "${CHECKPOINT_ELEMENT_CONF}"
 fi
 
 for dep in "${DEPENDENCIES[@]}"; do
