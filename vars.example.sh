@@ -21,17 +21,21 @@ readonly UNPRIVILEGED_SSH_KEY="${ROOT_SSH_KEY}"
 export UNPRIVILEGED_SSH_KEY
 
 ###############################################################################
-# Domain config                                                               #
+# Admin info                                                                  #
 ###############################################################################
 
 readonly LETSENCRYPT_ADMIN_EMAIL="admin@philcrockett.com"
 export LETSENCRYPT_ADMIN_EMAIL
 
+readonly MATRIX_ADMIN_USER="admin" # Will be created as the first Matrix user account
+export MATRIX_ADMIN_USER
+
+###############################################################################
+# Domain config                                                               #
+###############################################################################
+
 readonly DOMAIN_PRIMARY="crockett.network"
 export DOMAIN_PRIMARY
-
-readonly MATRIX_ADMIN_USER="admin"
-export MATRIX_ADMIN_USER
 
 readonly DOMAIN_MATRIX="matrix.${DOMAIN_PRIMARY}"
 export DOMAIN_MATRIX
