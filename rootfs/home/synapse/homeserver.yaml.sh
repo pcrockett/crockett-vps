@@ -1279,8 +1279,8 @@ account_threepid_delegates:
 # as a publicly joinable room when the first user registers for the
 # homeserver. This behaviour can be customised with the settings below.
 #
-#auto_join_rooms:
-#  - "#example:example.com"
+auto_join_rooms:
+  - "#general:${MATRIX_SERVER_NAME}"
 
 # Where auto_join_rooms are specified, setting this flag ensures that the
 # the rooms exist by creating them when the first user on the
@@ -1308,7 +1308,7 @@ account_threepid_delegates:
 # Uncomment the following to prevent users from other homeservers from
 # joining these rooms.
 #
-#autocreate_auto_join_rooms_federated: false
+autocreate_auto_join_rooms_federated: false
 
 # The room preset to use when auto-creating one of auto_join_rooms. Only has an
 # effect if autocreate_auto_join_rooms is true.
@@ -1321,7 +1321,7 @@ account_threepid_delegates:
 # federated servers if autocreate_auto_join_rooms_federated is true (the default).
 # Uncomment the following to require an invitation to join these rooms.
 #
-#autocreate_auto_join_room_preset: private_chat
+autocreate_auto_join_room_preset: private_chat
 
 # The local part of the user id which is used to create auto_join_rooms if
 # autocreate_auto_join_rooms is true. If this is not provided then the
@@ -1340,14 +1340,14 @@ account_threepid_delegates:
 # Note that, if the room already exists, this user must be joined and
 # have the appropriate permissions to invite new members.
 #
-#auto_join_mxid_localpart: system
+auto_join_mxid_localpart: "${MATRIX_ADMIN_USER}"
 
 # When auto_join_rooms is specified, setting this flag to false prevents
 # guest accounts from being automatically joined to the rooms.
 #
 # Defaults to true.
 #
-#auto_join_rooms_for_guests: false
+auto_join_rooms_for_guests: false
 
 
 ## Metrics ###

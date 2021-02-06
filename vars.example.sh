@@ -30,6 +30,9 @@ export LETSENCRYPT_ADMIN_EMAIL
 readonly DOMAIN_PRIMARY="crockett.network"
 export DOMAIN_PRIMARY
 
+readonly MATRIX_ADMIN_USER="admin"
+export MATRIX_ADMIN_USER
+
 readonly DOMAIN_MATRIX="matrix.${DOMAIN_PRIMARY}"
 export DOMAIN_MATRIX
 

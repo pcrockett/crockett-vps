@@ -54,3 +54,10 @@ else
 fi
 
 place_template "usr/share/nginx/html/.well-known/matrix/server"
+
+if is_unset_checkpoint "matrix-admin-user"; then
+
+    echo "Creating Matrix admin user..."
+    "${REPO_ROOT}/admin-tools/new-matrix-user.sh" --username "${MATRIX_ADMIN_USER}" --admin
+    set_checkpoint "matrix-admin-user"
+fi
