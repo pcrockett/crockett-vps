@@ -8,7 +8,7 @@ cat << EOF
             "server_name": "${MATRIX_SERVER_NAME}"
         },
         "m.identity_server": {
-            "base_url": "https://vector.im"
+            "base_url": "https://${DOMAIN_MATRIX_IDENTITY}"
         }
     },
     "disable_custom_urls": true,
