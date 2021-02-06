@@ -14,6 +14,12 @@ usermod --append --groups ssh-user root
 
 place_template "etc/ssh/sshd_config"
 
+firewall_add_port external "${SSH_SERVICE_PORT}/tcp"
+firewall_add_port vpn "${SSH_SERVICE_PORT}/tcp"
+
+# We are using a custom port for SSH, so let's remove the service that came configured by default
+run_firewall_cmd --zone external --remove-service ssh
+
 # Restart SSH server without killing the current connection
 kill -SIGHUP "$(pgrep -f "sshd -D")"
 

@@ -6,6 +6,11 @@ if [ -f "${WARNING_FILE}" ]; then
     rm "${WARNING_FILE}"
 fi
 
+if is_unset_checkpoint "${CHECKPOINT_FIREWALL_RELOAD}"; then
+    firewall-cmd --reload
+    set_checkpoint "${CHECKPOINT_FIREWALL_RELOAD}"
+fi
+
 if is_unset_checkpoint "initial-run-finished"; then
     echo "Done with initial setup."
     set_checkpoint "initial-run-finished"

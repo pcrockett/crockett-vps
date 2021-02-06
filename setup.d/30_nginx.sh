@@ -63,6 +63,17 @@ if [ ! -f "${letsencrypt_ssl_options}" ]; then
     nginx_reload_when_finished
 fi
 
+if is_unset_checkpoint "nginx-firewall-settings"; then
+
+    firewall_add_service external http
+    firewall_add_service external https
+    firewall_add_port external 8448/tcp # Matrix federation only necessary on external
+    firewall_add_service vpn http
+    firewall_add_service vpn https
+
+    set_checkpoint "nginx-firewall-settings"
+fi
+
 if nginx_reload_is_required; then
     place_template "etc/nginx/nginx.conf"
     nginx -s reload

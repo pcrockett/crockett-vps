@@ -2,6 +2,7 @@
 
 image_name="docker.io/instrumentisto/coturn:latest"
 container_name="coturn"
+turn_port=3478
 
 value_exists "external-ip" || set_value "external-ip" "$(curl -4 https://icanhazip.com/)"
 external_ip="$(get_value "external-ip")"
@@ -26,7 +27,7 @@ else
 
     run_as_turn podman container create \
         --name "${container_name}" \
-        --publish 3478:3478 \
+        --publish "${turn_port}:${turn_port}" \
         --publish "${TURN_MIN_PORT}-${TURN_MAX_PORT}:${TURN_MIN_PORT}-${TURN_MAX_PORT}/udp" \
         "${image_name}" \
         -n \
@@ -48,4 +49,14 @@ else
     # TODO: Add support for TLS?
 
     run_as_turn podman container start "${container_name}" > /dev/null
+fi
+
+if is_unset_checkpoint "turn-firewall-settings"; then
+
+    firewall_add_port external "${turn_port}/tcp"
+    firewall_add_port external "${TURN_MIN_PORT}-${TURN_MAX_PORT}/udp"
+    firewall_add_port vpn "${turn_port}/tcp"
+    firewall_add_port vpn "${TURN_MIN_PORT}-${TURN_MAX_PORT}/udp"
+
+    set_checkpoint "turn-firewall-settings"
 fi

@@ -36,7 +36,7 @@ It uses Podman instead of Docker to run unprivileged containers running as diffe
 
 ### TODO:
 
-* [ ] Jitsi
+* [x] Jitsi
 * [x] WireGuard VPN
 * [x] Firewall
 * [ ] Auto start on boot

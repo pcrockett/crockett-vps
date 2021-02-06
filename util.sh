@@ -16,6 +16,9 @@ export CHECKPOINT_MATRIX_CONF
 readonly CHECKPOINT_ELEMENT_CONF="element-conf"
 export CHECKPOINT_ELEMENT_CONF
 
+readonly CHECKPOINT_FIREWALL_RELOAD="firewall-reload"
+export CHECKPOINT_FIREWALL_RELOAD
+
 readonly VAL_TURN_SECRET="turn-secret"
 export VAL_TURN_SECRET
 
@@ -214,3 +217,24 @@ function enable_and_start() {
         || systemctl enable "${service_name}" > /dev/null
 }
 export enable_and_start
+
+function run_firewall_cmd() {
+    is_installed firewall-cmd || panic "firewalld not installed yet."
+    firewall-cmd --permanent "${@}" > /dev/null
+    unset_checkpoint "${CHECKPOINT_FIREWALL_RELOAD}"
+}
+export run_firewall_cmd
+
+function firewall_add_port() {
+    test "${#}" -eq 2 || panic "Expecting 2 arguments: Zone and port specification."
+    run_firewall_cmd --zone "${1}" --add-port "${2}"
+    unset_checkpoint "${CHECKPOINT_FIREWALL_RELOAD}"
+}
+export firewall_add_port
+
+function firewall_add_service() {
+    test "${#}" -eq 2 || panic "Expecting 2 arguments: Zone and service name."
+    run_firewall_cmd --zone "${1}" --add-service "${2}"
+    unset_checkpoint "${CHECKPOINT_FIREWALL_RELOAD}"
+}
+export firewall_add_service

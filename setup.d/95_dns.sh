@@ -11,4 +11,6 @@ systemctl restart systemd-resolved
 is_installed dnsmasq || install_package dnsmasq
 enable_and_start dnsmasq
 
+firewall_add_service vpn dns # We only want to run a DNS server for our WireGuard peers
+
 set_checkpoint "dns-settings"
