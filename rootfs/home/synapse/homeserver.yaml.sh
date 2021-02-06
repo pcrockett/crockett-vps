@@ -1222,7 +1222,7 @@ registration_shared_secret: "Iyqe.@hg@&wqm*I&DZL1K@w0dS&4YO^oLM00ae^panuwPKtHLb"
 #
 # (By default, no suggestion is made, so it is left up to the client.)
 #
-#default_identity_server: https://matrix.org
+default_identity_server: https://${DOMAIN_MATRIX_IDENTITY}
 
 # Handle threepid (email/phone etc) registration and password resets through a set of
 # *trusted* identity servers. Note that this allows the configured identity server to

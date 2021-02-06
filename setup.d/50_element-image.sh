@@ -40,7 +40,6 @@ if container_exists; then
     start_container
 else
 
-    # Now create the actual container where Dendrite will run
     run_as_element podman container create \
         --name "${container_name}" \
         --publish 8080:80 \

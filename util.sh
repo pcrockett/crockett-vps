@@ -32,6 +32,7 @@ readonly UNPRIVILEGED_USERS=(
     synapse
     element
     turn
+    sydent
 )
 export UNPRIVILEGED_USERS
 
