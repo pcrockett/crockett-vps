@@ -247,6 +247,15 @@ function enable_and_start() {
 }
 export enable_and_start
 
+function install_service() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Service name"
+    service_file="etc/systemd/system/${1}.service"
+    if [ ! -f "/${service_file}" ]; then
+        place_file "${service_file}"
+        systemctl daemon-reload
+    fi
+}
+
 function run_firewall_cmd() {
     is_installed firewall-cmd || panic "firewalld not installed yet."
     firewall-cmd --permanent "${@}" > /dev/null

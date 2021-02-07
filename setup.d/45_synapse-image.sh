@@ -39,11 +39,7 @@ if is_unset_checkpoint "${CHECKPOINT_MATRIX_CONF}"; then
     set_checkpoint "${CHECKPOINT_MATRIX_CONF}"
 fi
 
-service_file="etc/systemd/system/synapse.service"
-if [ ! -f "/${service_file}" ]; then
-    place_file "${service_file}"
-    systemctl daemon-reload
-fi
+install_service synapse
 
 if run_as_synapse podman container exists "${container_name}"; then
     enable_and_start synapse

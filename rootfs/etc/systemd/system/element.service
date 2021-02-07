@@ -1,0 +1,19 @@
+# Useful resources:
+#
+# * `man systemd.service`
+# * https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux_atomic_host/7/html/managing_containers/running_containers_as_systemd_services_with_podman
+#
+
+[Unit]
+Description=Element
+After=network.target
+
+[Service]
+Type=forking
+User=element
+ExecStart=/usr/bin/podman container start element
+ExecStop=/usr/bin/podman container stop element
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

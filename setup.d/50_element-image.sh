@@ -13,18 +13,10 @@ function container_exists() {
     run_as_element podman container exists "${container_name}"
 }
 
-function start_container() {
-    run_as_element podman container start "${container_name}" > /dev/null
-}
-
-function stop_container() {
-    run_as_element podman container stop "${container_name}" > /dev/null
-}
-
 if is_unset_checkpoint "${CHECKPOINT_ELEMENT_CONF}"; then
     # Element may already be running, but the user may be trying to change configuration
     if container_exists; then
-        stop_container
+        systemctl stop element
         rm "/${host_config_file}"
     fi
 fi
@@ -36,8 +28,10 @@ fi
 
 set_checkpoint "${CHECKPOINT_ELEMENT_CONF}"
 
+install_service element
+
 if container_exists; then
-    start_container
+    enable_and_start element
 else
 
     run_as_element podman container create \
@@ -46,5 +40,5 @@ else
         --volume "/${host_config_file}:${container_config_file}" \
         "${image_name}" > /dev/null
 
-    start_container
+    enable_and_start element
 fi
