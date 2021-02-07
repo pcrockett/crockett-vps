@@ -53,6 +53,7 @@ Pass a `--help` parameter to any of these commands to see how they are used.
 * [x] Firewall
 * [x] Auto start on boot
 * [ ] Auto updates
+* [ ] Backups (mainly Synapse)
 
 [1]: https://www.ssllabs.com/ssltest/
 [2]: https://github.com/matrix-org/synapse
