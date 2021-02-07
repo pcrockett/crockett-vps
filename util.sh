@@ -36,6 +36,8 @@ readonly UNPRIVILEGED_USERS=(
 )
 export UNPRIVILEGED_USERS
 
+readonly PACMAN_STDERR_FILE="${REPO_ROOT}/.pacman-stderr"
+
 function panic() {
     >&2 echo "Fatal: ${*}"
     exit 1
@@ -47,6 +49,23 @@ function is_installed() {
 }
 export is_installed
 
+function exec_pacman() {
+
+    # Run pacman, recording all stderr to a file. Then dump that file into
+    # warnings for the user to review when finished.
+
+    local result=0
+    if yes | pacman "${@}" 2> "${PACMAN_STDERR_FILE}"; then
+        result="${?}"
+    else
+        result="${?}"
+    fi
+
+    cat "${PACMAN_STDERR_FILE}" >> "${WARNING_FILE}"
+    rm "${PACMAN_STDERR_FILE}"
+    return "${result}"
+}
+
 function install_package() {
 
     test "${#}" -ge 1 || panic "Expecting at least 1 argument: Package name(s)"
@@ -57,9 +76,7 @@ function install_package() {
     # * pacman returns 1 for "error"
     #
 
-    warn_when_finished "Software was updated or installed. A reboot may be required."
-
-    if yes | pacman --sync --refresh --sysupgrade "${@}"; then
+    if yes | exec_pacman --sync --refresh --sysupgrade "${@}"; then
         true
     else
         test "${?}" -ne 1
