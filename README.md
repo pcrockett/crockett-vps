@@ -51,7 +51,7 @@ Pass a `--help` parameter to any of these commands to see how they are used.
 * [x] Jitsi
 * [x] WireGuard VPN
 * [x] Firewall
-* [ ] Auto start on boot
+* [x] Auto start on boot
 * [ ] Auto updates
 
 [1]: https://www.ssllabs.com/ssltest/
