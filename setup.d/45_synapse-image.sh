@@ -39,8 +39,14 @@ if is_unset_checkpoint "${CHECKPOINT_MATRIX_CONF}"; then
     set_checkpoint "${CHECKPOINT_MATRIX_CONF}"
 fi
 
+service_file="etc/systemd/system/synapse.service"
+if [ ! -f "/${service_file}" ]; then
+    place_file "${service_file}"
+    systemctl daemon-reload
+fi
+
 if run_as_synapse podman container exists "${container_name}"; then
-    run_as_synapse podman container start "${container_name}" > /dev/null
+    enable_and_start synapse
 else
 
     run_as_synapse podman container create \
@@ -49,7 +55,7 @@ else
         --volume "${volume}" \
         "${image_name}" > /dev/null
 
-    run_as_synapse podman container start "${container_name}" > /dev/null
+    enable_and_start synapse
 fi
 
 place_template "usr/share/nginx/html/.well-known/matrix/server"
