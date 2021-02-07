@@ -56,13 +56,24 @@ function exec_pacman() {
 
     local result=0
     if yes | pacman "${@}" 2> "${PACMAN_STDERR_FILE}"; then
-        result="${?}"
+        result=0 # All good
     else
-        result="${?}"
+        if [ "${?}" -eq 1 ]; then
+            result=1 # There was an error
+        else
+            result=0 # There was a non-zero exit code, but it wasn't an error
+        fi
     fi
 
-    cat "${PACMAN_STDERR_FILE}" >> "${WARNING_FILE}"
+    if [ "${result}" -eq 0 ]; then
+        cat "${PACMAN_STDERR_FILE}" >> "${WARNING_FILE}"
+    else
+        echo "pacman failure:"
+        cat "${PACMAN_STDERR_FILE}"
+    fi
+
     rm "${PACMAN_STDERR_FILE}"
+
     return "${result}"
 }
 
@@ -76,11 +87,7 @@ function install_package() {
     # * pacman returns 1 for "error"
     #
 
-    if yes | exec_pacman --sync --refresh --sysupgrade "${@}"; then
-        true
-    else
-        test "${?}" -ne 1
-    fi
+    exec_pacman --sync --refresh --sysupgrade "${@}"
 }
 export install_package
 
