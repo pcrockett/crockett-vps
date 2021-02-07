@@ -5,7 +5,8 @@ set -Eeuo pipefail
 [[ "${BASH_VERSINFO[0]}" -lt 5 ]] && echo "Bash >= 5 required" && exit 1
 
 readonly DEPENDENCIES=(sudo nano uniq)
-readonly ADMIN_TOOLS_DIR=$(dirname "$(readlink -f "${0}")")
+readonly FULL_SCRIPT_PATH="$(readlink -f "${0}")"
+readonly ADMIN_TOOLS_DIR=$(dirname "${FULL_SCRIPT_PATH}")
 readonly REPO_ROOT=$(dirname "${ADMIN_TOOLS_DIR}")
 readonly UTIL_SCRIPT="${REPO_ROOT}/util.sh"
 readonly VARS_SCRIPT="${REPO_ROOT}/vars.sh"
@@ -76,7 +77,7 @@ if is_set "${ARG_UPDATE_SELF+x}" && test "${ARG_UPDATE_SELF}" == "true"; then
     popd > /dev/null
 
     # Re-run this script with the latest changes
-    "${ADMIN_TOOLS_DIR}/${SCRIPT_NAME}" --no-update-self "${original_params[@]}"
+    "${FULL_SCRIPT_PATH}" --no-update-self "${original_params[@]}"
     exit "${?}"
 fi
 
