@@ -14,8 +14,10 @@ function run_as_turn() {
     run_unprivileged turn "${@}"
 }
 
+install_service coturn
+
 if run_as_turn podman container exists "${container_name}"; then
-    run_as_turn podman container start "${container_name}" > /dev/null
+    enable_and_start coturn
 else
 
     # Much guidance from:
@@ -48,7 +50,7 @@ else
 
     # TODO: Add support for TLS?
 
-    run_as_turn podman container start "${container_name}" > /dev/null
+    enable_and_start coturn
 fi
 
 if is_unset_checkpoint "turn-firewall-settings"; then

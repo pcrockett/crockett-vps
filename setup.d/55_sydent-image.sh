@@ -11,16 +11,10 @@ function container_exists() {
     run_as_sydent podman container exists "${container_name}"
 }
 
-function start_container() {
-    run_as_sydent podman container start "${container_name}" > /dev/null
-}
-
-function stop_container() {
-    run_as_sydent podman container stop "${container_name}" > /dev/null
-}
+install_service sydent
 
 if container_exists; then
-    start_container
+    enable_and_start sydent
 else
 
     run_as_sydent podman container create \
@@ -29,5 +23,5 @@ else
         --volume "sydent-data:/data" \
         "${image_name}" > /dev/null
 
-    start_container
+    enable_and_start sydent
 fi
