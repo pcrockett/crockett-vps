@@ -43,7 +43,6 @@ if run_as_synapse podman container exists "${container_name}"; then
     run_as_synapse podman container start "${container_name}" > /dev/null
 else
 
-    # Now create the actual container where Dendrite will run
     run_as_synapse podman container create \
         --name "${container_name}" \
         --publish 8008:8008 \
