@@ -38,7 +38,12 @@ function parse_commandline() {
 
         case "${1}" in
             -s|--update-self)
-                ARG_UPDATE_SELF="true"
+                is_set "${ARG_UPDATE_SELF+x}" || ARG_UPDATE_SELF="true"
+            ;;
+            --no-update-self)
+                # This is only used internally to cancel an "--update-self". It
+                # is used only when this script calls itself below.
+                ARG_UPDATE_SELF="false"
             ;;
             -n|--update-nginx)
                 ARG_UPDATE_NGINX="true"
@@ -62,17 +67,21 @@ function parse_commandline() {
     done
 }
 
+original_params=("${@}")
 parse_commandline "${@}"
 
-if is_set "${ARG_HELP+x}"; then
-    show_usage_and_exit
-fi
-
-if is_set "${ARG_UPDATE_SELF+x}"; then
+if is_set "${ARG_UPDATE_SELF+x}" && test "${ARG_UPDATE_SELF}" == "true"; then
     pushd "${REPO_ROOT}" > /dev/null
     git pull
     popd > /dev/null
-    exit 0
+
+    # Re-run this script with the latest changes
+    "${ADMIN_TOOLS_DIR}/${SCRIPT_NAME}" --no-update-self "${original_params[@]}"
+    exit "${?}"
+fi
+
+if is_set "${ARG_HELP+x}"; then
+    show_usage_and_exit
 fi
 
 if is_set "${ARG_UPDATE_NGINX+x}"; then
