@@ -19,6 +19,7 @@ is_root || panic "Must run this script as root."
 
 function show_usage() {
     printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}" >&2
+    printf "  -s, --update-self\tPull latest changes from Git remote\n" >&2
     printf "  -n, --update-nginx\tUpdate Nginx configuration\n" >&2
     printf "  -m, --update-matrix\tUpdate Matrix configuration\n" >&2
     printf "  -e, --update-element\tUpdate Element configuration\n" >&2
@@ -36,6 +37,9 @@ function parse_commandline() {
         local consume=1
 
         case "${1}" in
+            -s|--update-self)
+                ARG_UPDATE_SELF="true"
+            ;;
             -n|--update-nginx)
                 ARG_UPDATE_NGINX="true"
             ;;
@@ -62,6 +66,13 @@ parse_commandline "${@}"
 
 if is_set "${ARG_HELP+x}"; then
     show_usage_and_exit
+fi
+
+if is_set "${ARG_UPDATE_SELF+x}"; then
+    pushd "${REPO_ROOT}" > /dev/null
+    git pull
+    popd > /dev/null
+    exit 0
 fi
 
 if is_set "${ARG_UPDATE_NGINX+x}"; then

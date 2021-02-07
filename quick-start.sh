@@ -52,6 +52,7 @@ fi
 # signal it's been taken care of.
 mkdir ".checkpoints" > /dev/null
 touch ".checkpoints/initial-upgrade"
+git config pull.rebase false # Get rid of annoying "pull" warning
 
 ./run.sh
 
