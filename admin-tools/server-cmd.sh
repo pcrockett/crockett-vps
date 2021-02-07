@@ -86,7 +86,7 @@ if [ ! -f "${VARS_SCRIPT}" ]; then
     nano "${VARS_SCRIPT}"
 fi
 
-# shellcheck source=vars.sh
+# shellcheck source=vars.example.sh
 . "${VARS_SCRIPT}"
 
 readarray -d '' setup_scripts < <(find "${SETUP_DIR}" -maxdepth 1 -mindepth 1 -type f -name "*.sh" -print0 | sort --zero-terminated)

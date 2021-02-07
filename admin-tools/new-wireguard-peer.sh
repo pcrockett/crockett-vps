@@ -17,7 +17,7 @@ readonly SCRIPT_NAME=$(basename "${0}")
 is_root || panic "Must run this script as root."
 
 function show_usage() {
-    printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}\n" >&2
+    printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}" >&2
     printf "  -d, --description\tPeer description (for humans)\n" >&2
     printf "  -h, --help\t\tShow this help message then exit\n" >&2
 }
@@ -68,7 +68,7 @@ if [ ! -f "${VARS_SCRIPT}" ]; then
     panic "It looks like this server was never set up in the first place. Execute \"run.sh\" first."
 fi
 
-# shellcheck source=vars.sh
+# shellcheck source=vars.example.sh
 . "${VARS_SCRIPT}"
 
 is_set "${ARG_DESCRIPTION+x}" || panic "--description needs to be specified"
