@@ -24,6 +24,7 @@ function show_usage() {
     printf "  -n, --update-nginx\tUpdate Nginx configuration\n" >&2
     printf "  -m, --update-matrix\tUpdate Matrix configuration\n" >&2
     printf "  -e, --update-element\tUpdate Element configuration\n" >&2
+    printf "  -p, --pacman-update\tCheck pacman for updates\n" >&2
     printf "  -h, --help\t\tShow this help message then exit\n" >&2
 }
 
@@ -54,6 +55,9 @@ function parse_commandline() {
             ;;
             -e|--update-element)
                 ARG_UPDATE_ELEMENT="true"
+            ;;
+            -p|--pacman-update)
+                ARG_PACMAN_UPDATE="true"
             ;;
             -h|-\?|--help)
                 ARG_HELP="true"
@@ -95,6 +99,10 @@ fi
 
 if is_set "${ARG_UPDATE_ELEMENT+x}"; then
     unset_checkpoint "${CHECKPOINT_ELEMENT_CONF}"
+fi
+
+if is_set "${ARG_PACMAN_UPDATE+x}"; then
+    unset_checkpoint "${CHECKPOINT_SYSUPGRADE}"
 fi
 
 for dep in "${DEPENDENCIES[@]}"; do

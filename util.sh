@@ -19,6 +19,9 @@ export CHECKPOINT_ELEMENT_CONF
 readonly CHECKPOINT_FIREWALL_RELOAD="firewall-reload"
 export CHECKPOINT_FIREWALL_RELOAD
 
+readonly CHECKPOINT_SYSUPGRADE="sysupgrade"
+export CHECKPOINT_SYSUPGRADE
+
 readonly VAL_TURN_SECRET="turn-secret"
 export VAL_TURN_SECRET
 
@@ -76,6 +79,7 @@ function exec_pacman() {
 
     return "${result}"
 }
+export exec_pacman
 
 function install_package() {
 
