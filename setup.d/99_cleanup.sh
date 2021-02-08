@@ -21,7 +21,7 @@ set_checkpoint "${CHECKPOINT_CONTAINER_UPDATE}"
 
 if is_unset_checkpoint "${CHECKPOINT_PACDIFF}"; then
     pacdiff_list="$(pacdiff --output)"
-    file_count="$(echo "${pacdiff_list}" | wc --lines)"
+    file_count="$(printf "%s" "${pacdiff_list}" | wc --lines)"
     if [ "${file_count}" -eq 0 ]; then
         set_checkpoint "${CHECKPOINT_PACDIFF}"
     else
