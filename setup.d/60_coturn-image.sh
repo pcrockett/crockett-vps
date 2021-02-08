@@ -22,6 +22,7 @@ install_service coturn
 
 if is_unset_checkpoint "${CHECKPOINT_CONTAINER_UPDATE}" && container_exists; then
 
+    run_as_turn podman pull "${image_name}"
     stop_service coturn
     run_as_turn podman container rm "${container_name}" # We will re-create it below
 

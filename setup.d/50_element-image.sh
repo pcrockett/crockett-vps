@@ -32,6 +32,7 @@ install_service element
 
 if is_unset_checkpoint "${CHECKPOINT_CONTAINER_UPDATE}" && container_exists; then
 
+    run_as_element podman pull "${image_name}"
     stop_service element
     run_as_element podman container rm "${container_name}" # We will re-create it below
 

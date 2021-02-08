@@ -48,6 +48,7 @@ install_service synapse
 
 if is_unset_checkpoint "${CHECKPOINT_CONTAINER_UPDATE}" && container_exists; then
 
+    run_as_synapse podman pull "${image_name}"
     stop_service synapse
     run_as_synapse podman container rm "${container_name}" # We will re-create it below
 
