@@ -25,6 +25,9 @@ export CHECKPOINT_SYSUPGRADE
 readonly CHECKPOINT_CONTAINER_UPDATE="container-update"
 export CHECKPOINT_CONTAINER_UPDATE
 
+readonly CHECKPOINT_PACDIFF="pacdiff"
+export CHECKPOINT_PACDIFF
+
 readonly VAL_TURN_SECRET="turn-secret"
 export VAL_TURN_SECRET
 
@@ -41,8 +44,6 @@ readonly UNPRIVILEGED_USERS=(
     sydent
 )
 export UNPRIVILEGED_USERS
-
-readonly PACMAN_STDERR_FILE="${REPO_ROOT}/.pacman-stderr"
 
 function panic() {
     >&2 echo "Fatal: ${*}"
@@ -61,7 +62,7 @@ function exec_pacman() {
     # warnings for the user to review when finished.
 
     local result=0
-    if yes | pacman "${@}" 2> "${PACMAN_STDERR_FILE}"; then
+    if yes | pacman "${@}"; then
         result=0 # All good
     else
         if [ "${?}" -eq 1 ]; then
@@ -72,13 +73,8 @@ function exec_pacman() {
     fi
 
     if [ "${result}" -eq 0 ]; then
-        cat "${PACMAN_STDERR_FILE}" >> "${WARNING_FILE}"
-    else
-        echo "pacman failure:"
-        cat "${PACMAN_STDERR_FILE}"
+        unset_checkpoint "${CHECKPOINT_PACDIFF}"
     fi
-
-    rm "${PACMAN_STDERR_FILE}"
 
     return "${result}"
 }

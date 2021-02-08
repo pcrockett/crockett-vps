@@ -18,3 +18,13 @@ fi
 
 # Prevent containers from being updated on EVERY invocation of server-cmd
 set_checkpoint "${CHECKPOINT_CONTAINER_UPDATE}"
+
+if is_unset_checkpoint "${CHECKPOINT_PACDIFF}"; then
+    pacdiff_list="$(pacdiff --output)"
+    file_count="$(echo "${pacdiff_list}" | wc --lines)"
+    if [ "${file_count}" -eq 0 ]; then
+        set_checkpoint "${CHECKPOINT_PACDIFF}"
+    else
+        printf "pacman generated some files that you should probably review:\n\n%s\n" "${pacdiff_list}"
+    fi
+fi
