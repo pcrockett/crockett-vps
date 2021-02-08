@@ -2,11 +2,13 @@
 
 This repo contains scripts to automatically provision my own personal cloud service on an Arch VPS. It's one part documentation for myself, one part experimentation, one part learning project, and one part fun.
 
+Of course this is Arch, so be prepared to do some manual admin and reboots. However most of the software is installed in the form of unprivileged containers, which should reduce how much you need to manage updates etc.
+
 ### Features
 
 As of 2021-02-07, this repo will automatically set up:
 
-* HTTPS-enabled Nginx reverse proxy with an A+ rating according to the [Qualys SSL Labs test][1].
+* HTTPS-enabled Nginx reverse proxy with a [Qualys SSL Labs test][1] A+ rating.
 * [Synapse][2] (Matrix homeserver)
 * [Element][3] (web-based Matrix client)
 * [Coturn][4] (for VoIP calls in Matrix)

@@ -20,12 +20,13 @@ is_root || panic "Must run this script as root."
 
 function show_usage() {
     printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}" >&2
-    printf "  -s, --update-self\tPull latest changes from Git remote\n" >&2
-    printf "  -n, --update-nginx\tUpdate Nginx configuration\n" >&2
-    printf "  -m, --update-matrix\tUpdate Matrix configuration\n" >&2
-    printf "  -e, --update-element\tUpdate Element configuration\n" >&2
-    printf "  -p, --pacman-update\tCheck pacman for updates\n" >&2
-    printf "  -h, --help\t\tShow this help message then exit\n" >&2
+    printf "  -s, --update-self\t\tPull latest changes from Git remote\n" >&2
+    printf "  -n, --nginx-config\t\tUpdate Nginx configuration\n" >&2
+    printf "  -m, --matrix-config\t\tUpdate Matrix configuration\n" >&2
+    printf "  -e, --element-config\t\tUpdate Element configuration\n" >&2
+    printf "  -p, --pacman-update\t\tCheck pacman for updates\n" >&2
+    printf "  -c, --container-update\tUpdate all containers\n" >&2
+    printf "  -h, --help\t\t\tShow this help message then exit\n" >&2
 }
 
 function show_usage_and_exit() {
@@ -47,17 +48,20 @@ function parse_commandline() {
                 # is used only when this script calls itself below.
                 ARG_UPDATE_SELF="false"
             ;;
-            -n|--update-nginx)
+            -n|--nginx-config)
                 ARG_UPDATE_NGINX="true"
             ;;
-            -m|--update-matrix)
+            -m|--matrix-config)
                 ARG_UPDATE_MATRIX="true"
             ;;
-            -e|--update-element)
+            -e|--element-config)
                 ARG_UPDATE_ELEMENT="true"
             ;;
             -p|--pacman-update)
                 ARG_PACMAN_UPDATE="true"
+            ;;
+            -c|--container-update)
+                ARG_CONTAINER_UPDATE="true"
             ;;
             -h|-\?|--help)
                 ARG_HELP="true"
@@ -103,6 +107,10 @@ fi
 
 if is_set "${ARG_PACMAN_UPDATE+x}"; then
     unset_checkpoint "${CHECKPOINT_SYSUPGRADE}"
+fi
+
+if is_set "${ARG_CONTAINER_UPDATE+x}"; then
+    unset_checkpoint "${CHECKPOINT_CONTAINER_UPDATE}"
 fi
 
 for dep in "${DEPENDENCIES[@]}"; do

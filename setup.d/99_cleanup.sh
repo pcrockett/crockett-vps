@@ -15,3 +15,6 @@ if is_unset_checkpoint "initial-run-finished"; then
     echo "Done with initial setup."
     set_checkpoint "initial-run-finished"
 fi
+
+# Prevent containers from being updated on EVERY invocation of server-cmd
+set_checkpoint "${CHECKPOINT_CONTAINER_UPDATE}"

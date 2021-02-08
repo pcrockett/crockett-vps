@@ -13,6 +13,14 @@ function container_exists() {
 
 install_service sydent
 
+if is_unset_checkpoint "${CHECKPOINT_CONTAINER_UPDATE}" && container_exists; then
+
+    stop_service sydent
+    run_as_synapse podman container rm "${container_name}" # We will re-create it below
+
+    # Intentionally not setting the "update" checkpoint. That happens at the end of the whole process.
+fi
+
 if container_exists; then
     enable_and_start sydent
 else

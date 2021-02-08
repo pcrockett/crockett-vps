@@ -16,7 +16,7 @@ function container_exists() {
 if is_unset_checkpoint "${CHECKPOINT_ELEMENT_CONF}"; then
     # Element may already be running, but the user may be trying to change configuration
     if container_exists; then
-        systemctl stop element
+        stop_service element
         rm "/${host_config_file}"
     fi
 fi
@@ -29,6 +29,14 @@ fi
 set_checkpoint "${CHECKPOINT_ELEMENT_CONF}"
 
 install_service element
+
+if is_unset_checkpoint "${CHECKPOINT_CONTAINER_UPDATE}" && container_exists; then
+
+    stop_service element
+    run_as_element podman container rm "${container_name}" # We will re-create it below
+
+    # Intentionally not setting the "update" checkpoint. That happens at the end of the whole process.
+fi
 
 if container_exists; then
     enable_and_start element

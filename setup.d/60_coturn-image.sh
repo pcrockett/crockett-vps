@@ -14,9 +14,21 @@ function run_as_turn() {
     run_unprivileged turn "${@}"
 }
 
+function container_exists() {
+    run_as_turn podman container exists "${container_name}"
+}
+
 install_service coturn
 
-if run_as_turn podman container exists "${container_name}"; then
+if is_unset_checkpoint "${CHECKPOINT_CONTAINER_UPDATE}" && container_exists; then
+
+    stop_service coturn
+    run_as_turn podman container rm "${container_name}" # We will re-create it below
+
+    # Intentionally not setting the "update" checkpoint. That happens at the end of the whole process.
+fi
+
+if container_exists; then
     enable_and_start coturn
 else
 

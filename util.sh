@@ -22,6 +22,9 @@ export CHECKPOINT_FIREWALL_RELOAD
 readonly CHECKPOINT_SYSUPGRADE="sysupgrade"
 export CHECKPOINT_SYSUPGRADE
 
+readonly CHECKPOINT_CONTAINER_UPDATE="container-update"
+export CHECKPOINT_CONTAINER_UPDATE
+
 readonly VAL_TURN_SECRET="turn-secret"
 export VAL_TURN_SECRET
 
@@ -255,6 +258,16 @@ function install_service() {
         systemctl daemon-reload
     fi
 }
+export install_service
+
+function stop_service() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Service name"
+    local service_name="${1}"
+    if systemctl is-active "${service_name}" > /dev/null; then
+        systemctl stop "${service_name}" > /dev/null
+    fi
+}
+export stop_service
 
 function run_firewall_cmd() {
     is_installed firewall-cmd || panic "firewalld not installed yet."
