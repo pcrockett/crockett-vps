@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
-if [ -f "${WARNING_FILE}" ]; then
-    echo "Warnings generated:"
-    sort "${WARNING_FILE}" | uniq
-    rm "${WARNING_FILE}"
-fi
-
 if is_unset_checkpoint "${CHECKPOINT_FIREWALL_RELOAD}"; then
     firewall-cmd --reload
     set_checkpoint "${CHECKPOINT_FIREWALL_RELOAD}"

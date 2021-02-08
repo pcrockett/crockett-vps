@@ -1,5 +1,3 @@
 /.checkpoints/
 /.values/
 /vars.sh
-.pending-warnings
-.pacman-stderr

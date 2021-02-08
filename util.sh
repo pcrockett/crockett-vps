@@ -4,9 +4,6 @@ set -Eeuo pipefail
 
 [[ "${BASH_VERSINFO[0]}" -lt 5 ]] && echo "Bash >= 5 required" && exit 1
 
-readonly WARNING_FILE="${REPO_ROOT}/.pending-warnings"
-export WARNING_FILE
-
 readonly CHECKPOINT_NGINX_CONF="nginx-conf"
 export CHECKPOINT_NGINX_CONF
 
@@ -200,12 +197,6 @@ function place_template() {
     . "${template_src}" > "${dest_path}"
 }
 export place_template
-
-function warn_when_finished() {
-    test "${#}" -eq 1 || panic "Expecting 1 argument: Warning message"
-    echo "${1}" >> "${WARNING_FILE}"
-}
-export warn_when_finished
 
 function run_unprivileged() {
     test "${#}" -ge 2 || panic "Expecting at least 2 arguments: Username and command to run"
