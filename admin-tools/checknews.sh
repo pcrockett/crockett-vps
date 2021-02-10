@@ -16,8 +16,8 @@ readonly VAL_LAST_PUB_DATE="last-news-pub-date"
 
 function show_usage() {
     printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}" >&2
-    printf "  -r, --mark-read\t\tMark the latest article as \"read\"\n" >&2
-    printf "  -h, --help\t\t\tShow this help message then exit\n" >&2
+    printf "  -r, --mark-read\tMark the latest article as \"read\"\n" >&2
+    printf "  -h, --help\t\tShow this help message then exit\n" >&2
 }
 
 function parse_commandline() {
