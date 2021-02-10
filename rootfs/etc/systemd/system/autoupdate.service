@@ -1,0 +1,11 @@
+# Useful resources:
+#
+# * `man systemd.service`
+#
+
+[Unit]
+Description=Install updates and reboot
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/autoupdate

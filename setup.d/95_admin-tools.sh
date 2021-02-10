@@ -10,4 +10,5 @@ function put_admin_tool() {
 is_installed new-matrix-user || put_admin_tool new-matrix-user
 is_installed new-wireguard-peer || put_admin_tool new-wireguard-peer
 is_installed checknews || put_admin_tool checknews
+is_installed autoupdate || put_admin_tool autoupdate
 is_installed server-cmd || put_admin_tool server-cmd

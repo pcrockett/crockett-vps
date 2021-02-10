@@ -1,0 +1,12 @@
+# Helpful resource:
+# https://wiki.archlinux.org/index.php/Systemd/Timers
+
+[Unit]
+Description=Install updates and reboot
+
+[Timer]
+OnCalendar=Tue *-*-* 5:00:00
+# Every Tuesday at 5 AM UTC
+
+[Install]
+WantedBy=timers.target
