@@ -130,5 +130,5 @@ readarray -d '' setup_scripts < <(find "${SETUP_DIR}" -maxdepth 1 -mindepth 1 -t
 for setup_script in "${setup_scripts[@]}"
 do
     # shellcheck source=/dev/null
-    . "${setup_script}"
+    (. "${setup_script}") # Use subshells so each individual script doesn't pollute our environment
 done

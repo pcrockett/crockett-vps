@@ -20,5 +20,6 @@ if is_unset_checkpoint "${CHECKPOINT_PACDIFF}"; then
         set_checkpoint "${CHECKPOINT_PACDIFF}"
     else
         printf "pacman generated some files that you should probably review:\n\n%s\n" "${pacdiff_list}"
+        exit 1
     fi
 fi
