@@ -54,8 +54,13 @@ Pass a `--help` parameter to any of these commands to see how they are used.
 * [x] WireGuard VPN
 * [x] Firewall
 * [x] Auto start on boot
-* [ ] Auto updates
-* [ ] Backups (mainly Synapse)
+* [ ] Semi-auto updates (Arch servers require manual intervention)
+* [ ] Postgres container
+* [ ] Auto backups
+* [ ] Refactor to a Yunohost-like package system?
+* [ ] Matterbridge
+* [ ] Signal bridge?
+* [ ] docker-mailserver or Mailcow?
 
 [1]: https://www.ssllabs.com/ssltest/
 [2]: https://github.com/matrix-org/synapse
