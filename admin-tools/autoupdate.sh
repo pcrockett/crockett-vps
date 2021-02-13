@@ -54,6 +54,9 @@ for dep in "${DEPENDENCIES[@]}"; do
 done
 
 function do_update() {
+    # Do container and pacman updates separately. Leaving the riskier pacman
+    # update for the end seems more safe.
+    /usr/local/bin/server-cmd --container-update 2>&1
     /usr/local/bin/server-cmd --pacman-update 2>&1
 }
 
