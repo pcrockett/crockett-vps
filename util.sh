@@ -289,3 +289,16 @@ function firewall_add_service() {
     unset_checkpoint "${CHECKPOINT_FIREWALL_RELOAD}"
 }
 export firewall_add_service
+
+function send_admin_email() {
+    # Example usage:
+    #
+    # send_admin_email <<EOF
+    # Subject: Demo
+    # This is the body of the email
+    # EOF
+    #
+
+    msmtp --account default "${GENERAL_ADMIN_EMAIL}"
+}
+export send_admin_email

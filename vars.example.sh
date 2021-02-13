@@ -24,7 +24,10 @@ export UNPRIVILEGED_SSH_KEY
 # Admin info                                                                  #
 ###############################################################################
 
-readonly LETSENCRYPT_ADMIN_EMAIL="admin@philcrockett.com"
+readonly GENERAL_ADMIN_EMAIL="admin@philcrockett.com"
+export GENERAL_ADMIN_EMAIL
+
+readonly LETSENCRYPT_ADMIN_EMAIL="${GENERAL_ADMIN_EMAIL}"
 export LETSENCRYPT_ADMIN_EMAIL
 
 readonly MATRIX_ADMIN_USER="admin" # Will be created as the first Matrix user account
