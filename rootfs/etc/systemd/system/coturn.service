@@ -6,9 +6,11 @@
 
 [Unit]
 Description=Coturn
-After=network.target
+Wants=network.target
+After=network-online.target
 
 [Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
 Type=forking
 User=turn
 ExecStart=/usr/bin/podman container start coturn
@@ -16,4 +18,4 @@ ExecStop=/usr/bin/podman container stop coturn
 Restart=always
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=multi-user.target default.target
