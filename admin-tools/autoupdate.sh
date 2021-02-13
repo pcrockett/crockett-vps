@@ -53,8 +53,13 @@ for dep in "${DEPENDENCIES[@]}"; do
     is_installed "${dep}" || panic "Missing '${dep}'"
 done
 
-if /usr/local/bin/server-cmd --pacman-update; then
-    echo "TODO: Email output to administrator, ping monitoring service, and reboot"
+function do_update() {
+    /usr/local/bin/server-cmd --pacman-update 2>&1
+}
+
+if pacman_results="$(do_update)"; then
+    echo "${pacman_results}" | send_admin_email "Auto-Update Success"
+    echo "TODO: Ping monitoring service and reboot"
 else
-    echo "TODO: Email output to administrator"
+    echo "${pacman_results}" | send_admin_email "Auto-Update Failure"
 fi

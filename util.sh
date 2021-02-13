@@ -293,12 +293,13 @@ export firewall_add_service
 function send_admin_email() {
     # Example usage:
     #
-    # send_admin_email <<EOF
-    # Subject: Demo
-    # This is the body of the email
-    # EOF
+    # echo "This is the body of the email" | send_admin_email "Test Subject"
     #
 
-    msmtp --account default "${GENERAL_ADMIN_EMAIL}"
+    read -r email_body
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Email subject."
+
+    printf "Subject: [%s] %s\n%s" "${DOMAIN_PRIMARY}" "${1}" "${email_body}" \
+        | msmtp --account default "${GENERAL_ADMIN_EMAIL}"
 }
 export send_admin_email
