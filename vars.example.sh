@@ -59,7 +59,7 @@ readonly DOMAIN_TURN="turn.${DOMAIN_PRIMARY}"
 export DOMAIN_TURN
 
 ###############################################################################
-# Matrix SMTP config                                                          #
+# SMTP config                                                                 #
 ###############################################################################
 
 readonly SMTP_SERVER="smtp.fastmail.com"
@@ -77,8 +77,11 @@ export SMTP_PASSWORD
 readonly SMTP_TLS="true"
 export SMTP_TLS
 
-readonly SMTP_FROM_ADDRESS="matrix@${DOMAIN_PRIMARY}"
-export SMTP_FROM_ADDRESS
+readonly MATRIX_EMAIL_FROM="matrix@${DOMAIN_PRIMARY}"
+export MATRIX_EMAIL_FROM
+
+readonly ADMIN_EMAIL_FROM="root@${DOMAIN_PRIMARY}"
+export ADMIN_EMAIL_FROM
 
 ###############################################################################
 # TURN config                                                                 #

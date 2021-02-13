@@ -2144,7 +2144,7 @@ email:
   # Note that the placeholder must be written '%(app)s', including the
   # trailing 's'.
   #
-  notif_from: "Matrix Homeserver <${SMTP_FROM_ADDRESS}>"
+  notif_from: "Matrix Homeserver <${MATRIX_EMAIL_FROM}>"
 
   # app_name defines the default value for '%(app)s' in notif_from and email
   # subjects. It defaults to 'Matrix'.
