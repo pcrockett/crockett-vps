@@ -54,7 +54,7 @@ Pass a `--help` parameter to any of these commands to see how they are used.
 * [x] WireGuard VPN
 * [x] Firewall
 * [x] Auto start on boot
-* [ ] Semi-auto updates (Arch servers require manual intervention)
+* [x] Semi-auto updates (Arch servers require manual intervention)
 * [ ] Postgres container
 * [ ] Auto backups
 * [ ] Refactor to a Yunohost-like package system?
