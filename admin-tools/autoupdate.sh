@@ -70,9 +70,13 @@ function do_check() {
     fi
 
     if /usr/bin/checkupdates; then
-        updates_result=0 # No new updates
+        updates_result=1 # Updates are available
     else
-        updates_result=1 # We have pending updates
+        if [ "${updates_result}" -eq 2 ]; then
+            updates_result=0 # No new updates are available, nothing to do
+        else
+            updates_result=1 # We have some other kind of error
+        fi
     fi
 
     if [ "${news_result}" -eq 1 ] || [ "${updates_result}" -eq 1 ]; then
