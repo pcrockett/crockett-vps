@@ -105,3 +105,15 @@ export WG_SERVICE_PORT
 
 readonly WG_NETWORK_PART="10.17.32" # First 3 octets for WireGuard VPN network
 export WG_NETWORK_PART
+
+###############################################################################
+# Health check config                                                         #
+###############################################################################
+
+# My preferred monitoring service is https://healthchecks.io, but others like
+# https://cronitor.io will work as well
+readonly HEALTHCHECK_AUTOUPDATE_URL="https://hc-ping.com/SOME_ID"
+export HEALTHCHECK_AUTOUPDATE_URL
+
+readonly HEALTHCHECK_AUTOUPDATE_START_URL="${HEALTHCHECK_AUTOUPDATE_URL}/start"
+export HEALTHCHECK_AUTOUPDATE_START_URL

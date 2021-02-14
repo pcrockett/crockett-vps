@@ -53,16 +53,29 @@ for dep in "${DEPENDENCIES[@]}"; do
     is_installed "${dep}" || panic "Missing '${dep}'"
 done
 
+function ping_url() {
+    test "${#}" -eq 1 || panic "Expecting 1 parameter: URL to ping"
+    curl --proto '=https' --tlsv1.2 \
+        --silent \
+        --show-error \
+        --fail \
+        "${1}" 2>&1 || true
+}
+
 function do_update() {
+
     # Do container and pacman updates separately. Leaving the riskier pacman
     # update for the end seems more safe.
     /usr/local/bin/server-cmd --container-update 2>&1
     /usr/local/bin/server-cmd --pacman-update 2>&1
 }
 
+ping_url "${HEALTHCHECK_AUTOUPDATE_START_URL}"
+
 if pacman_results="$(do_update)"; then
     echo "${pacman_results}" | send_admin_email "Auto-Update Success"
-    echo "TODO: Ping monitoring service and reboot"
+    ping_url "${HEALTHCHECK_AUTOUPDATE_URL}"
+    systemctl reboot
 else
-    echo "${pacman_results}" | send_admin_email "Auto-Update Failure"
+    echo "${pacman_results}" | send_admin_email "Auto-Update Attention Required"
 fi
