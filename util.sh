@@ -256,7 +256,7 @@ function stop_service() {
 }
 export stop_service
 
-function install_and_enable_timer() {
+function install_and_start_timer() {
     test "${#}" -eq 1 || panic "Expecting 1 argument: Timer name"
     timer_file="etc/systemd/system/${1}.timer"
     service_file="etc/systemd/system/${1}.service"
@@ -265,9 +265,10 @@ function install_and_enable_timer() {
         place_file "${timer_file}"
         systemctl daemon-reload
         systemctl enable "${1}.timer"
+        systemctl start "${1}.timer"
     fi
 }
-export install_and_enable_timer
+export install_and_start_timer
 
 function run_firewall_cmd() {
     is_installed firewall-cmd || panic "firewalld not installed yet."
