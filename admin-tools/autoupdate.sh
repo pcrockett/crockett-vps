@@ -19,6 +19,7 @@ readonly SCRIPT_NAME=$(basename "${0}")
 
 function show_usage() {
     printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}" >&2
+    printf "  -c, --check\t\tCheck for updates without installing\n" >&2
     printf "  -h, --help\t\tShow this help message then exit\n" >&2
 }
 
@@ -28,6 +29,9 @@ function parse_commandline() {
         local consume=1
 
         case "${1}" in
+            -c|--check)
+                ARG_CHECK="true"
+            ;;
             -h|-\?|--help)
                 ARG_HELP="true"
             ;;
@@ -52,6 +56,43 @@ fi
 for dep in "${DEPENDENCIES[@]}"; do
     is_installed "${dep}" || panic "Missing '${dep}'"
 done
+
+function do_check() {
+
+    # Exits with code 1 if we need to send an email to the admin
+    # Exits with code 0 if no action is needed.
+    # Save all output from this function and send it to the admin
+
+    if /user/local/bin/checknews; then
+        news_result=1 # New articles published.
+    else
+        news_result=0 # No new articles
+    fi
+
+    if /usr/bin/checkupdates; then
+        updates_result=0 # No new updates
+    else
+        updates_result=1 # We have pending updates
+    fi
+
+    if [ "${news_result}" -eq 1 ] || [ "${updates_result}" -eq 1 ]; then
+        return 1
+    else
+        return 0
+    fi
+
+}
+
+if is_set "${ARG_CHECK+x}"; then
+    if email_body="$(do_check 2>&1)"; then
+        echo "No unread Arch news articles and no pending updates."
+    else
+        echo "${email_body}" | send_admin_email "Prepare for Auto-Update"
+        echo "Email sent to administrator."
+    fi
+
+    exit 0
+fi
 
 function ping_url() {
     test "${#}" -eq 1 || panic "Expecting 1 parameter: URL to ping"

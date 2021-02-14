@@ -69,8 +69,9 @@ fi
 
 if [ "${latest_pub_date}" != "${last_pub_date}" ]; then
     echo "New Arch news article published. See https://archlinux.org/news/ for details."
+    echo "To proceed with updates, run \`${SCRIPT_NAME} --mark-read\`"
     exit 0
 else
-    echo "No new articles."
+    echo "No unread Arch news articles."
     exit 1
 fi
