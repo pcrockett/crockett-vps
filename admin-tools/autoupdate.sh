@@ -67,9 +67,9 @@ function do_check() {
     local no_action_needed=0
 
     if /user/local/bin/checknews; then
-        news_result="${send_email}" # New articles published.
-    else
         news_result="${no_action_needed}" # No new articles
+    else
+        news_result="${send_email}" # New articles published
     fi
 
     if /usr/bin/checkupdates; then
