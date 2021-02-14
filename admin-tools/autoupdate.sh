@@ -76,7 +76,7 @@ function do_check() {
     if /usr/bin/checkupdates; then
         updates_result="${send_email}" # Updates are available
     else
-        if [ "${updates_result}" -eq 2 ]; then
+        if [ "${?}" -eq 2 ]; then
             updates_result="${no_action_needed}" # No new updates are available, nothing to do
         else
             updates_result="${send_email}" # We have some other kind of error
