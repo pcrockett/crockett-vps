@@ -68,18 +68,21 @@ function do_check() {
     local no_action_needed=0
 
     if /usr/local/bin/checknews; then
-        news_result="${no_action_needed}" # No new articles
+        news_result="${send_email}" # New articles published. `checknews` already dumped some output saying as much.
     else
-        news_result="${send_email}" # New articles published
+        news_result="${no_action_needed}" # No new articles. `checknews` already dumped some output saying as much.
     fi
 
     if /usr/bin/checkupdates; then
-        updates_result="${send_email}" # Updates are available
+        echo "Pending updates will be installed within the next few days."
+        updates_result="${send_email}"
     else
         if [ "${?}" -eq 2 ]; then
-            updates_result="${no_action_needed}" # No new updates are available, nothing to do
+            echo "No pending updates."
+            updates_result="${no_action_needed}"
         else
-            updates_result="${send_email}" # We have some other kind of error
+            echo "Unexpected error checking for updates."
+            updates_result="${send_email}"
         fi
     fi
 
