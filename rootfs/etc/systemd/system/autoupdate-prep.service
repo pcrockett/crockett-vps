@@ -1,0 +1,11 @@
+# Useful resources:
+#
+# * `man systemd.service`
+#
+
+[Unit]
+Description=Notify admin of Arch news and updates
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/autoupdate --check

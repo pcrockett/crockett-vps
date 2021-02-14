@@ -1,0 +1,12 @@
+# Helpful resource:
+# https://wiki.archlinux.org/index.php/Systemd/Timers
+
+[Unit]
+Description=Notify admin of Arch news and updates
+
+[Timer]
+OnCalendar=Sun *-*-* 5:00:00
+# Every Sunday at 5 AM UTC
+
+[Install]
+WantedBy=timers.target
