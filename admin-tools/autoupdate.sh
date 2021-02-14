@@ -10,6 +10,7 @@ readonly REPO_ROOT=$(dirname "${SCRIPT_DIR}")
 readonly UTIL_SCRIPT="${REPO_ROOT}/util.sh"
 readonly VARS_SCRIPT="${REPO_ROOT}/vars.sh"
 readonly SCRIPT_NAME=$(basename "${0}")
+readonly UPDATE_LOG="${REPO_ROOT}/.update-log"
 
 # shellcheck source=util.sh
 . "${UTIL_SCRIPT}"
@@ -91,10 +92,10 @@ function do_check() {
 }
 
 if is_set "${ARG_CHECK+x}"; then
-    if email_body="$(do_check 2>&1)"; then
+    if do_check > "${UPDATE_LOG}" 2>&1; then
         echo "No unread Arch news articles and no pending updates."
     else
-        echo "${email_body}" | send_admin_email "Prepare for Auto-Update"
+        send_admin_email "Prepare for Auto-Update" < "${UPDATE_LOG}"
         echo "Email sent to administrator."
     fi
 
@@ -120,11 +121,10 @@ function do_update() {
 
 ping_url "${HEALTHCHECK_AUTOUPDATE_START_URL}"
 
-update_log="${REPO_ROOT}/.update-log"
-if do_update > "${update_log}" 2>&1; then
-    send_admin_email "Auto-Update Success" < "${update_log}"
+if do_update > "${UPDATE_LOG}" 2>&1; then
+    send_admin_email "Auto-Update Success" < "${UPDATE_LOG}"
     ping_url "${HEALTHCHECK_AUTOUPDATE_URL}"
     systemctl reboot
 else
-    send_admin_email "Auto-Update Attention Required" < "${update_log}"
+    send_admin_email "Auto-Update Attention Required" < "${UPDATE_LOG}"
 fi
