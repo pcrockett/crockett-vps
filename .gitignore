@@ -1,3 +1,4 @@
 /.checkpoints/
 /.values/
 /vars.sh
+.update-log

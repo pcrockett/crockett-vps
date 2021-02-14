@@ -63,26 +63,29 @@ function do_check() {
     # Exits with code 0 if no action is needed.
     # Save all output from this function and send it to the admin
 
+    local send_email=1
+    local no_action_needed=0
+
     if /user/local/bin/checknews; then
-        news_result=1 # New articles published.
+        news_result="${send_email}" # New articles published.
     else
-        news_result=0 # No new articles
+        news_result="${no_action_needed}" # No new articles
     fi
 
     if /usr/bin/checkupdates; then
-        updates_result=1 # Updates are available
+        updates_result="${send_email}" # Updates are available
     else
         if [ "${updates_result}" -eq 2 ]; then
-            updates_result=0 # No new updates are available, nothing to do
+            updates_result="${no_action_needed}" # No new updates are available, nothing to do
         else
-            updates_result=1 # We have some other kind of error
+            updates_result="${send_email}" # We have some other kind of error
         fi
     fi
 
-    if [ "${news_result}" -eq 1 ] || [ "${updates_result}" -eq 1 ]; then
-        return 1
+    if [ "${news_result}" -eq "${send_email}" ] || [ "${updates_result}" -eq "${send_email}" ]; then
+        return "${send_email}"
     else
-        return 0
+        return "${no_action_needed}"
     fi
 
 }
@@ -111,16 +114,17 @@ function do_update() {
 
     # Do container and pacman updates separately. Leaving the riskier pacman
     # update for the end seems more safe.
-    /usr/local/bin/server-cmd --container-update 2>&1
-    /usr/local/bin/server-cmd --pacman-update 2>&1
+    /usr/local/bin/server-cmd --container-update
+    /usr/local/bin/server-cmd --pacman-update
 }
 
 ping_url "${HEALTHCHECK_AUTOUPDATE_START_URL}"
 
-if pacman_results="$(do_update)"; then
-    echo "${pacman_results}" | send_admin_email "Auto-Update Success"
+update_log="${REPO_ROOT}/.update-log"
+if do_update > "${update_log}" 2>&1; then
+    send_admin_email "Auto-Update Success" < "${update_log}"
     ping_url "${HEALTHCHECK_AUTOUPDATE_URL}"
     systemctl reboot
 else
-    echo "${pacman_results}" | send_admin_email "Auto-Update Attention Required"
+    send_admin_email "Auto-Update Attention Required" < "${update_log}"
 fi
