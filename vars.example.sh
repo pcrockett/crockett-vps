@@ -24,9 +24,13 @@ export UNPRIVILEGED_SSH_KEY
 # Admin info                                                                  #
 ###############################################################################
 
+# The email address where you want to receive general server admin
+# notifications, such as for pending semi-automatic updates.
 readonly GENERAL_ADMIN_EMAIL="admin@philcrockett.com"
 export GENERAL_ADMIN_EMAIL
 
+# The email address you want associated with your Let's Encrypt TLS
+# certificates. Let's Encrypt will email you expiration warnings here.
 readonly LETSENCRYPT_ADMIN_EMAIL="${GENERAL_ADMIN_EMAIL}"
 export LETSENCRYPT_ADMIN_EMAIL
 
@@ -80,9 +84,12 @@ export SMTP_PASSWORD
 readonly SMTP_TLS="true"
 export SMTP_TLS
 
+# Synapse will email users with this "from" address
 readonly MATRIX_EMAIL_FROM="matrix@${DOMAIN_PRIMARY}"
 export MATRIX_EMAIL_FROM
 
+# General server notifications will email the administrator (you) with this
+# "from" address
 readonly ADMIN_EMAIL_FROM="root@${DOMAIN_PRIMARY}"
 export ADMIN_EMAIL_FROM
 
