@@ -1,4 +1,4 @@
-## de.crockett.network
+## Crockett VPS
 
 This repo contains scripts to provision and manage my own personal cloud service on an Arch VPS.
 
@@ -24,7 +24,7 @@ As of 2021-02-15, this repo will automatically set up:
 
 It uses [Podman][8] instead of Docker to run unprivileged containers. It also does semi-automatic updates ("semi" because this is Arch, and manual intervention is required).
 
-I wrote this for my own purposes, so while most of this could be useful to someone else, a few things exist that are not very applicable to other people. Feel free to use this, but you'll need to make a few changes.
+I wrote this for my own purposes, so while most of this could be useful to someone else, a few things exist that are not very applicable to other people. Feel free to use this, but you'll want to make a few changes.
 
 ### Install
 
@@ -32,7 +32,7 @@ You can run the following to set everything up in one step (assuming you're logg
 
 ```bash
 curl --silent --show-error --fail \
-    https://raw.githubusercontent.com/pcrockett/de.crockett.network/main/quick-start.sh > quick-start.sh
+    https://raw.githubusercontent.com/pcrockett/crockett-vps/main/quick-start.sh > quick-start.sh
 chmod u+x ./quick-start.sh
 ./quick-start.sh
 ```
