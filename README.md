@@ -1,12 +1,19 @@
 ## de.crockett.network
 
-This repo contains scripts to automatically provision my own personal cloud service on an Arch VPS. It's one part documentation for myself, one part experimentation, one part learning project, and one part fun.
+This repo contains scripts to provision and manage my own personal cloud service on an Arch VPS.
 
-Of course this is Arch, so be prepared to do some manual admin and reboots. However most of the software is installed in the form of unprivileged containers, which should reduce how much you need to manage updates etc.
+### Why not Ansible / Terraform / Kubernetes etc?
+
+This project exists for a couple reasons:
+
+1. I find it to be useful and fun
+2. It's deepening my experience in various topics (Arch, systemd, Matrix, Podman, Bash, etc.)
+
+If I throw yet another thing into the list of topics to learn (i.e. Terraform and Ansible), I'll never finish. This is a free time project. Some day when things are running smoothly, I may consider migrating this to Terraform.
 
 ### Features
 
-As of 2021-02-07, this repo will automatically set up:
+As of 2021-02-15, this repo will automatically set up:
 
 * HTTPS-enabled Nginx reverse proxy with a [Qualys SSL Labs test][1] A+ rating.
 * [Synapse][2] (Matrix homeserver)
@@ -15,18 +22,16 @@ As of 2021-02-07, this repo will automatically set up:
 * [Sydent][5] (Matrix identity server)
 * [WireGuard][6] VPN with NAT and [Quad9][7] DNS
 
-It uses [Podman][8] instead of Docker to run unprivileged containers running as different users.
+It uses [Podman][8] instead of Docker to run unprivileged containers. It also does semi-automatic updates ("semi" because this is Arch, and manual intervention is required).
+
+I wrote this for my own purposes, so while most of this could be useful to someone else, a few things exist that are not very applicable to other people. Feel free to use this, but you'll need to make a few changes.
 
 ### Install
 
 You can run the following to set everything up in one step (assuming you're logged in to your server as root):
 
 ```bash
-curl --proto '=https' \
-    --tlsv1.2 \
-    --silent \
-    --show-error \
-    --fail \
+curl --silent --show-error --fail \
     https://raw.githubusercontent.com/pcrockett/de.crockett.network/main/quick-start.sh > quick-start.sh
 chmod u+x ./quick-start.sh
 ./quick-start.sh
@@ -42,7 +47,7 @@ chmod u+x ./quick-start.sh
 
 After initial setup, you should see the following new scripts in `/usr/local/bin`:
 
-* `server-cmd`: The main command that allows you to pull changes from the remote Git repo and apply them on the server
+* `server-cmd`: The main command that makes it easy to pull changes from the remote Git repo and apply them on the server
 * `new-matrix-user`: Create a new matrix user
 * `new-wireguard-peer`: Add a new device to the WireGuard VPN
 
@@ -50,12 +55,7 @@ Pass a `--help` parameter to any of these commands to see how they are used.
 
 ### TODO:
 
-* [x] Jitsi
-* [x] WireGuard VPN
-* [x] Firewall
-* [x] Auto start on boot
-* [x] Semi-auto updates (Arch servers require manual intervention)
-* [ ] Postgres container
+* [ ] Postgres container (and configure Synapse to use it)
 * [ ] Auto backups
 * [ ] Refactor to a Yunohost-like package system?
 * [ ] Matterbridge
