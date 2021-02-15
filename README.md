@@ -50,6 +50,7 @@ After initial setup, you should see the following new scripts in `/usr/local/bin
 * `server-cmd`: The main command that makes it easy to pull changes from the remote Git repo and apply them on the server
 * `new-matrix-user`: Create a new matrix user
 * `new-wireguard-peer`: Add a new device to the WireGuard VPN
+* `checknews`: The auto-update process uses this to check for unread Arch news before installing anything. If new articles are found, the update process is cancelled. You will need to periodically log in and run `checknews --mark-read` to signal that you are aware of the latest news, and it's OK to proceed with updates.
 
 Pass a `--help` parameter to any of these commands to see how they are used.
 
