@@ -297,7 +297,8 @@ function send_admin_email() {
     # echo "This is the body of the email" | send_admin_email "Test Subject"
     #
 
-    read -r email_body
+    local email_body
+    email_body="$(cat)"
     test "${#}" -eq 1 || panic "Expecting 1 argument: Email subject."
 
     printf "Subject: [%s] %s\n%s" "${DOMAIN_PRIMARY}" "${1}" "${email_body}" \
