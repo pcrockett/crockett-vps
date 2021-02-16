@@ -111,7 +111,7 @@ function ping_url() {
         --silent \
         --show-error \
         --fail \
-        "${1}" 2>&1 || true
+        "${1}" > /dev/null 2>&1 || true
 }
 
 function do_update() {
