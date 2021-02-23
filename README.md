@@ -58,9 +58,11 @@ Pass a `--help` parameter to any of these commands to see how they are used.
 
 * [ ] Postgres container (and configure Synapse to use it)
 * [ ] Auto backups
+* [ ] Dnsmasq ad blocking
 * [ ] Refactor to a Yunohost-like package system?
 * [ ] Matterbridge
 * [ ] Signal bridge?
+* [ ] Huginn?
 * [ ] docker-mailserver or Mailcow?
 
 [1]: https://www.ssllabs.com/ssltest/
