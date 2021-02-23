@@ -82,8 +82,10 @@ test "${new_peer_number}" -lt 255 || panic "Peer limit reached (254)."
 value_exists "wg-peer-config" || set_value "wg-peer-config" ""
 old_peer_server_config="$(get_value "wg-peer-config")"
 
-peer_private_key=$(wg genkey)
-peer_public_key=$(echo "${peer_private_key}" | wg pubkey)
+peer_private_key="$(wg genkey)"
+peer_public_key="$(echo "${peer_private_key}" | wg pubkey)"
+
+pre_shared_key="$(wg genpsk)"
 
 new_peer_server_config=$(cat << EOF
 ${old_peer_server_config}
@@ -91,6 +93,7 @@ ${old_peer_server_config}
 [Peer]
 # ${ARG_DESCRIPTION}
 PublicKey = ${peer_public_key}
+PresharedKey = ${pre_shared_key}
 AllowedIPs = ${WG_NETWORK_PART}.${new_peer_number}/32
 
 EOF
@@ -117,6 +120,7 @@ DNS = ${WG_NETWORK_PART}.1
 
 [Peer]
 PublicKey = ${server_public_key}
+PresharedKey = ${pre_shared_key}
 Endpoint = ${external_ip}:${WG_SERVICE_PORT}
 AllowedIPs = 0.0.0.0/0, ::/0
 # PersistentKeepalive = 25
