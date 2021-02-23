@@ -29,7 +29,7 @@ function install_package() {
     # * pacman returns 1 for "error"
     #
 
-    if yes | pacman --sync --refresh --sysupgrade "${@}"; then
+    if echo "y" | pacman --sync --refresh --sysupgrade "${@}"; then
         true
     else
         test "${?}" -ne 1

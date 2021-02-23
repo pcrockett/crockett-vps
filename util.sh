@@ -59,7 +59,7 @@ function exec_pacman() {
     # warnings for the user to review when finished.
 
     local result=0
-    if yes | pacman "${@}"; then
+    if echo "y" | pacman "${@}"; then
         result=0 # All good
     else
         if [ "${?}" -eq 1 ]; then
