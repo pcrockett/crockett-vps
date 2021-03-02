@@ -21,6 +21,8 @@ readonly UPDATE_LOG="${REPO_ROOT}/.update-log"
 function show_usage() {
     printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}" >&2
     printf "  -c, --check\t\tCheck for updates without installing\n" >&2
+    printf "  -r, --reboot\tPing health check and reboot\n" >&2
+    printf "  -s, --skip\t\tSkip the next autoupdate\n" >&2
     printf "  -h, --help\t\tShow this help message then exit\n" >&2
 }
 
@@ -32,6 +34,12 @@ function parse_commandline() {
         case "${1}" in
             -c|--check)
                 ARG_CHECK="true"
+            ;;
+            -r|--reboot)
+                ARG_REBOOT="true"
+            ;;
+            -s|--skip)
+                ARG_SKIP="true"
             ;;
             -h|-\?|--help)
                 ARG_HELP="true"
@@ -122,12 +130,34 @@ function do_update() {
     /usr/local/bin/server-cmd --pacman-update
 }
 
+function ping_and_reboot() {
+    ping_url "${HEALTHCHECK_AUTOUPDATE_URL}"
+    systemctl reboot
+}
+
+if is_set "${ARG_REBOOT+x}"; then
+    ping_and_reboot
+    exit 0
+fi
+
+if is_set "${ARG_SKIP+x}"; then
+    set_checkpoint "autoupdate-skip"
+    echo "The next ${SCRIPT_NAME} will only ping the health check."
+    exit 0
+fi
+
+if is_checkpoint_set "autoupdate-skip"; then
+    unset_checkpoint "autoupdate-skip"
+    ping_url "${HEALTHCHECK_AUTOUPDATE_URL}"
+    echo "Skipping automatic update as requested."
+    exit 0
+fi
+
 ping_url "${HEALTHCHECK_AUTOUPDATE_START_URL}"
 
 if do_update > "${UPDATE_LOG}" 2>&1; then
     send_admin_email "Auto-Update Success" < "${UPDATE_LOG}"
-    ping_url "${HEALTHCHECK_AUTOUPDATE_URL}"
-    systemctl reboot
+    ping_and_reboot
 else
     send_admin_email "Auto-Update Attention Required" < "${UPDATE_LOG}"
 fi

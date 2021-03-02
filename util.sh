@@ -113,6 +113,12 @@ function is_unset_checkpoint() {
 }
 export is_unset_checkpoint
 
+function is_checkpoint_set() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Checkpoint name"
+    test -f "${CHECKPOINTS_DIR}/${1}"
+}
+export is_checkpoint_set
+
 function set_checkpoint() {
     test "${#}" -eq 1 || panic "Expecting 1 argument: Checkpoint name"
     touch "${CHECKPOINTS_DIR}/${1}"
