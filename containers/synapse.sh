@@ -15,7 +15,6 @@ function container_initial_setup() {
         --env SYNAPSE_REPORT_STATS=no \
         "${image_name}" generate
 
-    install_service synapse
 }
 export initial_setup
 
@@ -23,6 +22,7 @@ function container_refresh_config() {
 
     place_template "home/synapse/homeserver.yaml"
     place_template "usr/share/nginx/html/.well-known/matrix/server"
+    install_service synapse
 
     if container_exists; then
         stop_service synapse
