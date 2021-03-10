@@ -15,10 +15,6 @@ function container_initial_setup() {
         --env SYNAPSE_REPORT_STATS=no \
         "${image_name}" generate
 
-    is_installed jq || install_package jq
-    volume_raw_data="$(run_as_container_user podman volume inspect "${volume_name}")"
-    host_volume_dir="$(echo "${volume_raw_data}" | jq -r .[0].Mountpoint)"
-
     install_service synapse
 }
 export initial_setup
@@ -31,6 +27,10 @@ function container_refresh_config() {
     if container_exists; then
         stop_service synapse
     fi
+
+    is_installed jq || install_package jq
+    volume_raw_data="$(run_as_container_user podman volume inspect "${volume_name}")"
+    host_volume_dir="$(echo "${volume_raw_data}" | jq -r .[0].Mountpoint)"
 
     mv /home/synapse/homeserver.yaml "${host_volume_dir}"
     chown "synapse:synapse" "${host_volume_dir}/homeserver.yaml"
