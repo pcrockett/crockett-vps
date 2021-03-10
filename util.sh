@@ -7,7 +7,7 @@ set -Eeuo pipefail
 readonly CHECKPOINT_NGINX_CONF="nginx-conf"
 export CHECKPOINT_NGINX_CONF
 
-readonly CHECKPOINT_MATRIX_CONF="matrix-conf"
+readonly CHECKPOINT_MATRIX_CONF="container-synapse-config-refresh"
 export CHECKPOINT_MATRIX_CONF
 
 readonly CHECKPOINT_ELEMENT_CONF="element-conf"
@@ -311,3 +311,41 @@ function send_admin_email() {
         | msmtp --account default "${GENERAL_ADMIN_EMAIL}"
 }
 export send_admin_email
+
+function configure_container() {
+    test "${#}" -eq 1 || panic "Expecting 1 argument: Container name"
+
+    local container_name="${1}"
+    local container_script="${REPO_ROOT}/containers/${container_name}.sh"
+
+    (
+        function run_as_container_user() {
+            # Container name should be same as user name
+            run_unprivileged "${container_name}" "${@}"
+        }
+
+        function container_exists() {
+            run_as_container_user podman container exists "${container_name}"
+        }
+
+        # shellcheck source=/dev/null
+        source "${container_script}"
+
+        if is_unset_checkpoint "container-${container_name}-init"; then
+            container_initial_setup
+            set_checkpoint "container-${container_name}-init"
+        fi
+
+        if is_unset_checkpoint "container-${container_name}-config-refresh"; then
+            container_refresh_config
+            set_checkpoint "container-${container_name}-config-refresh"
+        fi
+
+        if is_unset_checkpoint "${CHECKPOINT_CONTAINER_UPDATE}"; then
+            container_update
+        fi
+
+        container_start
+    )
+}
+export configure_container
