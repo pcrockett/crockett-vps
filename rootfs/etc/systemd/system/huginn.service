@@ -14,7 +14,7 @@ After=network-online.target
 Environment=PODMAN_SYSTEMD_UNIT=%n
 User=huginn
 ExecStart=/usr/bin/podman start --attach huginn
-ExecStop=/usr/bin/podman stop --time 10 huginn
+ExecStop=/usr/bin/podman stop --time 20 huginn
 Restart=always
 
 [Install]
