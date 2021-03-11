@@ -44,6 +44,7 @@ function container_start() {
             --env "SMTP_PASSWORD=${SMTP_PASSWORD}" \
             --env "SMTP_SERVER=${SMTP_SERVER}" \
             --env "EMAIL_FROM_ADDRESS=${HUGINN_EMAIL_FROM}" \
+            --env "DOMAIN=${DOMAIN_HUGINN}" \
             --env REQUIRE_CONFIRMED_EMAIL=true \
             --env RAILS_ENV=production \
             "${image_name}" > /dev/null
