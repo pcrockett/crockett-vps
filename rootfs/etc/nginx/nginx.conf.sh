@@ -158,7 +158,14 @@ http {
 
         location / {
             proxy_pass http://localhost:3000;
+
+            # Guidance from https://github.com/rails/rails/issues/22965#issuecomment-172929004
+            proxy_set_header Host \$host;
             proxy_set_header X-Forwarded-For \$remote_addr;
+            proxy_set_header X-Forwarded-Proto \$scheme;
+            proxy_set_header X-Forwarded-Ssl on; # Optional
+            proxy_set_header X-Forwarded-Port \$server_port;
+            proxy_set_header X-Forwarded-Host \$host;
         }
     }
 
