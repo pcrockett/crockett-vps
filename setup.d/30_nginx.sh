@@ -61,6 +61,11 @@ if need_tls_cert "${DOMAIN_PRIMARY}"; then
     nginx_reload_when_finished
 fi
 
+if need_tls_cert "${DOMAIN_HUGINN}"; then
+    get_tls_cert "${DOMAIN_HUGINN}"
+    nginx_reload_when_finished
+fi
+
 letsencrypt_ssl_options="/etc/letsencrypt/options-ssl-nginx.conf"
 if [ ! -f "${letsencrypt_ssl_options}" ]; then
     ssl_options_url="https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf"

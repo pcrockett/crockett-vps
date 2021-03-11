@@ -146,6 +146,22 @@ http {
         }
     }
 
+    server {
+        listen 443 ssl http2;
+        listen [::]:443 ssl http2; # Listen on IPv6
+        server_name ${DOMAIN_HUGINN};
+
+        ssl_certificate /etc/letsencrypt/live/${DOMAIN_HUGINN}/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/${DOMAIN_HUGINN}/privkey.pem; # managed by Certbot
+        include /etc/letsencrypt/options-ssl-nginx.conf;
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+        location / {
+            proxy_pass http://localhost:3000;
+            proxy_set_header X-Forwarded-For \$remote_addr;
+        }
+    }
+
 }
 
 EOF

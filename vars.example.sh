@@ -65,6 +65,9 @@ export DOMAIN_SOCIAL_LOCAL
 readonly DOMAIN_TURN="turn.${DOMAIN_PRIMARY}"
 export DOMAIN_TURN
 
+readonly DOMAIN_HUGINN="huginn.${DOMAIN_PRIMARY}"
+export DOMAIN_HUGINN
+
 ###############################################################################
 # SMTP config                                                                 #
 ###############################################################################
