@@ -39,6 +39,7 @@ readonly UNPRIVILEGED_USERS=(
     element
     turn
     sydent
+    huginn
 )
 export UNPRIVILEGED_USERS
 

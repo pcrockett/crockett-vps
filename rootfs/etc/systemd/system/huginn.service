@@ -1,0 +1,21 @@
+# Useful resources:
+#
+# * https://podman.io/blogs/2018/09/13/systemd.html
+# * `man systemd.service`
+# * https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux_atomic_host/7/html/managing_containers/running_containers_as_systemd_services_with_podman
+#
+
+[Unit]
+Description=Huginn
+Wants=network.target
+After=network-online.target
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+User=huginn
+ExecStart=/usr/bin/podman start --attach huginn
+ExecStop=/usr/bin/podman stop --time 10 huginn
+Restart=always
+
+[Install]
+WantedBy=multi-user.target default.target

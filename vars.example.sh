@@ -93,6 +93,9 @@ export MATRIX_EMAIL_FROM
 readonly ADMIN_EMAIL_FROM="root@${DOMAIN_PRIMARY}"
 export ADMIN_EMAIL_FROM
 
+readonly HUGINN_EMAIL_FROM="huginn@${DOMAIN_PRIMARY}"
+export HUGINN_EMAIL_FROM
+
 ###############################################################################
 # TURN config                                                                 #
 ###############################################################################
