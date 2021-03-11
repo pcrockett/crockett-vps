@@ -62,7 +62,7 @@ http {
 
     server {
         listen 80;
-        server_name ${DOMAIN_PRIMARY} ${DOMAIN_MATRIX} ${DOMAIN_ELEMENT} ${DOMAIN_MATRIX_IDENTITY};
+        server_name ${DOMAIN_PRIMARY} ${DOMAIN_MATRIX} ${DOMAIN_ELEMENT} ${DOMAIN_MATRIX_IDENTITY} ${DOMAIN_HUGINN};
         return 301 https://\$host\$request_uri;
     }
 
