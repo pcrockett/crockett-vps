@@ -21,7 +21,7 @@ readonly UPDATE_LOG="${REPO_ROOT}/.update-log"
 function show_usage() {
     printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}" >&2
     printf "  -c, --check\t\tCheck for updates without installing\n" >&2
-    printf "  -r, --reboot\tPing health check and reboot\n" >&2
+    printf "  -r, --reboot\t\tPing health check and reboot\n" >&2
     printf "  -s, --skip\t\tSkip the next autoupdate\n" >&2
     printf "  -h, --help\t\tShow this help message then exit\n" >&2
 }
