@@ -22,7 +22,7 @@ function show_usage() {
     printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}" >&2
     printf "  -c, --check\t\tCheck for updates without installing\n" >&2
     printf "  -r, --reboot\t\tPing health check and reboot\n" >&2
-    printf "  -s, --skip\t\tSkip the next autoupdate\n" >&2
+    printf "  -s, --skip-next\tPerform update, but skip the next one\n" >&2
     printf "  -h, --help\t\tShow this help message then exit\n" >&2
 }
 
@@ -38,7 +38,7 @@ function parse_commandline() {
             -r|--reboot)
                 ARG_REBOOT="true"
             ;;
-            -s|--skip)
+            -s|--skip-next)
                 ARG_SKIP="true"
             ;;
             -h|-\?|--help)
@@ -102,17 +102,6 @@ function do_check() {
 
 }
 
-if is_set "${ARG_CHECK+x}"; then
-    if do_check > "${UPDATE_LOG}" 2>&1; then
-        echo "No unread Arch news articles and no pending updates."
-    else
-        send_admin_email "Prepare for Auto-Update" < "${UPDATE_LOG}"
-        echo "Email sent to administrator."
-    fi
-
-    exit 0
-fi
-
 function ping_url() {
     test "${#}" -eq 1 || panic "Expecting 1 parameter: URL to ping"
     curl --proto '=https' --tlsv1.2 \
@@ -128,6 +117,11 @@ function do_update() {
     # update for the end seems more safe.
     /usr/local/bin/server-cmd --container-update
     /usr/local/bin/server-cmd --pacman-update
+
+    if is_set "${ARG_SKIP+x}"; then
+        # Confirm to the admin that we won't update next time.
+        echo "--skip-next: The next ${SCRIPT_NAME} will only ping the health check."
+    fi
 }
 
 function ping_and_reboot() {
@@ -135,22 +129,33 @@ function ping_and_reboot() {
     systemctl reboot
 }
 
-if is_set "${ARG_REBOOT+x}"; then
-    ping_and_reboot
+if is_checkpoint_set "autoupdate-skip"; then
+    unset_checkpoint "autoupdate-skip"
+    ping_url "${HEALTHCHECK_AUTOUPDATE_URL}"
+    echo "Skipping automatic update as requested. Run ${SCRIPT_NAME} again to continue."
     exit 0
 fi
 
 if is_set "${ARG_SKIP+x}"; then
     set_checkpoint "autoupdate-skip"
     echo "The next ${SCRIPT_NAME} will only ping the health check."
-    exit 0
 fi
 
-if is_checkpoint_set "autoupdate-skip"; then
-    unset_checkpoint "autoupdate-skip"
-    ping_url "${HEALTHCHECK_AUTOUPDATE_URL}"
-    echo "Skipping automatic update as requested."
-    exit 0
+if is_set "${ARG_CHECK+x}"; then
+    if do_check > "${UPDATE_LOG}" 2>&1; then
+        echo "No unread Arch news articles and no pending updates."
+    else
+        send_admin_email "Prepare for Auto-Update" < "${UPDATE_LOG}"
+        echo "Email sent to administrator."
+    fi
+fi
+
+if is_set "${ARG_REBOOT+x}"; then
+    ping_and_reboot
+fi
+
+if is_set "${ARG_REBOOT+x}" || is_set "${ARG_CHECK+x}"; then
+    exit 0 # User doesn't want to do an actual update.
 fi
 
 ping_url "${HEALTHCHECK_AUTOUPDATE_START_URL}"
