@@ -158,6 +158,8 @@ if is_set "${ARG_REBOOT+x}" || is_set "${ARG_CHECK+x}"; then
     exit 0 # User doesn't want to do an actual update.
 fi
 
+echo "Auto-update starting. Output will be sent to administrator via email."
+
 ping_url "${HEALTHCHECK_AUTOUPDATE_START_URL}"
 
 if do_update > "${UPDATE_LOG}" 2>&1; then
