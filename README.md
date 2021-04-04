@@ -59,11 +59,11 @@ Pass a `--help` parameter to any of these commands to see how they are used.
 * [ ] Postgres container (and configure Synapse to use it)
 * [ ] Auto backups
 * [ ] Dnsmasq ad blocking
-* [ ] Refactor to a Yunohost-like package system?
+* [ ] Refactor to a Yunohost-like package system (currently WIP)
 * [ ] Matterbridge
 * [ ] Signal bridge?
-* [ ] Huginn?
-* [ ] docker-mailserver or Mailcow?
+* [ ] Refactor so Nginx runs inside a container
+* [ ] Innernet instead of plain WireGuard?
 
 [1]: https://www.ssllabs.com/ssltest/
 [2]: https://github.com/matrix-org/synapse
