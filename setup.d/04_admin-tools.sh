@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source_dir="$REPO_ROOT/admin-tools"
+source_dir="${REPO_ROOT}/admin-tools"
 bin_dir="/usr/local/bin"
 
 function put_admin_tool() {

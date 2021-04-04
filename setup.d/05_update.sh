@@ -6,7 +6,7 @@ is_unset_checkpoint "${CHECKPOINT_SYSUPGRADE}" || return 0
 
 readonly CHECKPOINT_INITIAL_UPGRADE="initial-upgrade"
 
-checknews_script="${ADMIN_TOOLS_DIR}/checknews.sh"
+checknews_script="/usr/local/bin/checknews"
 
 if is_unset_checkpoint "${CHECKPOINT_INITIAL_UPGRADE}"; then
 
@@ -23,7 +23,6 @@ else
 
     if "${checknews_script}"; then
         # News article has been published recently. The user has already been directed to the news page.
-        echo "If you still want to continue, run \`checknews --mark-read\` and then try again."
         exit 1
     fi
 
