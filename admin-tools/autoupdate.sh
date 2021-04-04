@@ -66,38 +66,38 @@ for dep in "${DEPENDENCIES[@]}"; do
     is_installed "${dep}" || panic "Missing '${dep}'"
 done
 
-function do_check() {
+function pending_update_check() {
 
     # Exits with code 1 if we need to send an email to the admin
     # Exits with code 0 if no action is needed.
     # Save all output from this function and send it to the admin
 
-    local send_email=1
-    local no_action_needed=0
+    local update_is_pending=1
+    local no_new_updates=0
 
     if /usr/local/bin/checknews; then
-        news_result="${send_email}" # New articles published. `checknews` already dumped some output saying as much.
+        news_result="${update_is_pending}" # New articles published. `checknews` already dumped some output saying as much.
     else
-        news_result="${no_action_needed}" # No new articles. `checknews` already dumped some output saying as much.
+        news_result="${no_new_updates}" # No new articles. `checknews` already dumped some output saying as much.
     fi
 
     if /usr/bin/checkupdates; then
         echo "Pending updates will be installed within the next few days."
-        updates_result="${send_email}"
+        updates_result="${update_is_pending}"
     else
         if [ "${?}" -eq 2 ]; then
             echo "No pending updates."
-            updates_result="${no_action_needed}"
+            updates_result="${no_new_updates}"
         else
             echo "Unexpected error checking for updates."
-            updates_result="${send_email}"
+            updates_result="${update_is_pending}"
         fi
     fi
 
-    if [ "${news_result}" -eq "${send_email}" ] || [ "${updates_result}" -eq "${send_email}" ]; then
-        return "${send_email}"
+    if [ "${news_result}" -eq "${update_is_pending}" ] || [ "${updates_result}" -eq "${update_is_pending}" ]; then
+        return "${update_is_pending}"
     else
-        return "${no_action_needed}"
+        return "${no_new_updates}"
     fi
 
 }
@@ -116,7 +116,12 @@ function do_update() {
     # Do container and pacman updates separately. Leaving the riskier pacman
     # update for the end seems more safe.
     /usr/local/bin/server-cmd --container-update
-    /usr/local/bin/server-cmd --pacman-update
+
+    if /usr/local/bin/checknews; then
+        echo "WARNING: Skipping pacman update." # checknews already dumped some output explaining why
+    else
+        /usr/local/bin/server-cmd --pacman-update
+    fi
 
     if is_set "${ARG_SKIP+x}"; then
         # Confirm to the admin that we won't update next time.
@@ -142,7 +147,7 @@ if is_set "${ARG_SKIP+x}"; then
 fi
 
 if is_set "${ARG_CHECK+x}"; then
-    if do_check > "${UPDATE_LOG}" 2>&1; then
+    if pending_update_check > "${UPDATE_LOG}" 2>&1; then
         echo "No unread Arch news articles and no pending updates."
     else
         send_admin_email "Prepare for Auto-Update" < "${UPDATE_LOG}"
