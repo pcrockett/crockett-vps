@@ -89,3 +89,5 @@ if nginx_reload_is_required; then
     nginx -s reload
     nginx_reloaded
 fi
+
+install_and_start_timer certbot
