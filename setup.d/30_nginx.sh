@@ -86,6 +86,7 @@ fi
 
 if nginx_reload_is_required; then
     place_template "etc/nginx/nginx.conf"
+    place_file "etc/nginx/wellknown.conf"
     nginx -s reload
     nginx_reloaded
 fi

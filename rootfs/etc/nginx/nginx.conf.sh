@@ -83,6 +83,8 @@ http {
             try_files \$uri =404;
         }
 
+        include /etc/nginx/wellknown.conf;
+
         location / {
             return 301 https://${DOMAIN_SOCIAL_LOCAL}\$request_uri; # Managed by Masto.host (as of 2021-01-29)
         }
