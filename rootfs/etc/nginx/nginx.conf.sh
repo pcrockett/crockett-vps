@@ -37,6 +37,10 @@ http {
 
     #gzip  on;
 
+    location /.well-known/acme-challenge {
+        root /usr/share/nginx/html/.well-known/acme-challenge;
+    }
+
     server {
         listen 80 default_server;
         server_name _;
@@ -82,8 +86,6 @@ http {
             add_header Content-Type application/json;
             try_files \$uri =404;
         }
-
-        include /etc/nginx/wellknown.conf;
 
         location / {
             return 301 https://${DOMAIN_SOCIAL_LOCAL}\$request_uri; # Managed by Masto.host (as of 2021-01-29)
