@@ -45,8 +45,9 @@ http {
 
         #access_log  logs/host.access.log  main;
 
+        include /etc/nginx/html-root.conf;
+
         location / {
-            root   /usr/share/nginx/html;
             index  index.html index.htm;
         }
 
@@ -55,9 +56,6 @@ http {
         # redirect server error pages to the static page /50x.html
         #
         error_page   500 502 503 504  /50x.html;
-        location = /50x.html {
-            root /usr/share/nginx/html;
-        }
     }
 
     server {
@@ -76,7 +74,7 @@ http {
         include /etc/letsencrypt/options-ssl-nginx.conf;
         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
-        root /usr/share/nginx/html;
+        include /etc/nginx/html-root.conf;
 
         location = /.well-known/matrix/server {
             add_header Content-Type application/json;
@@ -198,15 +196,13 @@ http {
         listen 80 default_server;
         server_name _;
 
+        root   /usr/share/nginx/html;
+
         location / {
-            root   /usr/share/nginx/html;
             index  index.html index.htm;
         }
 
         error_page   500 502 503 504  /50x.html;
-        location = /50x.html {
-            root   /usr/share/nginx/html;
-        }
     }
 
 }
