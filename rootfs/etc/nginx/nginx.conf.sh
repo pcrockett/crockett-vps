@@ -109,6 +109,9 @@ http {
             # Increase client_max_body_size to match max_upload_size defined in homeserver.yaml
             client_max_body_size 50M;
         }
+
+        include /etc/nginx/html-root.conf;
+        include /etc/nginx/acme-challenge.conf;
     }
 
     server {
@@ -128,6 +131,9 @@ http {
             # Increase client_max_body_size to match max_upload_size defined in homeserver.yaml
             client_max_body_size 50M;
         }
+
+        include /etc/nginx/html-root.conf;
+        include /etc/nginx/acme-challenge.conf;
     }
 
     server {
@@ -144,6 +150,9 @@ http {
             proxy_pass http://localhost:8090;
             proxy_set_header X-Forwarded-For \$remote_addr;
         }
+
+        include /etc/nginx/html-root.conf;
+        include /etc/nginx/acme-challenge.conf;
     }
 
     server {
@@ -167,6 +176,9 @@ http {
             proxy_set_header X-Forwarded-Port \$server_port;
             proxy_set_header X-Forwarded-Host \$host;
         }
+
+        include /etc/nginx/html-root.conf;
+        include /etc/nginx/acme-challenge.conf;
     }
 
 }
