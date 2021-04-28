@@ -87,6 +87,7 @@ fi
 if nginx_reload_is_required; then
     place_template "etc/nginx/nginx.conf"
     place_file "etc/nginx/acme-challenge.conf"
+    place_file "etc/nginx/html-root.conf"
     place_file "usr/share/nginx/html/.well-known/acme-challenge/.placeholder"
     nginx -s reload
     nginx_reloaded
