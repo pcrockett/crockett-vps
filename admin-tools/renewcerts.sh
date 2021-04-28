@@ -54,4 +54,4 @@ for dep in "${DEPENDENCIES[@]}"; do
 done
 
 certbot renew # TODO: Look at docs to see if we should add any parameters for this
-ping_url "${CERTBOT_RENEW_URL}"
+ping_url "${HEALTHCHECK_CERTBOT_RENEW_URL}"
