@@ -102,15 +102,6 @@ function pending_update_check() {
 
 }
 
-function ping_url() {
-    test "${#}" -eq 1 || panic "Expecting 1 parameter: URL to ping"
-    curl --proto '=https' --tlsv1.2 \
-        --silent \
-        --show-error \
-        --fail \
-        "${1}" > /dev/null 2>&1 || true
-}
-
 function do_update() {
 
     # Do container and pacman updates separately. Leaving the riskier pacman

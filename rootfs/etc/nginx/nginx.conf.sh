@@ -45,8 +45,9 @@ http {
 
         #access_log  logs/host.access.log  main;
 
+        include /etc/nginx/html-root.conf;
+
         location / {
-            root   /usr/share/nginx/html;
             index  index.html index.htm;
         }
 
@@ -55,9 +56,6 @@ http {
         # redirect server error pages to the static page /50x.html
         #
         error_page   500 502 503 504  /50x.html;
-        location = /50x.html {
-            root /usr/share/nginx/html;
-        }
     }
 
     server {
@@ -76,12 +74,14 @@ http {
         include /etc/letsencrypt/options-ssl-nginx.conf;
         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
-        root /usr/share/nginx/html;
+        include /etc/nginx/html-root.conf;
 
         location = /.well-known/matrix/server {
             add_header Content-Type application/json;
             try_files \$uri =404;
         }
+
+        include /etc/nginx/acme-challenge.conf;
 
         location / {
             return 301 https://${DOMAIN_SOCIAL_LOCAL}\$request_uri; # Managed by Masto.host (as of 2021-01-29)
@@ -109,6 +109,9 @@ http {
             # Increase client_max_body_size to match max_upload_size defined in homeserver.yaml
             client_max_body_size 50M;
         }
+
+        include /etc/nginx/html-root.conf;
+        include /etc/nginx/acme-challenge.conf;
     }
 
     server {
@@ -128,6 +131,9 @@ http {
             # Increase client_max_body_size to match max_upload_size defined in homeserver.yaml
             client_max_body_size 50M;
         }
+
+        include /etc/nginx/html-root.conf;
+        include /etc/nginx/acme-challenge.conf;
     }
 
     server {
@@ -144,6 +150,9 @@ http {
             proxy_pass http://localhost:8090;
             proxy_set_header X-Forwarded-For \$remote_addr;
         }
+
+        include /etc/nginx/html-root.conf;
+        include /etc/nginx/acme-challenge.conf;
     }
 
     server {
@@ -167,6 +176,9 @@ http {
             proxy_set_header X-Forwarded-Port \$server_port;
             proxy_set_header X-Forwarded-Host \$host;
         }
+
+        include /etc/nginx/html-root.conf;
+        include /etc/nginx/acme-challenge.conf;
     }
 
 }
@@ -196,15 +208,13 @@ http {
         listen 80 default_server;
         server_name _;
 
+        root   /usr/share/nginx/html;
+
         location / {
-            root   /usr/share/nginx/html;
             index  index.html index.htm;
         }
 
         error_page   500 502 503 504  /50x.html;
-        location = /50x.html {
-            root   /usr/share/nginx/html;
-        }
     }
 
 }

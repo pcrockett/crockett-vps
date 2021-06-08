@@ -1,0 +1,12 @@
+# Helpful resource:
+# https://wiki.archlinux.org/index.php/Systemd/Timers
+
+[Unit]
+Description=Renew Let's Encrypt certificates
+
+[Timer]
+OnCalendar=*-*-* 3:00:00
+# Every day at 3 AM UTC
+
+[Install]
+WantedBy=timers.target

@@ -350,3 +350,13 @@ function configure_container() {
     )
 }
 export configure_container
+
+function ping_url() {
+    test "${#}" -eq 1 || panic "Expecting 1 parameter: URL to ping"
+    curl --proto '=https' --tlsv1.2 \
+        --silent \
+        --show-error \
+        --fail \
+        "${1}" > /dev/null 2>&1 || true
+}
+export ping_url

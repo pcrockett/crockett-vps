@@ -1,0 +1,11 @@
+# Useful resources:
+#
+# * `man systemd.service`
+#
+
+[Unit]
+Description=Renew Let's Encrypt certificates
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/renewcerts
