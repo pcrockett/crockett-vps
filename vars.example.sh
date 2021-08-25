@@ -110,16 +110,6 @@ readonly TURN_MAX_PORT=49200
 export TURN_MAX_PORT
 
 ###############################################################################
-# WireGuard config                                                            #
-###############################################################################
-
-readonly WG_SERVICE_PORT=40719
-export WG_SERVICE_PORT
-
-readonly WG_NETWORK_PART="10.17.32" # First 3 octets for WireGuard VPN network
-export WG_NETWORK_PART
-
-###############################################################################
 # Health check config                                                         #
 ###############################################################################
 

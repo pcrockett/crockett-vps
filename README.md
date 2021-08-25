@@ -13,14 +13,14 @@ If I throw yet another thing into the list of topics to learn (i.e. Terraform an
 
 ### Features
 
-As of 2021-02-15, this repo will automatically set up:
+As of 2021-08-25, this repo will automatically set up:
 
 * HTTPS-enabled Nginx reverse proxy with a [Qualys SSL Labs test][1] A+ rating.
 * [Synapse][2] (Matrix homeserver)
 * [Element][3] (web-based Matrix client)
 * [Coturn][4] (for VoIP calls in Matrix)
 * [Sydent][5] (Matrix identity server)
-* [WireGuard][6] VPN with NAT and [Quad9][7] DNS
+* [Tailscale][6] exit node
 
 It uses [Podman][8] instead of Docker to run unprivileged containers. It also does semi-automatic updates ("semi" because this is Arch, and manual intervention is required).
 
@@ -49,7 +49,6 @@ After initial setup, you should see the following new scripts in `/usr/local/bin
 
 * `server-cmd`: The main command that makes it easy to pull changes from the remote Git repo and apply them on the server
 * `new-matrix-user`: Create a new matrix user
-* `new-wireguard-peer`: Add a new device to the WireGuard VPN
 * `checknews`: The auto-update process uses this to check for unread Arch news before installing anything. If new articles are found, the update process is cancelled. You will need to periodically log in and run `checknews --mark-read` to signal that you are aware of the latest news, and it's OK to proceed with updates.
 
 Pass a `--help` parameter to any of these commands to see how they are used.
@@ -63,13 +62,11 @@ Pass a `--help` parameter to any of these commands to see how they are used.
 * [ ] Matterbridge
 * [ ] Signal bridge?
 * [ ] Refactor so Nginx runs inside a container
-* [ ] Innernet instead of plain WireGuard?
 
 [1]: https://www.ssllabs.com/ssltest/
 [2]: https://github.com/matrix-org/synapse
 [3]: https://github.com/vector-im/element-web
 [4]: https://github.com/instrumentisto/coturn-docker-image
 [5]: https://github.com/matrix-org/sydent
-[6]: https://www.wireguard.com/
-[7]: https://www.quad9.net/
+[6]: https://tailscale.com/
 [8]: https://podman.io/
