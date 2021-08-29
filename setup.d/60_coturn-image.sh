@@ -65,13 +65,3 @@ else
 
     enable_and_start coturn
 fi
-
-if is_unset_checkpoint "turn-firewall-settings"; then
-
-    firewall_add_port external "${turn_port}/tcp"
-    firewall_add_port external "${TURN_MIN_PORT}-${TURN_MAX_PORT}/udp"
-    firewall_add_port vpn "${turn_port}/tcp"
-    firewall_add_port vpn "${TURN_MIN_PORT}-${TURN_MAX_PORT}/udp"
-
-    set_checkpoint "turn-firewall-settings"
-fi

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if is_unset_checkpoint "${CHECKPOINT_FIREWALL_RELOAD}"; then
-    firewall-cmd --reload
+    systemctl restart iptables
     set_checkpoint "${CHECKPOINT_FIREWALL_RELOAD}"
 fi
 
