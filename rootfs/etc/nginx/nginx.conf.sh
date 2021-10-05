@@ -60,7 +60,7 @@ http {
 
     server {
         listen 80;
-        server_name ${DOMAIN_PRIMARY} ${DOMAIN_MATRIX} ${DOMAIN_ELEMENT} ${DOMAIN_MATRIX_IDENTITY} ${DOMAIN_HUGINN};
+        server_name ${DOMAIN_PRIMARY} ${DOMAIN_MATRIX} ${DOMAIN_ELEMENT} ${DOMAIN_MATRIX_IDENTITY} ${DOMAIN_HUGINN} ${DOMAIN_JITSI_LEGACY};
         return 301 https://\$host\$request_uri;
     }
 
@@ -85,6 +85,23 @@ http {
 
         location / {
             return 301 https://${DOMAIN_SOCIAL_LOCAL}\$request_uri; # Managed by Masto.host (as of 2021-01-29)
+        }
+    }
+
+    server {
+        listen 443 ssl http2;
+        listen [::]:443 ssl http2; # Listen on IPv6
+        server_name ${DOMAIN_JITSI_LEGACY};
+
+        ssl_certificate /etc/letsencrypt/live/${DOMAIN_JITSI_LEGACY}/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/${DOMAIN_JITSI_LEGACY}/privkey.pem; # managed by Certbot
+        include /etc/letsencrypt/options-ssl-nginx.conf;
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+        include /etc/nginx/acme-challenge.conf;
+
+        location / {
+            return 301 https://${DOMAIN_JITSI}\$request_uri;
         }
     }
 

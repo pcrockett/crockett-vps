@@ -56,7 +56,10 @@ export MATRIX_SERVER_NAME
 readonly DOMAIN_ELEMENT="chat.${DOMAIN_PRIMARY}"
 export DOMAIN_ELEMENT
 
-readonly DOMAIN_JITSI="meet.jit.si" # Maybe some day we can host our own Jitsi server, but let's use a free public one for now
+readonly DOMAIN_JITSI_LEGACY="meet.${DOMAIN_PRIMARY}" # Don't want to manage my own Jitsi anymore
+export DOMAIN_JITSI_LEGACY
+
+readonly DOMAIN_JITSI="meet.jit.si"
 export DOMAIN_JITSI
 
 readonly DOMAIN_SOCIAL_LOCAL="social.${DOMAIN_PRIMARY}"
