@@ -34,9 +34,6 @@ export GENERAL_ADMIN_EMAIL
 readonly LETSENCRYPT_ADMIN_EMAIL="${GENERAL_ADMIN_EMAIL}"
 export LETSENCRYPT_ADMIN_EMAIL
 
-readonly MATRIX_ADMIN_USER="admin" # Will be created as the first Matrix user account
-export MATRIX_ADMIN_USER
-
 ###############################################################################
 # Domain config                                                               #
 ###############################################################################
@@ -44,26 +41,11 @@ export MATRIX_ADMIN_USER
 readonly DOMAIN_PRIMARY="crockett.network"
 export DOMAIN_PRIMARY
 
-readonly DOMAIN_MATRIX="matrix.${DOMAIN_PRIMARY}"
-export DOMAIN_MATRIX
-
-readonly DOMAIN_MATRIX_IDENTITY="identity.${DOMAIN_MATRIX}"
-export DOMAIN_MATRIX_IDENTITY
-
-readonly MATRIX_SERVER_NAME="${DOMAIN_PRIMARY}"
-export MATRIX_SERVER_NAME
-
-readonly DOMAIN_ELEMENT="chat.${DOMAIN_PRIMARY}"
-export DOMAIN_ELEMENT
-
 readonly DOMAIN_JITSI="meet.jit.si" # Maybe some day we can host our own Jitsi server, but let's use a free public one for now
 export DOMAIN_JITSI
 
 readonly DOMAIN_SOCIAL_LOCAL="social.${DOMAIN_PRIMARY}"
 export DOMAIN_SOCIAL_LOCAL
-
-readonly DOMAIN_TURN="turn.${DOMAIN_PRIMARY}"
-export DOMAIN_TURN
 
 readonly DOMAIN_HUGINN="huginn.${DOMAIN_PRIMARY}"
 export DOMAIN_HUGINN
@@ -87,10 +69,6 @@ export SMTP_PASSWORD
 readonly SMTP_TLS="true"
 export SMTP_TLS
 
-# Synapse will email users with this "from" address
-readonly MATRIX_EMAIL_FROM="matrix@${DOMAIN_PRIMARY}"
-export MATRIX_EMAIL_FROM
-
 # General server notifications will email the administrator (you) with this
 # "from" address
 readonly ADMIN_EMAIL_FROM="root@${DOMAIN_PRIMARY}"
@@ -98,16 +76,6 @@ export ADMIN_EMAIL_FROM
 
 readonly HUGINN_EMAIL_FROM="huginn@${DOMAIN_PRIMARY}"
 export HUGINN_EMAIL_FROM
-
-###############################################################################
-# TURN config                                                                 #
-###############################################################################
-
-readonly TURN_MIN_PORT=49160
-export TURN_MIN_PORT
-
-readonly TURN_MAX_PORT=49200
-export TURN_MAX_PORT
 
 ###############################################################################
 # Health check config                                                         #

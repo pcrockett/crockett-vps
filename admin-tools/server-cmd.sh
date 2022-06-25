@@ -22,8 +22,6 @@ function show_usage() {
     printf "Usage: %s [OPTION...]\n" "${SCRIPT_NAME}" >&2
     printf "  -s, --update-self\t\tPull latest changes from Git remote\n" >&2
     printf "  -n, --nginx-config\t\tUpdate Nginx configuration\n" >&2
-    printf "  -m, --matrix-config\t\tUpdate Matrix configuration\n" >&2
-    printf "  -e, --element-config\t\tUpdate Element configuration\n" >&2
     printf "  -p, --pacman-update\t\tCheck pacman for updates\n" >&2
     printf "  -c, --container-update\tUpdate all containers\n" >&2
     printf "  -h, --help\t\t\tShow this help message then exit\n" >&2
@@ -50,12 +48,6 @@ function parse_commandline() {
             ;;
             -n|--nginx-config)
                 ARG_UPDATE_NGINX="true"
-            ;;
-            -m|--matrix-config)
-                ARG_UPDATE_MATRIX="true"
-            ;;
-            -e|--element-config)
-                ARG_UPDATE_ELEMENT="true"
             ;;
             -p|--pacman-update)
                 ARG_PACMAN_UPDATE="true"
@@ -95,14 +87,6 @@ fi
 
 if is_set "${ARG_UPDATE_NGINX+x}"; then
     unset_checkpoint "${CHECKPOINT_NGINX_CONF}"
-fi
-
-if is_set "${ARG_UPDATE_MATRIX+x}"; then
-    unset_checkpoint "${CHECKPOINT_MATRIX_CONF}"
-fi
-
-if is_set "${ARG_UPDATE_ELEMENT+x}"; then
-    unset_checkpoint "${CHECKPOINT_ELEMENT_CONF}"
 fi
 
 if is_set "${ARG_PACMAN_UPDATE+x}"; then

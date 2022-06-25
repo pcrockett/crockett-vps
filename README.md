@@ -16,10 +16,6 @@ If I throw yet another thing into the list of topics to learn (i.e. Terraform an
 As of 2021-08-25, this repo will automatically set up:
 
 * HTTPS-enabled Nginx reverse proxy with a [Qualys SSL Labs test][1] A+ rating.
-* [Synapse][2] (Matrix homeserver)
-* [Element][3] (web-based Matrix client)
-* [Coturn][4] (for VoIP calls in Matrix)
-* [Sydent][5] (Matrix identity server)
 * [Tailscale][6] exit node
 
 It uses [Podman][8] instead of Docker to run unprivileged containers. It also does semi-automatic updates ("semi" because this is Arch, and manual intervention is required).
@@ -48,7 +44,6 @@ chmod u+x ./quick-start.sh
 After initial setup, you should see the following new scripts in `/usr/local/bin`:
 
 * `server-cmd`: The main command that makes it easy to pull changes from the remote Git repo and apply them on the server
-* `new-matrix-user`: Create a new matrix user
 * `checknews`: The auto-update process uses this to check for unread Arch news before installing anything. If new articles are found, the update process is cancelled. You will need to periodically log in and run `checknews --mark-read` to signal that you are aware of the latest news, and it's OK to proceed with updates.
 
 Pass a `--help` parameter to any of these commands to see how they are used.
@@ -64,9 +59,5 @@ Pass a `--help` parameter to any of these commands to see how they are used.
 * [ ] Refactor so Nginx runs inside a container
 
 [1]: https://www.ssllabs.com/ssltest/
-[2]: https://github.com/matrix-org/synapse
-[3]: https://github.com/vector-im/element-web
-[4]: https://github.com/instrumentisto/coturn-docker-image
-[5]: https://github.com/matrix-org/sydent
 [6]: https://tailscale.com/
 [8]: https://podman.io/

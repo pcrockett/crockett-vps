@@ -28,15 +28,6 @@ iptables --append INPUT --protocol tcp --dport "${SSH_SERVICE_PORT}" --jump ACCE
 iptables --append INPUT --protocol tcp --dport 80 --jump ACCEPT
 iptables --append INPUT --protocol tcp --dport 443 --jump ACCEPT
 
-# Matrix federation
-iptables --append INPUT --protocol tcp --dport 8448 --jump ACCEPT
-
-# TURN
-iptables --append INPUT --protocol tcp --dport 3478 --jump ACCEPT
-
-_turn_port_count=$((TURN_MAX_PORT-TURN_MIN_PORT))
-iptables --append INPUT --protocol udp --dport "${TURN_MIN_PORT}:${_turn_port_count}" --jump ACCEPT
-
 # This makes Tailscale direct connections possible: https://tailscale.com/kb/1082/firewall-ports/
 iptables --append INPUT --protocol udp --dport 41641 --jump ACCEPT
 

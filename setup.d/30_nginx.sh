@@ -41,21 +41,6 @@ function get_tls_cert() {
         --no-eff-email
 }
 
-if need_tls_cert "${DOMAIN_MATRIX}"; then
-    get_tls_cert "${DOMAIN_MATRIX}"
-    nginx_reload_when_finished
-fi
-
-if need_tls_cert "${DOMAIN_ELEMENT}"; then
-    get_tls_cert "${DOMAIN_ELEMENT}"
-    nginx_reload_when_finished
-fi
-
-if need_tls_cert "${DOMAIN_MATRIX_IDENTITY}"; then
-    get_tls_cert "${DOMAIN_MATRIX_IDENTITY}"
-    nginx_reload_when_finished
-fi
-
 if need_tls_cert "${DOMAIN_PRIMARY}"; then
     get_tls_cert "${DOMAIN_PRIMARY}"
     nginx_reload_when_finished

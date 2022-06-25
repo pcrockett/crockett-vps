@@ -17,6 +17,7 @@ ExecStart=/usr/bin/podman start --attach huginn
 ExecStop=/usr/bin/podman stop --time 20 huginn
 Restart=always
 CPUQuota=50%
+Delegate=yes
 
 [Install]
 WantedBy=multi-user.target default.target

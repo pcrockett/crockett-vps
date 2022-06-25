@@ -7,12 +7,6 @@ set -Eeuo pipefail
 readonly CHECKPOINT_NGINX_CONF="nginx-conf"
 export CHECKPOINT_NGINX_CONF
 
-readonly CHECKPOINT_MATRIX_CONF="container-synapse-config-refresh"
-export CHECKPOINT_MATRIX_CONF
-
-readonly CHECKPOINT_ELEMENT_CONF="element-conf"
-export CHECKPOINT_ELEMENT_CONF
-
 readonly CHECKPOINT_FIREWALL_RELOAD="firewall-reload"
 export CHECKPOINT_FIREWALL_RELOAD
 
@@ -25,9 +19,6 @@ export CHECKPOINT_CONTAINER_UPDATE
 readonly CHECKPOINT_PACDIFF="pacdiff"
 export CHECKPOINT_PACDIFF
 
-readonly VAL_TURN_SECRET="turn-secret"
-export VAL_TURN_SECRET
-
 readonly CHECKPOINTS_DIR="${REPO_ROOT}/.checkpoints"
 test -d "${CHECKPOINTS_DIR}" || mkdir "${CHECKPOINTS_DIR}" > /dev/null
 
@@ -35,10 +26,6 @@ readonly VALUES_DIR="${REPO_ROOT}/.values"
 test -d "${VALUES_DIR}" || mkdir "${VALUES_DIR}" > /dev/null
 
 readonly UNPRIVILEGED_USERS=(
-    synapse
-    element
-    turn
-    sydent
     huginn
 )
 export UNPRIVILEGED_USERS
