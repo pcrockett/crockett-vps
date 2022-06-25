@@ -74,8 +74,6 @@ function revoke_cert() {
 
 certs_to_revoke=(
     "${DOMAIN_PRIMARY}"
-    "${DOMAIN_MATRIX}"
-    "${DOMAIN_ELEMENT}"
 )
 
 for domain in "${certs_to_revoke[@]}"
