@@ -47,6 +47,8 @@ function container_start() {
             --env "DOMAIN=${DOMAIN_HUGINN}" \
             --env REQUIRE_CONFIRMED_EMAIL=true \
             --env RAILS_ENV=production \
+            --env INVITATION_CODE="$(random_secret 64)" \
+            --env APP_SECRET_TOKEN="$(random_secret 64)" \
             "${image_name}" > /dev/null
 
         enable_and_start huginn
