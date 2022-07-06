@@ -2,6 +2,10 @@
 
 This repo contains scripts to provision and manage my own personal cloud service on an Arch VPS.
 
+**UPDATE: This was a good experiment that I learned a lot from, but I'm _definitely_ not going to do things this way in
+the future.** This is officially in maintenance mode, soon to be replaced by a simple [CapRover](https://caprover.com/)
+server.
+
 ### Why not Ansible / Terraform / Kubernetes etc?
 
 This project exists for a couple reasons:
