@@ -73,6 +73,7 @@ function revoke_cert() {
 }
 
 certs_to_revoke=(
+    "${DOMAIN_HUGINN}"
     "${DOMAIN_PRIMARY}"
 )
 
